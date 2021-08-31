@@ -27,10 +27,10 @@ export default {
     },
     setup() {
         let imgs = ref([
-            { pic: require("@/assets/banner/swiper1.jpg") },
-            { pic: require("@/assets/banner/swiper2.jpg") },
-            { pic: require("@/assets/banner/swiper3.jpg") },
-            { pic: require("@/assets/banner/swiper4.jpg") },
+            { pic: require("@/assets/slideshow/swiper1.jpg") },
+            { pic: require("@/assets/slideshow/swiper2.jpg") },
+            { pic: require("@/assets/slideshow/swiper3.jpg") },
+            { pic: require("@/assets/slideshow/swiper4.jpg") },
         ]);
         onMounted(() => {
             getBanner(1).then((res) => {
@@ -40,7 +40,7 @@ export default {
         // swiper相关配置属性放在swiper_options这个变量里
         let swiper_options = reactive({
             autoplay: {
-                delay: 3000,
+                delay: 4000,
                 disableOnInteraction: false,
             },
             loop: true,
@@ -57,20 +57,30 @@ export default {
 
 <style lang='scss'>
 .slideShow {
+    display: flex;
     padding: 0 10px;
-    background: linear-gradient(to bottom, rgb(240, 240, 240), #fff);
+    background: linear-gradient(
+        to bottom,
+        var(--color-home-topbarandslideshow-background),
+        #fff
+    );
     .swiper-container {
-        .swiper-slide {
-            img {
-                width: 100%;
-                border-radius: 8px;
+        border-radius: 8px;
+        .swiper-wrapper {
+            .swiper-slide {
+                img {
+                    display: block;
+                    width: 100%;
+                    border-radius: 8px;
+                }
             }
         }
         .swiper-pagination {
             position: absolute;
+            bottom: 4px;
             left: 50%;
-            bottom: 10px;
             transform: translateX(-50%);
+            width: 100%;
             .swiper-pagination-bullet {
                 width: 8px;
                 height: 3px;

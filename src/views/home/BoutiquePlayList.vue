@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="list">
-            <div class="swiper-container mySwiper">
+            <div class="swiper-container boutique-play-list-swiper">
                 <div class="swiper-wrapper">
                     <router-link
                         class="swiper-slide"
@@ -61,7 +61,7 @@ export default {
             });
         });
         onUpdated(() => {
-            new Swiper(".mySwiper", {
+            new Swiper(".boutique-play-list-swiper", {
                 slidesPerView: 3,
                 spaceBetween: 14,
             });

@@ -5,14 +5,14 @@
         <TopBar />
         <!-- 轮播图 -->
         <SlideShow />
-        <!-- 图标列表栏 -->
+        <!-- 中间导航 -->
         <CenterNav />
         <!-- 推荐歌单 -->
         <RecommendPlayList />
-        <!--精品歌单 -->
+        <!-- 精品歌单 -->
         <BoutiquePlayList />
-        <!--精选歌单 -->
-        <TopPlayList />
+        <!-- 华语精品 -->
+        <ChineseBoutique />
     </div>
 </template>
 
@@ -22,7 +22,7 @@ import SlideShow from "@/views/home/SlideShow.vue";
 import CenterNav from "@/views/home/CenterNav.vue";
 import RecommendPlayList from "@/views/home/RecommendPlayList.vue";
 import BoutiquePlayList from "@/views/home/BoutiquePlayList.vue";
-import TopPlayList from "@/views/home/TopPlayList.vue";
+import ChineseBoutique from "@/views/home/ChineseBoutique.vue";
 
 export default {
     name: "Home",
@@ -32,7 +32,7 @@ export default {
         CenterNav,
         RecommendPlayList,
         BoutiquePlayList,
-        TopPlayList,
+        ChineseBoutique,
     },
 };
 </script>
@@ -40,6 +40,6 @@ export default {
 <style scoped lang='scss'>
 .home {
     margin-bottom: 50px;
-    background-color: rgb(240, 240, 240);
+    background-color: #F5F5F5;
 }
 </style>

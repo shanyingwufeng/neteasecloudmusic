@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, toRefs } from "vue";
 import { useRoute } from "vue-router";
 import { getPlayListDetail, getPlayListComment } from "@/api/index";
 import ListViewTop from "@/components/ListViewTop.vue";

@@ -1,4 +1,5 @@
 module.exports = {
-    publicPath: "/neteasecloudmusic/",
+    // publicPath: "/neteasecloudmusic/",
+    publicPath: "./",
     outputDir: 'docs',
 }

@@ -2,9 +2,13 @@
 <template>
     <div class="top-bar">
         <div class="left">
-            <van-cell @click="showPopup" class="iconfont icon-icon-"></van-cell>
+            <van-cell
+                @click="showSideBar"
+                class="iconfont icon-icon-"
+            ></van-cell>
+            <!-- 侧边栏 -->
             <van-popup
-                v-model:show="show"
+                v-model:show="isSideBarShow"
                 position="left"
                 :style="{
                     width: '80vw',
@@ -18,17 +22,18 @@
         </div>
         <div class="center" @click="$router.push('/search')">
             <span class="iconfont icon-sousuo"></span>
-            <span class="search-recommend">大家都在听 赵雷</span>
+            <span class="search-keyword">{{ searchKeyword }}</span>
         </div>
         <div class="right">
-            <span class="iconfont icon-iconset0222"></span>
+            <span class="iconfont icon-tinggeshiqu"></span>
         </div>
     </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { toRefs, reactive, onMounted } from "vue";
 import SideBar from "./SideBar.vue";
+import { getSearchDefault } from "@/api/search/index";
 
 export default {
     name: "TopBar",
@@ -36,14 +41,19 @@ export default {
         SideBar,
     },
     setup() {
-        const show = ref(false);
-        const showPopup = () => {
-            show.value = true;
+        const state = reactive({
+            isSideBarShow: false,
+            searchKeyword: "",
+        });
+        const showSideBar = () => {
+            state.isSideBarShow = true;
         };
-        return {
-            show,
-            showPopup,
-        };
+        onMounted(() => {
+            getSearchDefault().then((res) => {
+                state.searchKeyword = res.data.data.showKeyword;
+            });
+        });
+        return { ...toRefs(state), showSideBar };
     },
 };
 </script>
@@ -52,24 +62,20 @@ export default {
 .top-bar {
     display: flex;
     padding: 14px 10px;
-    background-color: rgb(243, 240, 240);
+    background-color: var(--color-home-topbarandslideshow-background);
     justify-content: space-between;
     align-items: center;
     .left {
-        display: flex;
-        align-items: center;
         .van-cell {
             padding: 0;
-            background-color: rgb(243, 240, 240);
+            background-color: var(--color-home-topbarandslideshow-background);
             &:before {
                 color: #555;
-                font-size: 20px;
+                font-size: 18px;
             }
         }
     }
     .center {
-        display: flex;
-        align-items: center;
         width: 80%;
         padding: 6px 12px;
         background-color: #fff;
@@ -77,16 +83,17 @@ export default {
         font-size: 14px;
         .iconfont {
             color: #666;
-            font-size: 16px;
+            font-size: 14px;
+            vertical-align: middle;
         }
-        .search-recommend {
+        .search-keyword {
             margin-left: 6px;
             color: #999;
+            font-size: 12px;
         }
     }
     .right {
         display: flex;
-        align-items: center;
         .iconfont {
             color: #555;
             font-size: 20px;

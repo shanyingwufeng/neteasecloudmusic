@@ -1,0 +1,14 @@
+/* 全局样式 */
+
+* {
+    --color-home-topbarandslideshow-background: #EFEDEE;
+    --color-background: #fff;
+    --color-black-background: #111;
+    --color-yellow-background: #efd15b;
+    --color-text: #333;
+    --color-white-text: #fff;
+    --color-high-text: rgb(86, 201, 137);
+    --color-tint: rgb(60, 141, 60);
+    --font-size: 14px;
+    --line-height: 1.5;
+}

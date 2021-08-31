@@ -1,7 +1,7 @@
 <template>
     <router-view></router-view>
-    <playController></playController>
-    <footer-tab-bar></footer-tab-bar>
+    <PlayController />
+    <FooterTabBar />
 </template>
 
 <script>
@@ -21,7 +21,6 @@ export default {
 * {
     margin: 0;
     padding: 0;
-    font-family: "微软雅黑";
     box-sizing: border-box;
 }
 

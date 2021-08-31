@@ -1,6 +1,6 @@
-<!--首页-华语精品-->
+<!-- 首页-华语精品 -->
 <template>
-    <div class="top-play-list">
+    <div class="chinese-boutique">
         <div class="list-top">
             <div class="title">
                 <span>华语精品</span>
@@ -19,11 +19,17 @@
             >
                 <div class="item-left">
                     <img :src="item.al.picUrl" class="image" />
-                    <span class="title">{{ item.name }}</span>
-                    <span class="author">- {{ item.ar[0].name }}</span>
-                    <!-- <span class="desc">{{
-                        item.alia[0] ? item.alia[0] : item.name
-                    }}</span> -->
+                    <div class="content">
+                        <div class="content-top">
+                            <span class="title">{{ item.name }}</span>
+                            <span class="author">- {{ item.ar[0].name }}</span>
+                        </div>
+                        <div class="content-bottom">
+                            <span class="desc">{{
+                                item.alia[0] ? item.alia[0] : item.name
+                            }}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="item-right">
                     <span class="iconfont icon-bofang"></span>
@@ -39,7 +45,7 @@ import { getTopPlayList, getPlayListDetail } from "@/api/index";
 import { mapMutations } from "vuex";
 
 export default {
-    name: "TopPlayList",
+    name: "ChineseBoutique",
     setup() {
         let state = reactive({
             list: [],
@@ -70,8 +76,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.top-play-list {
-    // margin-bottom: 10px;
+.chinese-boutique {
     padding: 0 10px 20px 10px;
     background-color: #fff;
     .list-top {
@@ -80,9 +85,12 @@ export default {
         justify-content: space-between;
         align-items: center;
         .title {
+            display: flex;
             font-size: 18px;
         }
         .more {
+            display: flex;
+            align-items: center;
             padding: 2px 6px;
             border: 1px solid rgb(221, 219, 219);
             border-radius: 10px;
@@ -97,26 +105,43 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 8px;
+            margin-bottom: 20px;
             .item-left {
                 position: relative;
                 display: flex;
-                align-items: center;
                 width: 80%;
                 .image {
                     width: 40px;
                     height: 40px;
-                    margin-right: 6px;
+                    margin-right: 10px;
+                    border-radius: 6px;
                 }
-                .title {
-                    font-size: 14px;
-                }
-                .author {
-                    color: grey;
-                    font-size: 12px;
+                .content {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    .content-top {
+                        display: flex;
+                        align-items: center;
+                        .title {
+                            font-size: 14px;
+                        }
+                        .author {
+                            color: grey;
+                            font-size: 12px;
+                        }
+                    }
+                    .content-bottom {
+                        display: flex;
+                        .desc {
+                            color: grey;
+                            font-size: 12px;
+                        }
+                    }
                 }
             }
             .item-right {
+                display: flex;
                 color: grey;
                 .iconfont {
                     margin-right: 8px;
