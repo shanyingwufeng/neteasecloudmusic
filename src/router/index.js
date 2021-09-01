@@ -45,7 +45,23 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
-        component: () => import('@/views/Login.vue'),
+        component: () => import('@/views/login/Login.vue'),
+        meta: {
+            playControllerShow: false
+        }
+    },
+    {
+        path: '/phoneLogin',
+        name: 'PhoneLogin',
+        component: () => import('@/views/login/PhoneLogin.vue'),
+        meta: {
+            playControllerShow: false
+        }
+    },
+    {
+        path: '/emailLogin',
+        name: 'EmailLogin',
+        component: () => import('@/views/login/EmailLogin.vue'),
         meta: {
             playControllerShow: false
         }

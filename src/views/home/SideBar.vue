@@ -4,7 +4,11 @@
         <router-link class="side-bar-top" to="/login">
             <div class="user">
                 <span class="iconfont icon-user"></span>
-                <span class="username">立即登录</span>
+                <span class="username">{{
+                    $store.state.user.nickName
+                        ? $store.state.user.nickName
+                        : "立即登录"
+                }}</span>
                 <span class="iconfont icon-youjiantou"></span>
             </div>
             <span class="qrcode iconfont icon-richscan_icon"></span>

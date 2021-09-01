@@ -70,7 +70,7 @@ export default {
     justify-content: space-around;
     .swiper-container {
         padding-left: 6px;
-        padding-right: 36px;
+        padding-right: 32px;
         .item {
             display: flex;
             text-align: center;
@@ -90,7 +90,7 @@ export default {
                     position: absolute;
                     top: 2px;
                     left: 50%;
-                    transform: translateX(-46%);
+                    transform: translateX(-48%);
                     color: #fff;
                     font-size: 14px;
                 }
@@ -98,7 +98,7 @@ export default {
             .title {
                 margin-top: 6px;
                 color: #444;
-                font-size: 12px;
+                font-size: 10px;
             }
         }
     }

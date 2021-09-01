@@ -5,14 +5,15 @@ export default createStore({
     state: {
         playlist: [
             {
-                al: {}
+                al: { }
             }
         ],
         playCurrentIndex: 0,
         user: {
             isLogin: false,
-            account: {},
-            userDetail: {}
+            account: { },
+            userDetail: { },
+            nickName: '',
         },
     },
     mutations: {
@@ -30,13 +31,13 @@ export default createStore({
         async login(content, payload) {
             // console.log(payload);
             let result = await phoneLogin(payload.username, payload.password);
-            // console.log(result);
             if (result.data.code == 200) {
                 content.state.user.isLogin = true;
                 content.state.user.account = result.data.account;
                 let userInfo = await userDetail(result.data.account.id);
+                content.state.user.nickName = result.data.profile.nickname;
                 content.state.user.userDetail = userInfo.data;
-                localStorage.userLoginInfo = JSON.stringify(content.state.user);                
+                localStorage.userLoginInfo = JSON.stringify(content.state.user);
                 content.commit("setUser", content.state.user);
             }
             return result;

@@ -1,18 +1,18 @@
-<!-- 登录 -->
+<!-- 邮箱登录 -->
 <template>
-    <div class="login">
+    <div class="email-login">
         <div class="top">
             <span
                 class="iconfont icon-jiantoujinggao"
-                @click="$router.push('/')"
+                @click="$router.go(-1)"
             ></span>
-            <span class="title">手机号码登录</span>
+            <span class="title">网易邮箱登录</span>
         </div>
         <div class="content">
             <input
                 ref="getFocus"
                 type="text"
-                placeholder="请输入手机号码"
+                placeholder="请输入邮箱地址"
                 v-model="username"
             />
             <input
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    name: "Login",
+    name: "EmailLogin",
     components: {},
     data() {
         return {
@@ -60,7 +60,13 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.login {
+.email-login {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    padding: 10px;
+    background-color: #fff;
+    z-index: 999;
     .top {
         padding: 0 10px;
         .iconfont {
@@ -73,11 +79,12 @@ export default {
     }
 
     .content {
+        margin-top: 10px;
         padding: 0 10px;
         input {
             width: 100%;
             margin-bottom: 6px;
-            padding-bottom: 4px;
+            padding-bottom: 8px;
             border: 0;
             border-bottom: 1px solid rgb(182, 180, 180);
             font-size: 14px;
@@ -86,7 +93,7 @@ export default {
         button {
             width: 100%;
             margin-top: 24px;
-            padding: 6px 0;
+            padding: 4px 0;
             background-color: red;
             border: 0;
             border-radius: 6px;

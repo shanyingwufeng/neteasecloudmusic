@@ -1,7 +1,14 @@
 <!--  -->
 <template>
     <div class="listVueTop">
-        <img class="bg" :src="playlist.coverImgUrl" alt="" />
+        <div class="bg-box">
+            <img
+                class="bg"
+                :style="{
+                    'background-image': 'url(' + playlist.coverImgUrl + ')',
+                }"
+            />
+        </div>
         <div class="listViewTopNav">
             <div class="left">
                 <span
@@ -86,13 +93,31 @@ export default {
 <style scoped lang='scss'>
 .listVueTop {
     padding: 10px;
-    .bg {
+    .bg-box {
         position: fixed;
+        overflow: hidden;
         top: 0;
         left: 0;
-        height: auto;
-        filter: blur(50px);
+        width: 100%;
+        height: 400px;
         z-index: -1;
+        .bg {
+            width: 100%;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            filter: blur(30px);
+            transform: scale(1.5);
+            background-position: 50%;
+        }
+        .bg::after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 400px;
+            background: rgba(17, 17, 17, 0.2);
+            z-index: 1;
+        }
     }
     .listViewTopNav {
         display: flex;
@@ -164,7 +189,7 @@ export default {
                 .author {
                     display: flex;
                     align-items: center;
-                    color: rgb(206, 204, 204);
+                    color: rgb(235, 233, 233);
                     font-size: 12px;
                     font-weight: 700;
                     .header {
@@ -182,7 +207,7 @@ export default {
                 }
                 .description {
                     overflow: hidden;
-                    color: rgb(219, 216, 216);
+                    color: rgb(233, 231, 231);
                     font-size: 10px;
                     text-overflow: ellipsis;
                     display: -webkit-box;
