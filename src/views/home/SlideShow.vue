@@ -1,56 +1,55 @@
-<!-- 首页-顶部轮播图 -->
+<!-- 首页-轮播图 -->
 <template>
     <div class="slideShow">
-        <swiper
-            :autoplay="swiper_options.autoplay"
-            :loop="swiper_options.loop"
-            :speed="swiper_options.speed"
-            :pagination="swiper_options.pagination"
-        >
-            <swiper-slide v-for="(item, i) in imgs" :key="i"
-                ><img :src="item.pic"
-            /></swiper-slide>
-        </swiper>
+        <div class="swiper-container slideShow-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" v-for="(item, id) in list" :key="id">
+                    <a :href="item.url">
+                        <img :src="item.pic" />
+                    </a>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
     </div>
 </template>
 
 <script>
-import { ref, reactive, onMounted } from "vue";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { getBanner } from "@/api/index";
+import { ref, onUpdated } from "vue";
+import { Swiper } from "swiper";
 
 export default {
     name: "SlideShow",
-    components: {
-        Swiper,
-        SwiperSlide,
+    props: {
+        data: Array,
     },
-    setup() {
-        let imgs = ref([
+    setup(props) {
+        let list = ref([
             { pic: require("@/assets/slideshow/swiper1.jpg") },
             { pic: require("@/assets/slideshow/swiper2.jpg") },
             { pic: require("@/assets/slideshow/swiper3.jpg") },
             { pic: require("@/assets/slideshow/swiper4.jpg") },
         ]);
-        onMounted(() => {
-            getBanner(1).then((res) => {
-                imgs.value = res.data.banners;
+
+        onUpdated(() => {
+            list.value = props.data;
+            new Swiper(".slideShow-swiper", {
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                loop: true,
+                speed: 400,
+                observeParents: true,
+                observer: true,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
             });
         });
-        // swiper相关配置属性放在swiper_options这个变量里
-        let swiper_options = reactive({
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-            },
-            loop: true,
-            speed: 400,
-            pagination: {
-                clickable: true,
-            },
-        });
-        // 将swiper_options返回给模板中的swiper组件使用
-        return { swiper_options, imgs };
+
+        return { list };
     },
 };
 </script>
@@ -58,13 +57,14 @@ export default {
 <style lang='scss'>
 .slideShow {
     display: flex;
-    padding: 0 10px;
+    padding: 0 var(--padding);
     background: linear-gradient(
         to bottom,
         var(--color-home-topbarandslideshow-background),
         #fff
     );
     .swiper-container {
+        position: relative;
         border-radius: 8px;
         .swiper-wrapper {
             .swiper-slide {
@@ -81,14 +81,21 @@ export default {
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
+            text-align: center;
+            transition: 300ms opacity;
+            z-index: 10;
             .swiper-pagination-bullet {
+                display: inline-block;
                 width: 8px;
                 height: 3px;
-                margin: 0 2px;
+                margin: 0 3px;
                 border-radius: 4px;
+                background-color: #000;
+                opacity: 0.2;
             }
             .swiper-pagination-bullet-active {
                 background-color: #fff;
+                opacity: 1;
             }
         }
     }

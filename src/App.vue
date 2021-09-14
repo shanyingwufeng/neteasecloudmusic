@@ -1,31 +1,24 @@
 <template>
-    <router-view></router-view>
-    <PlayController />
-    <FooterTabBar />
+    <router-view v-slot="{ Component }">
+        <keep-alive>
+            <component :is="Component" v-if="$route.meta.keepAlive" />
+        </keep-alive>
+        <component :is="Component" v-if="!$route.meta.keepAlive" />
+    </router-view>
+    <Bottom />
 </template>
 
 <script>
-import PlayController from "@/components/PlayController.vue";
-import FooterTabBar from "@/components/FooterTabBar.vue";
+import Bottom from "@/components/Bottom.vue";
 
 export default {
     name: "App",
-    components: {
-        PlayController,
-        FooterTabBar,
-    },
+    components: { Bottom },
 };
 </script>
 
 <style lang="scss">
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-a {
-    color: #333;
-    text-decoration: none;
+#app {
+    font-size: 12px;
 }
 </style>

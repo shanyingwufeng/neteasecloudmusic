@@ -1,7 +1,6 @@
 /* 全局样式 */
-
 * {
-    --color-home-topbarandslideshow-background: #EFEDEE;
+    --color-home-topbarandslideshow-background: #efedee;
     --color-background: #fff;
     --color-black-background: #111;
     --color-yellow-background: #efd15b;
@@ -11,4 +10,30 @@
     --color-tint: rgb(60, 141, 60);
     --font-size: 14px;
     --line-height: 1.5;
+    --padding: 14px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+.iconfont {
+    vertical-align: middle;
+}
+
+.home-playList {
+    margin-bottom: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.home-playList-Swiper {
+    padding: 0 0 var(--padding) var(--padding);
 }

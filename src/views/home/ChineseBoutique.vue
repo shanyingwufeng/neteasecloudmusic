@@ -36,19 +36,51 @@
                 </div>
             </div>
         </div>
+        <div class="list">
+            <div class="swiper-container chinese-boutique-swiper">
+                <div class="swiper-wrapper">
+                    <div
+                        class="swiper-slide list-item"
+                        v-for="(item, id) in songList"
+                        :key="id"
+                    >
+                        <div class="item-left">
+                            <img :src="item.al.picUrl" class="image" />
+                            <div class="content">
+                                <div class="content-top">
+                                    <span class="title">{{ item.name }}</span>
+                                    <span class="author"
+                                        >- {{ item.ar[0].name }}</span
+                                    >
+                                </div>
+                                <div class="content-bottom">
+                                    <span class="desc">{{
+                                        item.alia[0] ? item.alia[0] : item.name
+                                    }}</span>
+                                </div>
+                            </div>
+                            <div class="item-right">
+                                <span class="iconfont icon-bofang"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import { onMounted, onUpdated, reactive, toRefs } from "vue";
-import { getTopPlayList, getPlayListDetail } from "@/api/index";
+import { getTopPlayList } from "@/api/home/index.js";
+import { getPlayListDetail } from "@/api/index.js";
 import { mapMutations } from "vuex";
+import { Swiper } from "swiper";
 
 export default {
     name: "ChineseBoutique",
     setup() {
         let state = reactive({
-            list: [],
             id: 0,
             songList: [],
         });
@@ -56,15 +88,13 @@ export default {
             getTopPlayList().then((res) => {
                 state.id = res.data.playlists[0].id;
                 getPlayListDetail(state.id).then((res) => {
-                    state.songList = res.data.playlist.tracks.slice(0, 3);
+                    state.songList = res.data.playlist.tracks;
                 });
-                state.list = res.data.playlists;
             });
         });
         onUpdated(() => {
-            new Swiper(".mySwiper", {
-                slidesPerView: 3,
-                spaceBetween: 14,
+            new Swiper(".chinese-boutique-swiper", {
+                slidesPerView: 1,
             });
         });
         return {
@@ -77,6 +107,7 @@ export default {
 
 <style scoped lang='scss'>
 .chinese-boutique {
+    margin-bottom: 10px;
     padding: 0 10px 20px 10px;
     background-color: #fff;
     .list-top {
@@ -91,10 +122,11 @@ export default {
         .more {
             display: flex;
             align-items: center;
-            padding: 2px 6px;
+            justify-content: space-between;
+            padding: 0 6px;
             border: 1px solid rgb(221, 219, 219);
             border-radius: 10px;
-            font-size: 8px;
+            font-size: 12px;
             .iconfont {
                 font-size: 8px;
             }

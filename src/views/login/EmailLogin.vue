@@ -14,6 +14,7 @@
                 type="text"
                 placeholder="请输入邮箱地址"
                 v-model="username"
+                @click="add()"
             />
             <input
                 type="password"
@@ -45,9 +46,12 @@ export default {
                 this.$router.push("/me");
             }
         },
+        // add() {
+        //     console.log("111");
+        // }
     },
     // mounted() {
-    //     // this.$refs.getFocus.focus();
+    //     this.$refs.getFocus.click();
     // },
     // watch: {
     //     $route(to) {

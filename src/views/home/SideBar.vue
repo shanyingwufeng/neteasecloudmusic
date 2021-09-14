@@ -123,7 +123,7 @@ export default {
                 font-size: 20px;
             }
             .username {
-                font-size: 16px;
+                font-size: 14px;
             }
             .icon-youjiantou {
                 font-size: 12px;

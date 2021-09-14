@@ -3,20 +3,44 @@ import { phoneLogin, userDetail } from "@/api/index.js";
 
 export default createStore({
     state: {
+        // 播放列表
         playlist: [
-            {
-                al: { }
-            }
+            { al: {} }
         ],
+
+        // 歌单封面
+        playListCover: {
+            coverImgUrl: '',
+            name: '',
+            tags: [],
+            description: '',
+        },
+
+        // 播放索引
         playCurrentIndex: 0,
+
+        // 登录用户
         user: {
             isLogin: false,
-            account: { },
-            userDetail: { },
+            account: {},
+            userDetail: {},
             nickName: '',
         },
+
+        // 加载等待
+        loading: false,
+
+        // 底部导航栏
+        footerTabBarShow: true,
+
+        playControlPosition: '',
+
+        // 底部栏
+        bottomShow: true,
     },
+
     mutations: {
+        // 设置播放列表
         setPlayList(state, value) {
             state.playlist = value;
         },
@@ -25,8 +49,33 @@ export default createStore({
         },
         setUser(state, value) {
             state.user = value;
+        },
+        showLoading(state) {
+            state.loading = true;
+        },
+        hideLoading(state) {
+            state.loading = false;
+        },
+        showFooterTabBar(state) {
+            state.footerTabBarShow = true;
+        },
+        hiddenFooterTabBar(state) {
+            state.footerTabBarShow = false;
+        },
+        setPlayControlPosition(state, value) {
+            state.playControlPosition = value;
+        },
+        showBottom(state) {
+            state.bottomShow = true;
+        },
+        hiddenBottom(state) {
+            state.bottomShow = false;
+        },
+        setPlayListCover(state, value) {
+            state.playListCover = value;
         }
     },
+
     actions: {
         async login(content, payload) {
             // console.log(payload);
@@ -43,6 +92,4 @@ export default createStore({
             return result;
         }
     },
-    modules: {
-    }
 })

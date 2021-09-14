@@ -1,0 +1,152 @@
+<!-- 新歌 -->
+<template>
+    <div class="newSong">
+        <div class="list">
+            <div class="swiper-container newSong-swiper">
+                <div class="swiper-wrapper">
+                    <div
+                        class="swiper-slide"
+                        v-for="(item, id) in list"
+                        :key="id"
+                    >
+                        <div
+                            class="item"
+                            v-for="(sonItem, id) in item.resources"
+                            :key="id"
+                        >
+                            <div class="image">
+                                <img
+                                    v-lazy="sonItem.uiElement.image.imageUrl"
+                                />
+                            </div>
+                            <div class="content">
+                                <div class="top">
+                                    <span class="mainTitle">{{
+                                        sonItem.uiElement.mainTitle.title
+                                    }}</span>
+                                    <span class="author"
+                                        >-
+                                        {{
+                                            sonItem.resourceExtInfo.artists[0]
+                                                .name
+                                        }}</span
+                                    >
+                                </div>
+                                <span class="subTitle">{{
+                                    sonItem.uiElement.subTitle.title
+                                        ? sonItem.uiElement.subTitle.title
+                                        : "..."
+                                }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { onUpdated, ref } from "vue";
+import { Swiper } from "swiper";
+
+export default {
+    name: "NewSong",
+    props: ["newSong"],
+    setup(props) {
+        const list = ref([]);
+
+        onUpdated(() => {
+            list.value = props.newSong;
+            new Swiper(".newSong-swiper", {
+                slidesPerView: 1,
+                spaceBetween: 14,
+            });
+        });
+
+        return { list };
+    },
+};
+</script>
+
+<style scoped lang='scss'>
+.newSong {
+    padding: var(--padding);
+    padding-top: 0;
+    padding-right: 0;
+    background-color: #fff;
+    .list {
+        .swiper-container {
+            padding-right: 24px;
+            .swiper-wrapper {
+                display: flex;
+                justify-content: space-between;
+                .swiper-slide {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    .item {
+                        display: flex;
+                        align-items: center;
+                        .image {
+                            flex: 1;
+                            img {
+                                display: block;
+                                width: 50px;
+                                height: 50px;
+                                margin-right: 10px;
+                                border-radius: 10px;
+                            }
+                        }
+                        .content {
+                            flex: 8;
+                            display: flex;
+                            flex-direction: column;
+                            padding: 12px 0;
+                            padding-right: 14px;
+                            border-bottom: 1px solid rgba(235, 234, 234, 0.5);
+                            .top {
+                                display: flex;
+                                align-items: center;
+                                margin-bottom: 4px;
+                                .mainTitle {
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 1;
+                                    -webkit-box-orient: vertical;
+                                    margin-right: 4px;
+                                    font-size: 16px;
+                                }
+                                .author {
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 1;
+                                    -webkit-box-orient: vertical;
+                                    color: grey;
+                                    font-size: 12px;
+                                }
+                            }
+                            .subTitle {
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                display: -webkit-box;
+                                -webkit-line-clamp: 1;
+                                -webkit-box-orient: vertical;
+                                color: grey;
+                                font-size: 12px;
+                            }
+                        }
+                        &:last-child {
+                            .content {
+                                border-bottom: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+</style>

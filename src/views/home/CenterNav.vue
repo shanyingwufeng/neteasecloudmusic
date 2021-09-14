@@ -1,6 +1,6 @@
 <!-- 首页-中间导航 -->
 <template>
-    <div class="center-nav">
+    <div class="centerNav">
         <div class="swiper-container center-nav-swiper">
             <div class="swiper-wrapper">
                 <div
@@ -20,6 +20,7 @@
 
 <script>
 import { ref, onMounted } from "vue";
+import { Swiper } from "swiper";
 
 export default {
     name: "CenterNav",
@@ -62,33 +63,33 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.center-nav {
+.centerNav {
     display: flex;
-    padding: 10px 0;
+    padding: var(--padding) 0;
+    padding-left: 8px;
     background-color: #fff;
     border-bottom: 1px solid rgb(241, 239, 239);
     justify-content: space-around;
     .swiper-container {
-        padding-left: 6px;
-        padding-right: 32px;
+        padding-right: 30px;
         .item {
             display: flex;
-            text-align: center;
             flex-direction: column;
             align-items: center;
+            text-align: center;
             .iconfont {
                 position: relative;
                 width: 44px;
                 height: 44px;
                 line-height: 44px;
-                background-color: #fcf1f2;
-                color: #e92419;
-                font-size: 24px;
+                background-color: #f8eaec;
+                color: #dd342b;
+                font-size: 26px;
                 font-weight: 700;
                 border-radius: 50%;
                 .date {
                     position: absolute;
-                    top: 2px;
+                    top: 2.6px;
                     left: 50%;
                     transform: translateX(-48%);
                     color: #fff;

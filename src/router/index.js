@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import store from "@/store/index.js"
+import $store from "@/store/index.js"
 
 const routes = [
     {
@@ -7,15 +7,17 @@ const routes = [
         name: 'Home',
         component: () => import('@/views/home/Home.vue'),
         meta: {
-            playControllerShow: false
+            playControllerShow: true,
+            keepAlive: true,
         }
     },
     {
+        // 歌单
         path: '/listview',
         name: 'ListView',
-        component: () => import('@/views/ListView.vue'),
+        component: () => import('@/views/playlist/PlayList.vue'),
         meta: {
-            playControllerShow: true
+            playControllerShow: true,
         }
     },
     {
@@ -32,7 +34,7 @@ const routes = [
         component: () => import('@/views/profile/Me.vue'),
         // 路由守卫
         beforeEnter: (to, from, next) => {
-            if (store.state.user.isLogin) {
+            if ($store.state.user.isLogin) {
                 next();
             } else {
                 next("/login");
@@ -65,6 +67,27 @@ const routes = [
         meta: {
             playControllerShow: false
         }
+    },
+    {
+        path: '/boke',
+        name: 'Boke.vue',
+        component: () => import('@/views/podcast/BoKe.vue'),
+    },
+    {
+        path: '/k',
+        name: 'K',
+        component: () => import('@/views/ktv/K.vue'),
+    },
+    {
+        path: '/friends',
+        name: 'Friends',
+        component: () => import('@/views/cloudvillage/CloudVillage.vue'),
+    },
+    {
+        // 歌单封面
+        path: '/playlistcover',
+        name: 'PlayListCover',
+        component: () => import('@/views/playlist/PlayListCover.vue'),
     },
 ]
 

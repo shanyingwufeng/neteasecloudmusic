@@ -15,6 +15,13 @@
                 @click="$router.push('/phoneLogin')"
                 >手机号登录</van-button
             >
+            <van-button
+                type="primary"
+                size="large"
+                class="experience"
+                @click="$router.push('/')"
+                >立即体验</van-button
+            >
             <div class="more-login">
                 <div class="item" v-for="(item, id) in moreLogin" :key="id">
                     <span
@@ -35,6 +42,9 @@
 </template>
 
 <script>
+import $store from "@/store/index.js";
+import { onMounted } from "vue";
+
 export default {
     name: "Login",
     setup() {
@@ -44,6 +54,9 @@ export default {
             { className: "icon-weibo2", loginPath: "wbLogin" },
             { className: "icon-wangyi", loginPath: "emailLogin" },
         ];
+        onMounted(() => {
+            $store.commit("hiddenBottom");
+        })
         return { moreLogin };
     },
 };
@@ -128,17 +141,26 @@ export default {
         text-align: center;
         .login-button {
             height: 36px;
+            margin-bottom: 14px;
             background-color: #fff;
             border: 0;
             border-radius: 20px;
             color: #db2c19;
             font-size: 14px;
         }
+        .experience {
+            height: 36px;
+            border: 1px solid rgb(189, 189, 189);
+            background-color: #db2c19;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 14px;
+        }
         .more-login {
             display: flex;
             align-items: center;
             justify-content: space-around;
-            margin: 26px 0;
+            margin: 30px 0;
             .item {
                 display: flex;
                 .iconfont {
@@ -148,8 +170,12 @@ export default {
             }
         }
         .info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             color: #de6a5e;
-            font-size: 8px;
+            font-size: 6px;
             a {
                 color: #fabab3;
             }
