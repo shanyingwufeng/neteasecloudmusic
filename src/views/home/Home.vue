@@ -70,14 +70,14 @@ export default {
     setup() {
         const state = reactive({
             banner: [], // 顶部轮播图
-            recommendPlayList: '', // 推荐歌单
-            musicCalendar: '', // 音乐日历
-            musicVideo: '', // 精选音乐视频
-            radarPlayList: '', // 雷达歌单
-            offcialPlayList: '', // 专属场景歌单
+            recommendPlayList: "", // 推荐歌单
+            musicCalendar: "", // 音乐日历
+            musicVideo: "", // 精选音乐视频
+            radarPlayList: "", // 雷达歌单
+            offcialPlayList: "", // 专属场景歌单
             newAlbumNewSong: [], // 新歌新碟数字专辑
-            podCast24: '', // 24小时播客
-            videoCollection: '', // 视频合辑
+            podCast24: "", // 24小时播客
+            videoCollection: "", // 视频合辑
         });
 
         onMounted(() => {
@@ -93,9 +93,6 @@ export default {
                 state.videoCollection = res.data.data.blocks[10];
                 // console.log(res.data.data.blocks[10]);
             });
-
-            $store.commit("showFooterTabBar");
-            $store.commit("showBottom");
         });
         return { ...toRefs(state) };
     },

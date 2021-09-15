@@ -7,7 +7,6 @@ const routes = [
         name: 'Home',
         component: () => import('@/views/home/Home.vue'),
         meta: {
-            playControllerShow: true,
             keepAlive: true,
         }
     },
@@ -16,17 +15,17 @@ const routes = [
         path: '/listview',
         name: 'ListView',
         component: () => import('@/views/playlist/PlayList.vue'),
-        meta: {
-            playControllerShow: true,
-        }
+    },
+    {
+        // 播放页面
+        path: '/playpage',
+        name: 'PlayPage',
+        component: () => import('@/components/PlayPage.vue'),
     },
     {
         path: '/search',
         name: 'Search',
         component: () => import('@/views/search/Search.vue'),
-        meta: {
-            playControllerShow: false
-        }
     },
     {
         path: '/me',
@@ -40,33 +39,22 @@ const routes = [
                 next("/login");
             }
         },
-        meta: {
-            playControllerShow: true
-        }
     },
     {
         path: '/login',
         name: 'Login',
         component: () => import('@/views/login/Login.vue'),
-        meta: {
-            playControllerShow: false
-        }
+
     },
     {
         path: '/phoneLogin',
         name: 'PhoneLogin',
         component: () => import('@/views/login/PhoneLogin.vue'),
-        meta: {
-            playControllerShow: false
-        }
     },
     {
         path: '/emailLogin',
         name: 'EmailLogin',
         component: () => import('@/views/login/EmailLogin.vue'),
-        meta: {
-            playControllerShow: false
-        }
     },
     {
         path: '/boke',

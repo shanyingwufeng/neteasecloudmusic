@@ -19,6 +19,7 @@ export default {
 
 <style lang="scss">
 #app {
+    height: 100vh;
     font-size: 12px;
 }
 </style>

@@ -1,62 +1,53 @@
-<!-- 歌曲播放页面 -->
+<!-- 播放页面 -->
 <template>
     <div class="playPage">
-        <img class="bg" :src="playdetail.al.picUrl" />
+        <img class="bg" v-lazy="$store.getters.songImgUrl" />
         <div class="top">
-            <span
-                class="iconfont icon-jiantou9 back"
-                @click="$emit('back')"
-            ></span>
-            <span class="song-name">
-                {{ playdetail.al.name }}
+            <span class="iconfont icon-jiantou9" @click="$router.go(-1)"></span>
+            <span class="songName">
+                {{ $store.getters.songName }}
             </span>
-            <span class="iconfont icon-fenxiang share"></span>
+            <span class="iconfont icon-fenxiang"></span>
         </div>
         <div class="center">
             <!-- 控制杆子 -->
             <img
                 src="@/assets/needle-ab.png"
-                class="control-lever"
+                class="controlLever"
                 :class="{ active: paused }"
             />
             <!-- 唱碟（歌曲图片外部黑色圈圈） -->
             <img src="@/assets/disc.png" class="cd" />
             <!-- 歌曲图片 -->
             <img
-                v-lazy="playdetail.al.picUrl"
-                class="song-img"
+                v-lazy="$store.getters.songImgUrl"
+                class="songImg"
                 :class="{
-                    songImgRoute: isPlay,
+                    songImgRoute: play,
                     pause: isPaused,
                 }"
             />
         </div>
         <div class="bottom">
-            <div class="btn-list">
+            <div class="btnList">
                 <span class="iconfont icon-shoucang"></span>
                 <span class="iconfont icon-iconset0425"></span>
                 <span class="iconfont icon-changpian"></span>
                 <span class="iconfont icon-58pinglun"></span>
                 <span class="iconfont icon-gengduo"></span>
             </div>
-            <div class="play-control">
+            <div class="playControl">
                 <span class="iconfont icon-suijibofang"></span>
                 <span class="iconfont icon-shangyiqu"></span>
                 <span
                     v-if="paused"
                     class="iconfont icon-bofang playandstop"
-                    @click="
-                        play();
-                        musicPlay();
-                    "
+                    @click="musicPlay()"
                 ></span>
                 <span
                     v-else
                     class="iconfont icon-zantingtingzhi21 playandstop"
-                    @click="
-                        play();
-                        musicPause();
-                    "
+                    @click="musicPause()"
                 ></span>
                 <span class="iconfont icon-xiayiqu"></span>
                 <span class="iconfont icon-bofangliebiao"></span>
@@ -66,23 +57,50 @@
 </template>
 
 <script>
+import { computed, onMounted, reactive, toRefs } from "vue";
+import { useStore } from "vuex";
+import { useRoute } from "vue-router";
+import { getSongDetail } from "@/api/index.js";
+
 export default {
     name: "PlayPage",
-    props: ["playdetail", "paused", "play"],
-    data() {
-        return {
+
+    setup() {
+        const store = useStore();
+        const route = useRoute();
+        const id = route.query.id;
+
+        const state = reactive({
+            play: true,
+            paused: false,
             isPaused: false,
-            isPlay: false,
+        });
+
+        const musicPlay = () => {
+            state.play = true;
+            state.paused = false;
+            state.isPaused = false;
         };
-    },
-    methods: {
-        musicPlay() {
-            this.isPlay = true;
-            this.isPaused = false;
-        },
-        musicPause() {
-            this.isPaused = true;
-        },
+
+        const musicPause = () => {
+            state.isPaused = true;
+            state.paused = true;
+        };
+
+        onMounted(() => {
+            if (id) {
+                getSongDetail(id).then((res) => {
+                    store.commit("setPlayControl", res.data.songs[0]);
+                });
+            }
+        });
+
+        return {
+            ...toRefs(state),
+            musicPause,
+            musicPlay,
+            playState: computed(() => store.state.playState),
+        };
     },
 };
 </script>
@@ -105,14 +123,15 @@ export default {
     width: 100%;
     height: 100vh;
     background-color: #fff;
-    z-index: 1000;
+    z-index: 100;
     .bg {
         position: absolute;
+        height: 100%;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         transform: scale(1.2);
-        filter: blur(20px) contrast(.8) brightness(.8);
+        filter: blur(20px) contrast(0.8) brightness(0.8);
         z-index: -1;
     }
     .top {
@@ -120,10 +139,10 @@ export default {
         align-items: center;
         justify-content: space-between;
         margin-top: 4px;
-        padding: 10px;
         margin-bottom: 14px;
+        padding: 10px;
         color: #fff;
-        .song-name {
+        .songName {
             overflow: hidden;
             padding: 0 20px;
             font-size: 18px;
@@ -140,17 +159,17 @@ export default {
         left: 0;
         width: 100%;
         text-align: center;
-        .control-lever {
+        .controlLever {
             position: absolute;
             top: 0;
             left: 47%;
-            width: 92px;
+            width: 100px;
             transform-origin: 8px 0;
             transition: all 1s;
             z-index: 1;
         }
-        .control-lever.active {
-            transform: rotate(-24deg);
+        .controlLever.active {
+            transform: rotate(-20deg);
         }
         .cd {
             position: absolute;
@@ -159,13 +178,13 @@ export default {
             transform: translateX(-50%);
             width: 300px;
         }
-        .song-img {
+        .songImg {
             width: 194px;
             margin-top: 144px;
             border-radius: 50%;
         }
         .songImgRoute {
-            animation: rotation 20s linear infinite;
+            animation: rotation 30s linear infinite;
         }
         .pause {
             animation-play-state: paused;
@@ -176,7 +195,7 @@ export default {
         bottom: 30px;
         width: 100%;
         padding: 0 30px;
-        .btn-list {
+        .btnList {
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -186,7 +205,7 @@ export default {
                 font-size: 20px;
             }
         }
-        .play-control {
+        .playControl {
             display: flex;
             justify-content: space-around;
             align-items: center;

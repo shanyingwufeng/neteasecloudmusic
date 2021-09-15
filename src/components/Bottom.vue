@@ -1,52 +1,40 @@
-<!-- 底部导航和播放控制 -->
+<!-- 底部播放控制和导航 -->
 <template>
     <div class="bottom">
-        <div class="play-control" v-if="$route.meta.playControllerShow">
-            <div class="left" @click="playPageShow">
-                <img
-                    class="song-img"
-                    :src="
-                        playlist[playCurrentIndex].al.picUrl
-                            ? playlist[playCurrentIndex].al.picUrl
-                            : 'https://www.mi.com/favicon.ico'
-                    "
-                />
+        <!-- 底部播放控制区 -->
+        <div class="playControl" v-if="$store.getters.songName">
+            <router-link class="left" @click="play()" to="/playpage">
+                <img class="songImg" v-lazy="$store.getters.songImgUrl" />
                 <span class="title">
-                    {{
-                        playlist[playCurrentIndex].name
-                            ? playlist[playCurrentIndex].name
-                            : "网易云音乐"
-                    }}
+                    {{ $store.getters.songName }}
                 </span>
-            </div>
+            </router-link>
             <div class="right">
+                <!-- 播放按钮 -->
                 <span
-                    v-if="paused"
-                    class="iconfont icon-bofang play"
-                    @click="play"
+                    v-if="!playState"
+                    class="iconfont icon-bofang6 bofang"
+                    @click="play(playState)"
                 ></span>
+                <!-- 暂停按钮 -->
                 <span
                     v-else
-                    class="iconfont icon-zantingtingzhi21 play"
-                    @click="play"
+                    class="iconfont icon-zantingtingzhi bofang"
+                    @click="play(playState)"
                 ></span>
+                <!-- 更多歌曲 -->
                 <span class="iconfont icon-bofangliebiao more"></span>
             </div>
-            <play-page
-                v-show="isPlayPageShow"
-                :playdetail="playlist[playCurrentIndex]"
-                @back="back()"
-                :paused="paused"
-                :play="play"
-                ref="playpage"
-            ></play-page>
             <audio
-                v-if="playlist[playCurrentIndex].id"
+                v-if="$store.getters.songId"
                 ref="audio"
-                :src="`https://music.163.com/song/media/outer/url?id=${playlist[playCurrentIndex].id}.mp3`"
+                autoplay
+                @ended="$store.state.playState = false"
+                :src="`https://music.163.com/song/media/outer/url?id=${$store.getters.songId}.mp3`"
             ></audio>
         </div>
-        <div class="tab-bar" v-if="footerTabBarShow">
+        <!-- 底部导航栏 -->
+        <div class="tabBar">
             <router-link
                 class="tab-bar-item"
                 v-for="(item, index) in tabBarData"
@@ -62,58 +50,44 @@
 
 <script>
 import { toRefs, computed, reactive } from "vue";
-import { mapState } from "vuex";
-import $store from "@/store/index.js";
-import PlayPage from "@/components/PlayPage.vue";
+import { useStore } from "vuex";
 
 export default {
     name: "Bottom",
-    components: { PlayPage },
     setup() {
+        const store = useStore();
+
         const state = reactive({
             tabBarData: [
-                { className: "icon-yemian-copy-copy-copy-copy", title: "发现", path: "/" },
+                {
+                    className: "icon-yemian-copy-copy-copy-copy",
+                    title: "发现",
+                    path: "/",
+                },
                 { className: "icon-a-ziyuan8", title: "播客", path: "/boke" },
                 { className: "icon-wode-copy", title: "我的", path: "/me" },
                 { className: "icon-Kgeriji", title: "k歌", path: "/k" },
                 { className: "icon-pengyou", title: "云村", path: "/friends" },
             ],
+            audio: "",
         });
+
+        const play = (playState) => {
+            if (playState) {
+                state.audio.pause();
+                store.commit("setPlayState", false);
+            } else {
+                state.audio.play();
+                store.commit("setPlayState", true);
+            }
+        };
+
         return {
             ...toRefs(state),
-            footerTabBarShow: computed(() => $store.state.footerTabBarShow),
+            play,
+            playControl: computed(() => store.state.playControl),
+            playState: computed(() => store.state.playState),
         };
-    },
-    data() {
-        return {
-            paused: true,
-            isPlayPageShow: false,
-        };
-    },
-    computed: {
-        ...mapState(["playlist", "playCurrentIndex", "playControlPosition", "bottomShow"]),
-    },
-    methods: {
-        play() {
-            if (this.$refs.audio.paused) {
-                this.paused = false;
-                this.$refs.audio.play();
-                this.$refs.playpage.isPaused = false;
-                this.$refs.playpage.isPlay = true;
-            } else {
-                this.paused = true;
-                this.$refs.audio.pause();
-                this.$refs.playpage.isPaused = true;
-            }
-        },
-        playPageShow() {
-            this.isPlayPageShow = !this.isPlayPageShow;
-            $store.commit("hiddenFooterTabBar");
-        },
-        back() {
-            this.isPlayPageShow = !this.isPlayPageShow;
-            $store.commit("showFooterTabBar");
-        },
     },
 };
 </script>
@@ -124,17 +98,18 @@ export default {
     bottom: 0;
     width: 100%;
     background-color: #fff;
-    z-index: 1000;
-    .play-control {
+    z-index: 99;
+    .playControl {
         position: relative;
         padding: 8px 10px;
         background-color: #fff;
-        border-top: 1px solid rgba(77, 32, 32, 0.2);
+        border-top: 1px solid rgba(210, 210, 210, 0.2);
+        border-bottom: 1px solid rgba(210, 210, 210, 0.2);
         .left {
             display: flex;
             align-items: center;
             width: 70%;
-            .song-img {
+            .songImg {
                 width: 32px;
                 height: 32px;
                 margin-right: 6px;
@@ -154,15 +129,17 @@ export default {
             top: 0;
             right: 10px;
             height: 100%;
-            .iconfont {
-                font-size: 24px;
+            z-index: 999;
+            .bofang {
+                font-size: 14px;
             }
             .more {
                 margin-left: 14px;
+                font-size: 20px;
             }
         }
     }
-    .tab-bar {
+    .tabBar {
         display: flex;
         justify-content: space-around;
         align-items: center;

@@ -1,6 +1,6 @@
 <template>
     <div class="searchTop">
-        <div class="search-input">
+        <div class="searchInput">
             <span
                 class="iconfont icon-arrowLeft-fill"
                 @click="$router.go('-1')"
@@ -68,7 +68,6 @@
 import { search } from "@/api/index.js";
 export default {
     name: "SearchTop",
-    components: {},
     data() {
         return {
             placeholder: "陈奕迅",
@@ -125,7 +124,7 @@ export default {
 <style scoped lang='scss'>
 .searchTop {
     padding: 14px 10px 10px 10px;
-    .search-input {
+    .searchInput {
         display: flex;
         align-items: center;
         margin-bottom: 14px;

@@ -7,11 +7,10 @@
 
 <script>
 import SearchTop from "./SearchTop.vue";
+
 export default {
     name: "Search",
-    components: {
-        SearchTop,
-    },
+    components: { SearchTop },
 };
 </script>
 

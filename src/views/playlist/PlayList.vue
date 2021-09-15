@@ -9,25 +9,24 @@
 </template>
 
 <script>
-import { reactive, onMounted, toRefs } from "vue";
+import { reactive, onMounted, toRefs, computed } from "vue";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 import { getPlayListDetail, getSongDetail } from "@/api/index";
 import Loading from "@/components/Loading.vue";
 import PlayListTop from "@/views/playlist/PlayListTop.vue";
 import PlayListSong from "@/views/playlist/PlayListSong.vue";
-import $store from "@/store/index.js";
-import { computed } from "vue";
 import { Toast } from "vant";
 
 export default {
     name: "PlayList",
-    components: {
-        Loading,
-        PlayListTop,
-        PlayListSong,
-    },
+    components: { Loading, PlayListTop, PlayListSong },
     setup() {
-        let state = reactive({
+        const route = useRoute();
+
+        const store = useStore();
+
+        const state = reactive({
             list: [],
             playlist: {
                 trackIds: [],
@@ -38,11 +37,11 @@ export default {
             tracks: [],
             trackIds: [],
         });
-        const route = useRoute();
+
+        const id = route.query.id;
+
         onMounted(async () => {
-            $store.commit("hiddenFooterTabBar");
-            $store.commit("showLoading");
-            let id = route.query.id;
+            store.commit("showLoading");
             await getPlayListDetail(id)
                 .then((res) => {
                     state.playlist = res.data.playlist;
@@ -56,18 +55,19 @@ export default {
                     getSongDetail(state.trackIds).then((res) => {
                         // 所有歌曲信息
                         state.tracks = res.data.songs;
-                        $store.commit("setPlayList", state.tracks);
-                        $store.commit("hideLoading");
+                        store.commit("setPlayList", state.tracks);
+                        store.commit("hideLoading");
                     });
                 })
                 .catch(() => {
-                    $store.commit("hideLoading");
+                    store.commit("hideLoading");
                     Toast("加载失败");
                 });
         });
+
         return {
             ...toRefs(state),
-            loading: computed(() => $store.state.loading),
+            loading: computed(() => store.state.loading),
         };
     },
 };

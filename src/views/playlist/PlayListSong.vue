@@ -27,7 +27,15 @@
             </div>
         </div>
         <div class="detail">
-            <div class="item" v-for="(item, i) in tracks" :key="i">
+            <router-link
+                class="item"
+                v-for="(item, i) in tracks"
+                :key="i"
+                :to="{
+                    path: '/playpage',
+                    query: { id: item.id },
+                }"
+            >
                 <div class="left">
                     <div class="id">{{ i + 1 }}</div>
                     <div class="content">
@@ -43,26 +51,18 @@
                     </div>
                 </div>
                 <div class="right">
-                    <span
-                        class="iconfont icon-bofang"
-                        @click="setPlayCurrentIndex(i)"
-                    ></span>
+                    <span class="iconfont icon-bofang"></span>
                     <span class="iconfont icon-gengduo"></span>
                 </div>
-            </div>
+            </router-link>
         </div>
     </div>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
-
 export default {
     name: "PlayListSong",
     props: ["playlist", "tracks"],
-    setup() {
-        return { ...mapMutations(["setPlayCurrentIndex"]) };
-    },
 };
 </script>
 

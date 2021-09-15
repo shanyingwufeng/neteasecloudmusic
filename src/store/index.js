@@ -4,9 +4,16 @@ import { phoneLogin, userDetail } from "@/api/index.js";
 export default createStore({
     state: {
         // 播放列表
-        playlist: [
-            { al: {} }
-        ],
+        playlist: '',
+
+        // 底部播放控制信息
+        playControl: {
+            songId: localStorage.getItem("songId"), // 歌曲id
+            songImgUrl: localStorage.getItem("songImgUrl"), // 歌曲图片地址
+            songName: localStorage.getItem("songName"), // 歌曲名
+        },
+
+        playState: false, // 歌曲播放状态（播放还是暂停）
 
         // 歌单封面
         playListCover: {
@@ -15,9 +22,6 @@ export default createStore({
             tags: [],
             description: '',
         },
-
-        // 播放索引
-        playCurrentIndex: 0,
 
         // 登录用户
         user: {
@@ -33,20 +37,15 @@ export default createStore({
         // 底部导航栏
         footerTabBarShow: true,
 
-        playControlPosition: '',
-
         // 底部栏
         bottomShow: true,
     },
 
     mutations: {
-        // 设置播放列表
         setPlayList(state, value) {
             state.playlist = value;
         },
-        setPlayCurrentIndex(state, value) {
-            state.playCurrentIndex = value;
-        },
+
         setUser(state, value) {
             state.user = value;
         },
@@ -56,15 +55,6 @@ export default createStore({
         hideLoading(state) {
             state.loading = false;
         },
-        showFooterTabBar(state) {
-            state.footerTabBarShow = true;
-        },
-        hiddenFooterTabBar(state) {
-            state.footerTabBarShow = false;
-        },
-        setPlayControlPosition(state, value) {
-            state.playControlPosition = value;
-        },
         showBottom(state) {
             state.bottomShow = true;
         },
@@ -73,7 +63,29 @@ export default createStore({
         },
         setPlayListCover(state, value) {
             state.playListCover = value;
-        }
+        },
+
+        setPlayControl(state, value) {
+            console.log(value);
+            localStorage.setItem("songId", value.id);
+            localStorage.setItem("songImgUrl", value.al.picUrl);
+            localStorage.setItem("songName", value.name);
+            state.playControl.songId = localStorage.getItem("songId");
+            state.playControl.songImgUrl = localStorage.getItem("songImgUrl");
+            state.playControl.songName = localStorage.getItem("songName");
+            state.playState = true;
+        },
+
+        setPlayState(state, value) {
+            state.playState = value;
+        },
+    },
+
+    // getters 只会依赖 state 中的成员去更新
+    getters: {
+        songId: (state) => state.playControl.songId,
+        songImgUrl: (state) => state.playControl.songImgUrl,
+        songName: (state) => state.playControl.songName,
     },
 
     actions: {
