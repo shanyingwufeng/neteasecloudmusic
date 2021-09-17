@@ -45,7 +45,6 @@ import OffcialPlayList from "@/views/home/OffcialPlayList.vue";
 import PodCast24 from "@/views/home/PodCast24.vue";
 import VideoCollection from "@/views/home/VideoCollection.vue";
 
-import $store from "@/store/index.js";
 import { onMounted, reactive, toRefs } from "vue";
 import { getHomePageInfo } from "@/api/home/index.js";
 
@@ -82,7 +81,7 @@ export default {
 
         onMounted(() => {
             getHomePageInfo().then(async (res) => {
-                state.banner = res.data.data.blocks[0].extInfo.banners;
+                state.banner = res.data.data.blocks[0];
                 state.recommendPlayList = res.data.data.blocks[1];
                 state.newAlbumNewSong = res.data.data.blocks[2];
                 state.musicCalendar = res.data.data.blocks[3];

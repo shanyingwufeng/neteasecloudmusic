@@ -6,14 +6,16 @@
         <component :is="Component" v-if="!$route.meta.keepAlive" />
     </router-view>
     <Bottom />
+    <Audio />
 </template>
 
 <script>
 import Bottom from "@/components/Bottom.vue";
+import Audio from "@/components/Audio.vue";
 
 export default {
     name: "App",
-    components: { Bottom },
+    components: { Bottom, Audio },
 };
 </script>
 

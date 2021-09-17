@@ -37,7 +37,7 @@
             </div>
         </router-link>
         <div class="right">
-            <span class="iconfont icon-tinggeshiqu1"></span>
+            <span class="iconfont icon-changge"></span>
         </div>
     </div>
 </template>
@@ -46,7 +46,7 @@
 import SideBar from "./SideBar.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { toRefs, reactive, onMounted } from "vue";
-import { getSearchDefault } from "@/api/search/index";
+import { getSearchHot } from "@/api/search/index";
 
 export default {
     name: "TopBar",
@@ -73,7 +73,7 @@ export default {
         });
 
         onMounted(() => {
-            getSearchDefault().then((res) => {
+            getSearchHot().then((res) => {
                 state.searchKeyword = res.data.result.hots;
             });
         });
@@ -104,20 +104,19 @@ export default {
     .center {
         display: flex;
         align-items: center;
-        width: 80%;
+        width: 82%;
         height: 30px;
         padding: 0 12px;
         background-color: #fff;
         border-radius: 14px;
         .iconfont {
             margin-right: 8px;
-            color: #666;
             font-size: 14px;
         }
         .searchKeyword {
             overflow: hidden;
             height: 30px;
-            line-height: 30px;
+            line-height: 32px;
             color: #999;
             font-size: 12px;
             .text {
@@ -127,9 +126,9 @@ export default {
         }
     }
     .right {
+        margin-top: 2px;
         .iconfont {
-            color: #555;
-            font-size: 18px;
+            font-size: 20px;
         }
     }
 }

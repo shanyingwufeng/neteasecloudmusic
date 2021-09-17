@@ -14,13 +14,6 @@ export function getSongDetail(id) {
     })
 }
 
-// 搜索歌曲
-export function search(keyword) {
-    return request({
-        url: '/search?keywords=' + keyword,
-    })
-}
-
 // 手机登录
 export function phoneLogin(phone, password) {
     return request({

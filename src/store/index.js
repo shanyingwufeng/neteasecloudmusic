@@ -13,7 +13,8 @@ export default createStore({
             songName: localStorage.getItem("songName"), // 歌曲名
         },
 
-        playState: false, // 歌曲播放状态（播放还是暂停）
+        // 歌曲播放状态（播放还是暂停）
+        playState: false,
 
         // 歌单封面
         playListCover: {
@@ -34,11 +35,12 @@ export default createStore({
         // 加载等待
         loading: false,
 
-        // 底部导航栏
-        footerTabBarShow: true,
-
         // 底部栏
         bottomShow: true,
+
+        searchHistory: [], // 搜索历史
+
+        isSearchHistoryShow: false, // 是否显示搜索历史页面
     },
 
     mutations: {
@@ -49,43 +51,56 @@ export default createStore({
         setUser(state, value) {
             state.user = value;
         },
+
         showLoading(state) {
             state.loading = true;
         },
+
         hideLoading(state) {
             state.loading = false;
         },
+
         showBottom(state) {
             state.bottomShow = true;
         },
+
         hiddenBottom(state) {
             state.bottomShow = false;
         },
+
         setPlayListCover(state, value) {
             state.playListCover = value;
         },
 
         setPlayControl(state, value) {
-            console.log(value);
+            // console.log(value);
             localStorage.setItem("songId", value.id);
             localStorage.setItem("songImgUrl", value.al.picUrl);
             localStorage.setItem("songName", value.name);
             state.playControl.songId = localStorage.getItem("songId");
             state.playControl.songImgUrl = localStorage.getItem("songImgUrl");
             state.playControl.songName = localStorage.getItem("songName");
-            state.playState = true;
         },
 
+        // 设置播放状态
         setPlayState(state, value) {
             state.playState = value;
         },
+
+        setSearchHistory(state, value) {
+            state.searchHistory = value;
+            state.isSearchHistoryShow = true;
+        }
     },
 
-    // getters 只会依赖 state 中的成员去更新
+    // getters只会依赖state中的成员去更新
     getters: {
         songId: (state) => state.playControl.songId,
         songImgUrl: (state) => state.playControl.songImgUrl,
         songName: (state) => state.playControl.songName,
+        playState: (state) => state.playState,
+        searchHistory: (state) => state.searchHistory,
+        isSearchHistoryShow: (state) => state.isSearchHistoryShow,
     },
 
     actions: {

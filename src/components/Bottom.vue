@@ -1,9 +1,9 @@
 <!-- 底部播放控制和导航 -->
 <template>
-    <div class="bottom">
+    <div class="bottom" v-if="!$route.meta.isBottomShow">
         <!-- 底部播放控制区 -->
         <div class="playControl" v-if="$store.getters.songName">
-            <router-link class="left" @click="play()" to="/playpage">
+            <router-link class="left" to="/playpage">
                 <img class="songImg" v-lazy="$store.getters.songImgUrl" />
                 <span class="title">
                     {{ $store.getters.songName }}
@@ -25,13 +25,6 @@
                 <!-- 更多歌曲 -->
                 <span class="iconfont icon-bofangliebiao more"></span>
             </div>
-            <audio
-                v-if="$store.getters.songId"
-                ref="audio"
-                autoplay
-                @ended="$store.state.playState = false"
-                :src="`https://music.163.com/song/media/outer/url?id=${$store.getters.songId}.mp3`"
-            ></audio>
         </div>
         <!-- 底部导航栏 -->
         <div class="tabBar">
@@ -69,15 +62,12 @@ export default {
                 { className: "icon-Kgeriji", title: "k歌", path: "/k" },
                 { className: "icon-pengyou", title: "云村", path: "/friends" },
             ],
-            audio: "",
         });
 
         const play = (playState) => {
             if (playState) {
-                state.audio.pause();
                 store.commit("setPlayState", false);
             } else {
-                state.audio.play();
                 store.commit("setPlayState", true);
             }
         };
@@ -85,7 +75,6 @@ export default {
         return {
             ...toRefs(state),
             play,
-            playControl: computed(() => store.state.playControl),
             playState: computed(() => store.state.playState),
         };
     },

@@ -14,7 +14,7 @@
             <img
                 src="@/assets/needle-ab.png"
                 class="controlLever"
-                :class="{ active: paused }"
+                :class="{ active: !playState }"
             />
             <!-- 唱碟（歌曲图片外部黑色圈圈） -->
             <img src="@/assets/disc.png" class="cd" />
@@ -24,7 +24,7 @@
                 class="songImg"
                 :class="{
                     songImgRoute: play,
-                    pause: isPaused,
+                    pause: !playState,
                 }"
             />
         </div>
@@ -40,7 +40,7 @@
                 <span class="iconfont icon-suijibofang"></span>
                 <span class="iconfont icon-shangyiqu"></span>
                 <span
-                    v-if="paused"
+                    v-if="!playState"
                     class="iconfont icon-bofang playandstop"
                     @click="musicPlay()"
                 ></span>
@@ -72,26 +72,27 @@ export default {
 
         const state = reactive({
             play: true,
-            paused: false,
             isPaused: false,
         });
 
         const musicPlay = () => {
             state.play = true;
-            state.paused = false;
             state.isPaused = false;
+            store.commit("setPlayState", true);
         };
 
         const musicPause = () => {
             state.isPaused = true;
-            state.paused = true;
+            store.commit("setPlayState", false);
         };
 
-        onMounted(() => {
+        onMounted(async () => {
             if (id) {
-                getSongDetail(id).then((res) => {
+                store.commit("setPlayState", false);
+                await getSongDetail(id).then((res) => {
                     store.commit("setPlayControl", res.data.songs[0]);
                 });
+                store.commit("setPlayState", true);
             }
         });
 
@@ -162,25 +163,25 @@ export default {
         .controlLever {
             position: absolute;
             top: 0;
-            left: 47%;
-            width: 100px;
+            left: 46%;
+            width: 96px;
             transform-origin: 8px 0;
-            transition: all 1s;
+            transition: all .6s;
             z-index: 1;
         }
         .controlLever.active {
-            transform: rotate(-20deg);
+            transform: rotate(-24deg);
         }
         .cd {
             position: absolute;
-            top: 90px;
+            top: 88px;
             left: 50%;
             transform: translateX(-50%);
-            width: 300px;
+            width: 270px;
         }
         .songImg {
-            width: 194px;
-            margin-top: 144px;
+            width: 168px;
+            margin-top: 140px;
             border-radius: 50%;
         }
         .songImgRoute {

@@ -1,181 +1,142 @@
+<!-- 搜索页-顶部 -->
 <template>
     <div class="searchTop">
         <div class="searchInput">
             <span
-                class="iconfont icon-arrowLeft-fill"
+                class="iconfont icon-jiantou-xia"
                 @click="$router.go('-1')"
             ></span>
             <input
+                ref="searchInput"
                 type="text"
                 :placeholder="placeholder"
-                @keydown.enter="saveKeyWord"
+                @keydown.enter="search"
                 v-model="searchKeyword"
             />
         </div>
-        <div class="history" v-if="isHistoryShow">
-            <span class="left">历史</span>
-            <div class="center">
-                <span
-                    class="historyItem"
-                    v-for="(item, i) in keywordList"
-                    :key="i"
-                    @click="historySearch(item)"
-                >
-                    {{ item }}
-                </span>
-            </div>
-            <span
-                class="iconfont icon-shanchu1 right"
-                @click="deleteHistory"
-            ></span>
-        </div>
         <div class="playList">
-            <div class="top" v-show="searchSongs.length !== 0">
-                <div class="top-left">
-                    <span class="iconfont icon-bofang"></span>
-                    <span class="playAll">播放全部</span>
-                    <span class="playListCount">(共{{ songsCount }}首)</span>
-                </div>
-            </div>
             <div class="detail">
-                <div class="item" v-for="(item, i) in searchSongs" :key="i">
+                <router-link
+                    class="item"
+                    v-for="(item, id) in searchSongs"
+                    :key="id"
+                    :to="{
+                        path: '/playpage',
+                        query: { id: item.id },
+                    }"
+                >
                     <div class="left">
-                        <span class="id">{{ i + 1 }}</span>
-                        <div class="content">
-                            <div class="title">{{ item.name }}</div>
-                            <div class="bottom">
-                                <span class="author">
-                                    <span>{{ item.artists[0].name }}</span>
-                                </span>
-                                <span></span>
-                            </div>
+                        <div class="title">{{ item.name }}</div>
+                        <div class="bottom">
+                            <span class="author">
+                                {{ item.artists[0].name }}
+                            </span>
                         </div>
                     </div>
                     <div class="right">
-                        <span
-                            class="iconfont icon-bofang"
-                            @click="setPlayCurrentIndex(i)"
-                        ></span>
+                        <span class="iconfont icon-bofang"></span>
                         <span class="iconfont icon-gengduo"></span>
                     </div>
-                </div>
+                </router-link>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { search } from "@/api/index.js";
+import { searchByKeyword } from "@/api/search/index.js";
+import { onMounted, onUpdated, reactive, ref, toRefs } from "vue";
+import { useStore } from "vuex";
+
 export default {
     name: "SearchTop",
-    data() {
-        return {
-            placeholder: "陈奕迅",
-            keywordList: [],
-            searchKeyword: "",
-            isHistoryShow: false,
-            searchSongs: [],
-            songsCount: 0,
+
+    props: ["data"],
+
+    setup(props) {
+        const state = reactive({
+            searchInput: "", // 绑定搜索框实现聚焦功能
+            placeholder: "", // 搜索框默认内容
+            searchKeyword: "", // 搜索关键词
+            searchHistory: [], // 搜索历史（存储本地）
+            searchSongs: [], // 搜索获取的歌曲信息
+            songCount: 0, // 搜索获取的歌曲数量
+        });
+
+        const store = useStore();
+
+        // 搜索歌曲
+        const search = async () => {
+            const result = await searchByKeyword(state.searchKeyword);
+            console.log(result);
+            state.songCount = result.data.result.songCount;
+            state.searchSongs = result.data.result.songs;
+
+            if (localStorage.getItem("searchHistory")) {
+                state.searchHistory = JSON.parse(
+                    localStorage.getItem("searchHistory")
+                );
+                state.searchHistory.push(state.searchKeyword);
+                state.searchHistory = Array.from(new Set(state.searchHistory));
+                localStorage.searchHistory = JSON.stringify(
+                    state.searchHistory
+                );
+            } else {
+                state.searchHistory.push(state.searchKeyword);
+                localStorage.setItem(
+                    "searchHistory",
+                    JSON.stringify(state.searchHistory)
+                );
+            }
+
+            store.commit(
+                "setSearchHistory",
+                JSON.parse(localStorage.getItem("searchHistory"))
+            );
         };
-    },
-    beforeMount() {
-        this.keywordList = localStorage.keywordList
-            ? JSON.parse(localStorage.keywordList)
-            : [];
-    },
-    mounted() {
-        if (localStorage.keywordList == "") {
-            this.isHistoryShow = false;
-        } else {
-            this.isHistoryShow = true;
-        }
-    },
-    methods: {
-        async saveKeyWord() {
-            let result = await search(this.searchKeyword);
-            this.songsCount = result.data.result.songCount;
-            this.searchSongs = result.data.result.songs;
-            this.keywordList.push(this.searchKeyword);
-            this.keywordList = Array.from(new Set(this.keywordList));
-            localStorage.keywordList = JSON.stringify(this.keywordList);
-            this.isHistoryShow = true;
-        },
-        deleteHistory() {
-            this.$dialog
-                .confirm({
-                    message: "确定清除全部历史记录？",
-                })
-                .then(() => {
-                    this.keywordList = [];
-                    localStorage.keywordList = [];
-                    this.isHistoryShow = false;
-                    location.reload();
-                })
-                .catch(() => {});
-        },
-        historySearch(keyword) {
+
+        // 通过搜索历史进行查询
+        const historySearch = (keyword) => {
             this.searchKeyword = keyword;
             this.saveKeyWord();
-        },
+        };
+
+        onMounted(() => {
+            state.searchInput.focus();
+            state.placeholder = props.data;
+        });
+
+        onUpdated(() => {
+            state.searchInput.focus();
+            state.placeholder = props.data;
+        });
+
+        return { ...toRefs(state), search };
     },
 };
 </script>
 
 <style scoped lang='scss'>
 .searchTop {
-    padding: 14px 10px 10px 10px;
+    height: 100%;
     .searchInput {
         display: flex;
         align-items: center;
-        margin-bottom: 14px;
         .iconfont {
-            margin-right: 10px;
-            margin-top: 4px;
-            color: #555;
-            font-size: 20px;
+            margin-right: 12px;
+            color: rgb(104, 104, 104);
+            font-size: 24px;
         }
         input {
             width: 100%;
-            outline: none;
+            margin-top: 5px;
+            padding-bottom: 4px;
+            background-color: #f4f4f4;
             border: 0;
-            border-bottom: 1px solid #333;
-            font-size: 18px;
-        }
-    }
-    .history {
-        position: relative;
-        display: flex;
-        align-items: center;
-        margin: 20px 0 10px 0;
-        .left {
-            width: 34px;
-            margin-right: 4px;
-            font-size: 14px;
-            font-weight: 700;
-        }
-        .center {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 8px;
-            margin-right: 20px;
-            .historyItem {
-                margin: 0 4px 8px 4px;
-                padding: 2px 8px;
-                background-color: rgb(222, 222, 222);
-                color: #555;
-                font-size: 12px;
-                border-radius: 4px;
-            }
-        }
-        .right {
-            position: absolute;
-            top: 50%;
-            right: 0;
-            transform: translateY(-50%);
-            color: grey;
-            .iconfont {
-                font-size: 12px;
-            }
+            border-bottom: 1px solid rgba(161, 161, 161, 0.6);
+            font-size: 16px;
+            outline: none;
+            caret-color: red;
         }
     }
     .playList {

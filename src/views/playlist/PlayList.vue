@@ -21,6 +21,7 @@ import { Toast } from "vant";
 export default {
     name: "PlayList",
     components: { Loading, PlayListTop, PlayListSong },
+
     setup() {
         const route = useRoute();
 

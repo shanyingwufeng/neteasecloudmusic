@@ -20,9 +20,7 @@ import { Swiper } from "swiper";
 
 export default {
     name: "SlideShow",
-    props: {
-        data: Array,
-    },
+    props: ["data"],
     setup(props) {
         let list = ref([
             { pic: require("@/assets/slideshow/swiper1.jpg") },
@@ -32,7 +30,7 @@ export default {
         ]);
 
         onUpdated(() => {
-            list.value = props.data;
+            list.value = props.data.extInfo.banners;
             new Swiper(".slideShow-swiper", {
                 autoplay: {
                     delay: 5000,
