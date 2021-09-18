@@ -29,6 +29,7 @@
                     :loop="loop"
                     :speed="speed"
                     :direction="direction"
+                    v-if="isSwiperKeep"
                 >
                     <swiper-slide v-for="(item, id) in searchKeyword" :key="id">
                         <span class="text">{{ item.first }}</span>
@@ -45,7 +46,7 @@
 <script>
 import SideBar from "./SideBar.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { toRefs, reactive, onMounted } from "vue";
+import { toRefs, reactive, onMounted, onActivated, onDeactivated } from "vue";
 import { getSearchHot } from "@/api/search/index";
 
 export default {
@@ -55,6 +56,7 @@ export default {
         const state = reactive({
             isSideBarShow: false,
             searchKeyword: [],
+            isSwiperKeep: false,
         });
 
         const showSideBar = () => {
@@ -76,6 +78,14 @@ export default {
             getSearchHot().then((res) => {
                 state.searchKeyword = res.data.result.hots;
             });
+        });
+
+        onActivated(() => {
+            state.isSwiperKeep = true;
+        });
+
+        onDeactivated(() => {
+            state.isSwiperKeep = false;
         });
 
         return { ...toRefs(state), showSideBar, ...toRefs(swiper_options) };

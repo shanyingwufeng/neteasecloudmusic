@@ -133,7 +133,6 @@ export default {
         }
     }
     .detail {
-        padding-bottom: 50px;
         .item {
             display: flex;
             align-items: center;

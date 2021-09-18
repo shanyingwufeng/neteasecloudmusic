@@ -15,22 +15,42 @@
 </template>
 
 <script>
-import { ref, onUpdated } from "vue";
+import { onUpdated, onActivated, onDeactivated, reactive, toRefs } from "vue";
 import { Swiper } from "swiper";
 
 export default {
     name: "SlideShow",
     props: ["data"],
     setup(props) {
-        let list = ref([
-            { pic: require("@/assets/slideshow/swiper1.jpg") },
-            { pic: require("@/assets/slideshow/swiper2.jpg") },
-            { pic: require("@/assets/slideshow/swiper3.jpg") },
-            { pic: require("@/assets/slideshow/swiper4.jpg") },
-        ]);
+        const state = reactive({
+            list: [
+                { pic: require("@/assets/slideshow/swiper1.jpg") },
+                { pic: require("@/assets/slideshow/swiper2.jpg") },
+                { pic: require("@/assets/slideshow/swiper3.jpg") },
+                { pic: require("@/assets/slideshow/swiper4.jpg") },
+            ],
+            isSwiperKeep: false,
+        });
 
         onUpdated(() => {
-            list.value = props.data.extInfo.banners;
+            state.list = props.data.extInfo.banners;
+            // new Swiper(".slideShow-swiper", {
+            //     autoplay: {
+            //         delay: 5000,
+            //         disableOnInteraction: false,
+            //     },
+            //     loop: true,
+            //     speed: 400,
+            //     observeParents: true,
+            //     observer: true,
+            //     pagination: {
+            //         el: ".swiper-pagination",
+            //         clickable: true,
+            //     },
+            // });
+        });
+
+        onActivated(() => {
             new Swiper(".slideShow-swiper", {
                 autoplay: {
                     delay: 5000,
@@ -47,7 +67,7 @@ export default {
             });
         });
 
-        return { list };
+        return { ...toRefs(state) };
     },
 };
 </script>

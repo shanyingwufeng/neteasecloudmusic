@@ -123,7 +123,7 @@ export default {
         z-index: -1;
         .bg {
             width: 100%;
-            height: 50%;
+            height: 34%;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;

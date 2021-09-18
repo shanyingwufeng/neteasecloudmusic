@@ -14,6 +14,13 @@ export function getSearchHot() {
     })
 }
 
+// 说明：调用此接口可获取热门搜索列表（详细信息）
+export function getDetailSearchHot() {
+    return request({
+        url: '/search/hot/detail',
+    })
+}
+
 // 说明：通过关键词获取歌曲信息
 export function searchByKeyword(keyword) {
     return request({

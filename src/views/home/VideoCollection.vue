@@ -32,7 +32,4 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.videoCollection {
-    padding-bottom: 110px;
-}
 </style>

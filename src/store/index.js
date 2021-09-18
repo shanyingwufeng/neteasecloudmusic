@@ -56,7 +56,7 @@ export default createStore({
             state.loading = true;
         },
 
-        hideLoading(state) {
+        hiddenLoading(state) {
             state.loading = false;
         },
 

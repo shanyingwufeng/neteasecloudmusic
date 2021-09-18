@@ -118,14 +118,13 @@ export default {
 
 <style scoped lang='scss'>
 .searchTop {
-    height: 100%;
     .searchInput {
         display: flex;
         align-items: center;
         .iconfont {
             margin-right: 12px;
             color: rgb(104, 104, 104);
-            font-size: 24px;
+            font-size: 22px;
         }
         input {
             width: 100%;
@@ -134,7 +133,7 @@ export default {
             background-color: #f4f4f4;
             border: 0;
             border-bottom: 1px solid rgba(161, 161, 161, 0.6);
-            font-size: 16px;
+            font-size: 14px;
             outline: none;
             caret-color: red;
         }
@@ -163,7 +162,6 @@ export default {
             }
         }
         .detail {
-            margin-bottom: 50px;
             .item {
                 display: flex;
                 align-items: center;
@@ -174,12 +172,6 @@ export default {
                 .left {
                     display: flex;
                     align-items: center;
-                    .id {
-                        width: 14px;
-                        margin-right: 18px;
-                        color: grey;
-                        font-size: 20px;
-                    }
                     .content {
                         color: #333;
                         font-size: 14px;

@@ -93,6 +93,7 @@ export default {
                 // console.log(res.data.data.blocks[10]);
             });
         });
+
         return { ...toRefs(state) };
     },
 };

@@ -64,6 +64,7 @@ export default {
     }
     .list {
         padding-left: var(--padding);
+        padding-bottom: var(--padding);
         .swiper-container {
             padding-right: 36px;
             .swiper-wrapper {

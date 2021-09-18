@@ -1,6 +1,6 @@
 <!-- 底部播放控制和导航 -->
 <template>
-    <div class="bottom" v-if="!$route.meta.isBottomShow">
+    <div class="bottom" v-if="!$route.meta.hiddenBottom">
         <!-- 底部播放控制区 -->
         <div class="playControl" v-if="$store.getters.songName">
             <router-link class="left" to="/playpage">
@@ -27,7 +27,7 @@
             </div>
         </div>
         <!-- 底部导航栏 -->
-        <div class="tabBar">
+        <div class="tabBar" v-if="!$route.meta.hiddenTabBar">
             <router-link
                 class="tab-bar-item"
                 v-for="(item, index) in tabBarData"
@@ -83,7 +83,7 @@ export default {
 
 <style scoped lang='scss'>
 .bottom {
-    position: fixed;
+    position: sticky;
     bottom: 0;
     width: 100%;
     background-color: #fff;

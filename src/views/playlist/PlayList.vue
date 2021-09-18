@@ -1,10 +1,12 @@
 <!-- 歌单 -->
 <template>
-    <!-- 数据加载完成之前的动画 -->
-    <loading v-show="loading"></loading>
     <div class="playList">
-        <PlayListTop :playlist="playlist" :author="author"></PlayListTop>
-        <PlayListSong :playlist="playlist" :tracks="tracks"></PlayListSong>
+        <PlayListTop :playlist="playlist" :author="author" />
+
+        <!-- 数据加载完成之前的动画 -->
+        <Loading v-show="loading" />
+
+        <PlayListSong :playlist="playlist" :tracks="tracks" v-if="!loading" />
     </div>
 </template>
 
@@ -57,11 +59,11 @@ export default {
                         // 所有歌曲信息
                         state.tracks = res.data.songs;
                         store.commit("setPlayList", state.tracks);
-                        store.commit("hideLoading");
+                        store.commit("hiddenLoading");
                     });
                 })
                 .catch(() => {
-                    store.commit("hideLoading");
+                    store.commit("hiddenLoading");
                     Toast("加载失败");
                 });
         });
@@ -75,4 +77,11 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+.playList {
+    overflow: scroll;
+    height: 100%;
+    .loading {
+        margin-top: 50px;
+    }
+}
 </style>

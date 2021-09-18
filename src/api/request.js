@@ -7,7 +7,7 @@ export function request(config) {
         // baseURL: "https://lianghj.top:3000",
         // baseURL: "http://7a98ga.natappfree.cc/",
         baseURL: "https://cloudmusicapi.shanyingwufeng.com",
-        timeout: 100000,
+        timeout: 10000,
         // withCredentials: true,
     })
     return instance(config)

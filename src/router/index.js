@@ -27,7 +27,7 @@ const routes = [
         name: 'Search',
         component: () => import('@/views/search/Search.vue'),
         meta: {
-            isBottomShow: true,
+            hiddenTabBar: true,
         }
     },
     {

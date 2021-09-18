@@ -1,13 +1,8 @@
 <!-- 搜索页-搜索历史 -->
 <template>
     <div class="searchHistory" v-if="$store.getters.isSearchHistoryShow">
-        <div class="top">
-            <span class="left">历史</span>
-            <div class="right" @click="deleteSearchHistory">
-                <span class="iconfont icon-shanchu1"></span>
-            </div>
-        </div>
-        <div class="searchHistoryList">
+        <span class="left">历史</span>
+        <div class="searchHistoryList center">
             <span
                 class="item"
                 v-for="(item, id) in $store.getters.searchHistory"
@@ -16,6 +11,9 @@
             >
                 {{ item }}
             </span>
+        </div>
+        <div class="right" @click="deleteSearchHistory()">
+            <span class="iconfont icon-shanchu1"></span>
         </div>
     </div>
 </template>
@@ -63,30 +61,41 @@ export default {
 
 <style scoped lang='scss'>
 .searchHistory {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 20px;
-    .top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .left {
-            font-size: 14px;
-        }
-        .right {
-            .iconfont {
-                font-size: 12px;
-            }
-        }
+    .left {
+        font-size: 12px;
     }
-    .searchHistoryList {
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 14px;
+    .center {
+        overflow-x: auto;
+        white-space: nowrap;
+        display: -webkit-box;
+        -webkit-overflow-scrolling: touch;
+        position: absolute;
+        top: 54%;
+        left: 0;
+        transform: translateY(-50%);
+        width: 82%;
+        height: 30px;
+        line-height: 30px;
+        margin-left: 34px;
         .item {
             margin-right: 10px;
-            margin-bottom: 14px;
-            padding: 2px 10px;
-            background-color: #fff;
-            border-radius: 8px;
+            padding: 4px 10px;
+            background-color: rgba($color: #e6e6e6, $alpha: 1.0);
+            border-radius: 12px;
+        }
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    .right {
+        .iconfont {
+            color: rgb(151, 151, 151);
+            font-size: 12px;
         }
     }
 }
