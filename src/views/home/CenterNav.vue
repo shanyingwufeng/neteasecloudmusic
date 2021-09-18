@@ -89,7 +89,7 @@ export default {
                 border-radius: 50%;
                 .date {
                     position: absolute;
-                    top: 2.6px;
+                    top: 3px;
                     left: 50%;
                     transform: translateX(-48%);
                     color: #fff;

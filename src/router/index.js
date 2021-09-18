@@ -15,6 +15,9 @@ const routes = [
         path: '/listview',
         name: 'ListView',
         component: () => import('@/views/playlist/PlayList.vue'),
+        meta: {
+            hiddenTabBar: true,
+        }
     },
     {
         // 播放页面
@@ -79,6 +82,9 @@ const routes = [
         path: '/playlistcover',
         name: 'PlayListCover',
         component: () => import('@/views/playlist/PlayListCover.vue'),
+        meta: {
+            hiddenBottom: true,
+        }
     },
 ]
 

@@ -42,13 +42,16 @@ export default {
     name: "PlayListCover",
     setup() {
         const router = useRouter();
+
         onMounted(() => {
             $store.commit("hiddenBottom");
         });
+
         const goBack = () => {
             $store.commit("showBottom");
             router.go(-1);
         };
+
         return {
             goBack,
             playListCover: computed(() => $store.state.playListCover),
