@@ -1,7 +1,7 @@
 <!-- 首页-精品歌单 -->
 <template>
     <div class="boutique-playList home-playList">
-        <TitleBar titleBarName="精品歌单" />
+        <TitleBar titleBarName="精品歌单" rightText="更多" />
         <div class="list home-playList-Swiper">
             <div class="swiper-container boutique-playList-swiper">
                 <div class="swiper-wrapper">

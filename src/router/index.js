@@ -31,14 +31,16 @@ const routes = [
         name: 'Search',
         component: () => import('@/views/search/Search.vue'),
         meta: {
+            keepAlive: true,
             hiddenTabBar: true,
+            isBack: true,
         }
     },
     {
         // 搜索结果页面
         path: '/searchresult',
         name: 'SearchResult',
-        component: () => import('@/views/search/SearchResult.vue'),
+        component: () => import('@/views/search/searchresult/SearchResult.vue'),
         meta: {
             hiddenTabBar: true,
         }

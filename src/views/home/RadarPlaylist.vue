@@ -1,7 +1,7 @@
 <!-- 首页-雷达歌单 -->
 <template>
     <div class="radar-playList home-playList">
-        <TitleBar :titleBarName="titleBarName" />
+        <TitleBar :titleBarName="titleBarName" rightText="更多" />
         <PlayListSwiper :list="list" :point="0" />
     </div>
 </template>

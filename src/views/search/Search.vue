@@ -26,7 +26,7 @@
             <!-- 搜索历史 -->
             <SearchHistory @search="search" />
             <!-- 热搜榜 -->
-            <HotSearchList :data="detailSearchHot" @search="search" />
+            <HotSearchList :data="detailSearchHot" :mvData="detailSearchMvHot" @search="search" />
             <!-- 音乐专区 -->
             <MusicZone />
             <!-- 推荐活动 -->
@@ -44,13 +44,18 @@ import SearchHistory from "./SearchHistory.vue";
 import HotSearchList from "./HotSearchList.vue";
 import MusicZone from "./MusicZone.vue";
 import RecommendedActivities from "./RecommendedActivities.vue";
-import SearchResult from "./SearchResult.vue";
+import SearchResult from "./searchresult/SearchResult.vue";
 import Loading from "@/components/Loading.vue";
 import { searchByKeyword } from "@/api/search/index.js";
-import { getSearchDefault, getDetailSearchHot } from "@/api/search/index.js";
-import { onMounted, reactive, toRefs, computed } from "vue";
+import {
+    getSearchDefault,
+    getDetailSearchHot,
+    getDetailSearchMvHot,
+} from "@/api/search/index.js";
+import { reactive, toRefs, computed, onActivated, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 export default {
     name: "Search",
@@ -63,20 +68,29 @@ export default {
         SearchResult,
         Loading,
     },
+
+    beforeRouteEnter(to, from, next) {
+        if (from.name == "Home") {
+            to.meta.isBack = false;
+        }
+        next();
+    },
+
     setup() {
         const state = reactive({
             searchInput: "", // 绑定搜索框实现聚焦功能
             placeholder: "", // 搜索框默认内容
             searchKeyword: "", // 搜索关键词
             searchHistory: [], // 搜索历史（存储本地）
-            searchSongs: [], // 搜索获取的歌曲信息
+            searchSongs: "", // 搜索获取的歌曲信息
             songCount: 0, // 搜索获取的歌曲数量
             detailSearchHot: [], // 热搜榜
+            detailSearchMvHot: [], // mv榜
         });
 
         const store = useStore();
-
         const router = useRouter();
+        const route = useRoute();
 
         // 返回判断
         const back = () => {
@@ -107,9 +121,30 @@ export default {
             });
             await getDetailSearchHot().then((res) => {
                 state.detailSearchHot = res.data.data;
+            });
+            await getDetailSearchMvHot().then((res) => {
+                state.detailSearchMvHot = res.data.data;
                 store.commit("hiddenLoading");
                 store.commit("showLoadingContent");
             });
+        });
+
+        onActivated(async () => {
+            if (route.meta.isBack == false) {
+                store.commit("hiddenLoadingContent");
+                store.commit("showLoading");
+                store.commit("hiddenSearchResult");
+                await getSearchDefault().then((res) => {
+                    state.searchInput.focus();
+                    state.placeholder = res.data.data.showKeyword;
+                });
+                await getDetailSearchHot().then((res) => {
+                    state.detailSearchHot = res.data.data;
+                    store.commit("hiddenLoading");
+                    store.commit("showLoadingContent");
+                });
+            }
+            route.meta.isBack = true;
         });
 
         // 搜索歌曲
@@ -118,13 +153,17 @@ export default {
             store.commit("hiddenLoadingContent");
             store.commit("hiddenSearchResult");
             state.searchKeyword = searchWord;
+            store.commit("setSearchKeyword", searchWord);
             // 通过关键词搜索歌曲
-            await searchByKeyword(state.searchKeyword).then(async (res) => {
-                state.songCount = res.data.result.songCount;
-                state.searchSongs = res.data.result.songs;
-                store.commit("hiddenLoading");
-                store.commit("showSearchResult");
-            });
+            await searchByKeyword(1018, state.searchKeyword).then(
+                async (res) => {
+                    // console.log(res.data.result);
+                    // state.songCount = res.data.result.songCount;
+                    state.searchSongs = res.data.result;
+                    store.commit("hiddenLoading");
+                    store.commit("showSearchResult");
+                }
+            );
 
             if (localStorage.getItem("searchHistory")) {
                 state.searchHistory = JSON.parse(
@@ -136,16 +175,16 @@ export default {
                     state.searchHistory.splice(index, 1);
                 }
 
-                state.searchHistory.push(state.searchKeyword);
-                state.searchHistory = Array.from(new Set(state.searchHistory));
                 state.searchHistory.reverse();
+                state.searchHistory.push(state.searchKeyword);
+                state.searchHistory.reverse();
+                // state.searchHistory = Array.from(new Set(state.searchHistory));
                 localStorage.searchHistory = JSON.stringify(
                     state.searchHistory
                 );
             } else {
                 state.searchHistory = [];
                 state.searchHistory.push(state.searchKeyword);
-                state.searchHistory.reverse();
                 localStorage.setItem(
                     "searchHistory",
                     JSON.stringify(state.searchHistory)
@@ -174,6 +213,7 @@ export default {
 <style scoped lang='scss'>
 .search {
     height: 100%;
+    overflow: scroll;
     padding: var(--padding);
     background-color: #f4f4f4;
     .searchInput {
@@ -192,7 +232,7 @@ export default {
             background-color: #f4f4f4;
             border: 0;
             border-bottom: 1px solid rgba(161, 161, 161, 0.6);
-            font-size: 14px;
+            font-size: 16px;
             outline: none;
             caret-color: red;
         }

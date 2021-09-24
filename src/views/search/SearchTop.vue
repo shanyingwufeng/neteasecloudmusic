@@ -139,7 +139,7 @@ export default {
             background-color: #f4f4f4;
             border: 0;
             border-bottom: 1px solid rgba(161, 161, 161, 0.6);
-            font-size: 14px;
+            font-size: 16px;
             outline: none;
             caret-color: red;
         }

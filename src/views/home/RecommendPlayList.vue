@@ -1,7 +1,7 @@
 <!-- 首页-推荐歌单 -->
 <template>
     <div class="recommend-playList home-playList">
-        <TitleBar :titleBarName="titleBarName" />
+        <TitleBar :titleBarName="titleBarName" rightText="更多" />
         <PlayListSwiper :list="list" :point="1" />
     </div>
 </template>

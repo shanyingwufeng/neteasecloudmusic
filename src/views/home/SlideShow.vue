@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { onUpdated, onActivated, onDeactivated, reactive, toRefs } from "vue";
+import { onUpdated, onMounted, reactive, toRefs } from "vue";
 import { Swiper } from "swiper";
 
 export default {
@@ -34,23 +34,6 @@ export default {
 
         onUpdated(() => {
             state.list = props.data.extInfo.banners;
-            // new Swiper(".slideShow-swiper", {
-            //     autoplay: {
-            //         delay: 5000,
-            //         disableOnInteraction: false,
-            //     },
-            //     loop: true,
-            //     speed: 400,
-            //     observeParents: true,
-            //     observer: true,
-            //     pagination: {
-            //         el: ".swiper-pagination",
-            //         clickable: true,
-            //     },
-            // });
-        });
-
-        onActivated(() => {
             new Swiper(".slideShow-swiper", {
                 autoplay: {
                     delay: 5000,

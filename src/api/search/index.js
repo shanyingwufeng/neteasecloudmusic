@@ -21,9 +21,19 @@ export function getDetailSearchHot() {
     })
 }
 
-// 说明：通过关键词获取歌曲信息
-export function searchByKeyword(keyword) {
+// 说明：调用此接口可获取搜索列表的视频榜（mv排行）
+export function getDetailSearchMvHot() {
     return request({
-        url: '/search?keywords=' + keyword,
+        url: '/top/mv?limit=20',
+    })
+}
+
+// 说明：通过关键词获取歌曲信息
+// type: 搜索类型；默认为 1 即单曲 , 
+// 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 
+// 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
+export function searchByKeyword(type, keyword) {
+    return request({
+        url: `/search?type=${type}&keywords=${keyword}`,
     })
 }

@@ -1,7 +1,7 @@
 <!-- 首页-音乐日历 -->
 <template>
     <div class="musicCalendar home-playList">
-        <TitleBar :titleBarName="titleBarName" />
+        <TitleBar :titleBarName="titleBarName" rightText="更多"  />
         <Ad adLeft="领取你的今日好运" adRight="查看运势解读" />
         <div class="detail">
             <div class="list" v-for="(item, id) in list" :key="id">

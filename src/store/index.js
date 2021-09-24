@@ -45,9 +45,15 @@ export default createStore({
         searchHistory: [], // 搜索历史
 
         isSearchHistoryShow: false, // 是否显示搜索历史页面
+
+        searchKeyword: '', // 搜索关键词
     },
 
     mutations: {
+        setSearchKeyword(state, value) {
+            state.searchKeyword = value;
+        },
+
         setPlayList(state, value) {
             state.playlist = value;
         },
@@ -87,7 +93,7 @@ export default createStore({
         hiddenBottom(state) {
             state.bottomShow = false;
         },
-        
+
         showSearchHistory(state) {
             state.isSearchHistoryShow = true;
         },

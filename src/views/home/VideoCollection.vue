@@ -1,7 +1,7 @@
 <!-- 首页-视频合辑 -->
 <template>
-    <div class="videoCollection home-playList">
-        <TitleBar :titleBarName="titleBarName" />
+    <div class="videoCollection home-playList" :style="{ paddingBottom: pb() }">
+        <TitleBar :titleBarName="titleBarName" rightText="更多" />
         <PlayListSwiper :list="list" :point="0" />
     </div>
 </template>
@@ -10,6 +10,7 @@
 import { reactive, onUpdated, toRefs } from "vue";
 import TitleBar from "@/components/TitleBar.vue";
 import PlayListSwiper from "@/components/PlayListSwiper.vue";
+import { useStore } from "vuex";
 
 export default {
     name: "VideoCollection",
@@ -21,12 +22,18 @@ export default {
             list: [],
         });
 
+        const store = useStore();
+
+        const pb = () => {
+            return store.state.playControl.songName ? "100px" : "60px";
+        };
+
         onUpdated(() => {
             state.titleBarName = props.data.uiElement.subTitle.title;
             state.list = props.data.creatives;
         });
 
-        return { ...toRefs(state) };
+        return { ...toRefs(state), pb };
     },
 };
 </script>
