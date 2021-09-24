@@ -1,7 +1,7 @@
 <!-- 搜索-热搜榜 -->
 <template>
     <div class="hotSearchList">
-        <van-tabs v-model:active="active">
+        <van-tabs v-model:active="active" class="hotSearch">
             <van-tab title="热搜榜">
                 <div class="list">
                     <div
@@ -76,7 +76,7 @@ export default {
             mvList: [],
             showId: 10,
             moreShow: true,
-            active: 1,
+            active: 0,
         });
 
         const search = (searchWord) => {
@@ -117,75 +117,81 @@ export default {
 .hotSearchList {
     margin-top: 20px;
     .van-tabs {
-        .van-tabs__nav {
-            display: flex;
-            align-items: center;
-            background-color: #f4f4f4;
-            .van-tab {
-                display: block;
-                flex: 0.2;
-                font-size: 16px;
-            }
-            .van-tab--active {
-                color: #000;
-                font-weight: 700;
-            }
-            .van-tabs__line {
-                display: none;
-            }
-        }
-    }
-    .list {
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        padding: var(--padding);
-        padding-top: 10px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 2px 2px 10px rgb(236, 236, 236);
-        .item {
-            overflow: hidden;
-            flex: 50%;
-            padding-right: 10px;
-            .content {
+        .van-tabs__wrap {
+            .van-tabs__nav {
                 display: flex;
                 align-items: center;
-                flex-wrap: nowrap;
-                width: 100%;
-                padding: 8px 0;
-                .id {
-                    color: grey;
-                    font-size: 14px;
-                    &.hot {
-                        color: red;
-                    }
+                padding-top: 0;
+                padding-left: 0;
+                background-color: #f4f4f4;
+                .van-tab {
+                    display: block;
+                    flex: 0.2;
+                    font-size: 16px;
                 }
-                .searchWord {
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    color: #444;
-                    font-size: 14px;
-                    margin: 0 6px 0 10px;
+                .van-tab--active {
+                    color: #000;
+                    font-weight: 700;
                 }
-                .iconUrl {
-                    height: 10px;
+                .van-tabs__line {
+                    display: none;
                 }
             }
         }
-        .more {
-            margin-top: 10px;
-            color: grey;
-            text-align: center;
-            .name {
-                font-size: 12px;
-            }
-            .iconfont {
-                margin-left: 4px;
-                font-size: 10px;
+        .van-tabs__content {
+            .list {
+                position: relative;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                padding: var(--padding);
+                padding-top: 10px;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 2px 2px 10px rgb(236, 236, 236);
+                .item {
+                    overflow: hidden;
+                    flex: 50%;
+                    padding-right: 10px;
+                    .content {
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: nowrap;
+                        width: 100%;
+                        padding: 8px 0;
+                        .id {
+                            color: grey;
+                            font-size: 14px;
+                            &.hot {
+                                color: red;
+                            }
+                        }
+                        .searchWord {
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            color: #444;
+                            font-size: 14px;
+                            margin: 0 6px 0 10px;
+                        }
+                        .iconUrl {
+                            height: 10px;
+                        }
+                    }
+                }
+                .more {
+                    margin-top: 10px;
+                    color: grey;
+                    text-align: center;
+                    .name {
+                        font-size: 12px;
+                    }
+                    .iconfont {
+                        margin-left: 4px;
+                        font-size: 10px;
+                    }
+                }
             }
         }
     }

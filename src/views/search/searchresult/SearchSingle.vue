@@ -85,7 +85,6 @@ export default {
     background-color: #fff;
     border-radius: 10px;
     .titleBar {
-        padding-top: 20px;
         font-size: 16px;
     }
     .list {

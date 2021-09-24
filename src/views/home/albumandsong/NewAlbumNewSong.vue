@@ -63,44 +63,43 @@ export default {
 .album-song {
     margin-bottom: 10px;
     padding-bottom: 2px;
-}
-
-.van-tabs__nav {
-    display: flex;
-    align-items: center;
-    padding-left: var(--padding);
-    padding-top: 6px;
-    padding-bottom: 0;
-    border-radius: 10px;
-    .van-tab {
-        display: block;
-        flex: 0.14;
-        font-size: 16px;
-        &::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            width: 1px;
-            height: 80%;
-            background-color: rgb(204, 201, 201);
+    .van-tabs__nav {
+        display: flex;
+        align-items: center;
+        padding-left: var(--padding);
+        padding-top: 6px;
+        padding-bottom: 0;
+        border-radius: 10px;
+        .van-tab {
+            display: block;
+            flex: 0.14;
+            font-size: 16px;
+            &::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                right: 10px;
+                transform: translateY(-50%);
+                width: 1px;
+                height: 80%;
+                background-color: rgb(204, 201, 201);
+            }
+            &:nth-last-child(2) {
+                flex: 0.2;
+            }
+            &:nth-last-child(2)::before {
+                width: 0;
+            }
         }
-        &:nth-last-child(2) {
-            flex: 0.2;
-        }
-        &:nth-last-child(2)::before {
-            width: 0;
-        }
-    }
 
-    .van-tab--active {
-        color: #000;
-        font-weight: 700;
-    }
+        .van-tab--active {
+            color: #000;
+            font-weight: 700;
+        }
 
-    .van-tabs__line {
-        display: none;
+        .van-tabs__line {
+            display: none;
+        }
     }
 }
 </style>
