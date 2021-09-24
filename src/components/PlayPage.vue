@@ -64,7 +64,6 @@ import { getSongDetail } from "@/api/index.js";
 
 export default {
     name: "PlayPage",
-
     setup() {
         const store = useStore();
         const route = useRoute();
@@ -123,7 +122,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: #fff;
+    background-color: #555;
     z-index: 100;
     .bg {
         position: absolute;
@@ -166,7 +165,7 @@ export default {
             left: 46%;
             width: 96px;
             transform-origin: 8px 0;
-            transition: all .6s;
+            transition: all 0.6s;
             z-index: 1;
         }
         .controlLever.active {

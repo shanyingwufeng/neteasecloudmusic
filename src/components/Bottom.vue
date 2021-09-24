@@ -83,8 +83,9 @@ export default {
 
 <style scoped lang='scss'>
 .bottom {
-    position: sticky;
+    position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
     background-color: #fff;
     z-index: 99;

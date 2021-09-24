@@ -26,6 +26,7 @@ const routes = [
         component: () => import('@/components/PlayPage.vue'),
     },
     {
+        // 搜索页面
         path: '/search',
         name: 'Search',
         component: () => import('@/views/search/Search.vue'),
@@ -34,6 +35,16 @@ const routes = [
         }
     },
     {
+        // 搜索结果页面
+        path: '/searchresult',
+        name: 'SearchResult',
+        component: () => import('@/views/search/SearchResult.vue'),
+        meta: {
+            hiddenTabBar: true,
+        }
+    },
+    {
+        // 个人中心
         path: '/me',
         name: 'Me',
         component: () => import('@/views/profile/Me.vue'),
@@ -47,6 +58,7 @@ const routes = [
         },
     },
     {
+        // 登录页面
         path: '/login',
         name: 'Login',
         component: () => import('@/views/login/Login.vue'),

@@ -7,7 +7,7 @@
                 class="item"
                 v-for="(item, id) in $store.getters.searchHistory"
                 :key="id"
-                @click="searchBySearchHistory(item)"
+                @click="search(item)"
             >
                 {{ item }}
             </span>
@@ -19,14 +19,18 @@
 </template>
 
 <script>
-import { onMounted, reactive, toRefs } from "vue";
+import { onMounted } from "vue";
 import { useStore } from "vuex";
 import { Dialog } from "vant";
 
 export default {
     name: "SearchHistory",
-    setup() {
+    setup(props, { emit }) {
         const store = useStore();
+
+        const search = (searchWord) => {
+            emit("search", searchWord);
+        };
 
         // 删除搜索历史
         const deleteSearchHistory = () => {
@@ -34,8 +38,8 @@ export default {
                 message: "确定清除全部历史记录？",
             })
                 .then(() => {
+                    store.commit("hiddenSearchHistory");
                     localStorage.removeItem("searchHistory");
-                    location.reload();
                 })
                 .catch(() => {});
         };
@@ -54,6 +58,7 @@ export default {
 
         return {
             deleteSearchHistory,
+            search,
         };
     },
 };
@@ -85,7 +90,7 @@ export default {
         .item {
             margin-right: 10px;
             padding: 4px 10px;
-            background-color: rgba($color: #e6e6e6, $alpha: 1.0);
+            background-color: rgba($color: #e6e6e6, $alpha: 1);
             border-radius: 12px;
         }
         &::-webkit-scrollbar {

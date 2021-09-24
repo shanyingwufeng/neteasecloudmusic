@@ -38,8 +38,8 @@ export default {
         const title = ref();
 
         onUpdated(() => {
-            list.value = props.data.creatives;
-            title.value = props.data.uiElement.subTitle.title;
+            list.value = props.data.creatives[1].resources;
+            title.value = props.data.creatives[1].uiElement.mainTitle.title;
             new Swiper(".podCast24-swiper", {
                 slidesPerView: 3,
                 spaceBetween: 14,

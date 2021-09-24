@@ -2,10 +2,7 @@
 <template>
     <div class="searchTop">
         <div class="searchInput">
-            <span
-                class="iconfont icon-jiantou-xia"
-                @click="$router.go('-1')"
-            ></span>
+            <span class="iconfont icon-jiantou-xia" @click="$router.go(-1)"></span>
             <input
                 ref="searchInput"
                 type="text"
@@ -14,7 +11,7 @@
                 v-model="searchKeyword"
             />
         </div>
-        <div class="playList">
+        <!-- <div class="playList" v-if="!loading">
             <div class="detail">
                 <router-link
                     class="item"
@@ -39,13 +36,13 @@
                     </div>
                 </router-link>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script>
 import { searchByKeyword } from "@/api/search/index.js";
-import { onMounted, onUpdated, reactive, ref, toRefs } from "vue";
+import { onMounted, onUpdated, reactive, computed, toRefs } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -67,6 +64,9 @@ export default {
 
         // 搜索歌曲
         const search = async () => {
+            store.commit("hiddenSearchContent");
+            store.commit("showLoading");
+
             const result = await searchByKeyword(state.searchKeyword);
             console.log(result);
             state.songCount = result.data.result.songCount;
@@ -81,12 +81,14 @@ export default {
                 localStorage.searchHistory = JSON.stringify(
                     state.searchHistory
                 );
+                store.commit("hiddenLoading");
             } else {
                 state.searchHistory.push(state.searchKeyword);
                 localStorage.setItem(
                     "searchHistory",
                     JSON.stringify(state.searchHistory)
                 );
+                store.commit("hiddenLoading");
             }
 
             store.commit(
@@ -111,7 +113,11 @@ export default {
             state.placeholder = props.data;
         });
 
-        return { ...toRefs(state), search };
+        return {
+            ...toRefs(state),
+            search,
+            loading: computed(() => store.state.loading),
+        };
     },
 };
 </script>

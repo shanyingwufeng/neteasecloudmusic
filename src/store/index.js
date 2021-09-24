@@ -38,6 +38,10 @@ export default createStore({
         // 底部栏
         bottomShow: true,
 
+        loadingContent: false,
+
+        searchResult: false,
+
         searchHistory: [], // 搜索历史
 
         isSearchHistoryShow: false, // 是否显示搜索历史页面
@@ -60,12 +64,36 @@ export default createStore({
             state.loading = false;
         },
 
+        showLoadingContent(state) {
+            state.loadingContent = true;
+        },
+
+        hiddenLoadingContent(state) {
+            state.loadingContent = false;
+        },
+
+        showSearchResult(state) {
+            state.searchResult = true;
+        },
+
+        hiddenSearchResult(state) {
+            state.searchResult = false;
+        },
+
         showBottom(state) {
             state.bottomShow = true;
         },
 
         hiddenBottom(state) {
             state.bottomShow = false;
+        },
+        
+        showSearchHistory(state) {
+            state.isSearchHistoryShow = true;
+        },
+
+        hiddenSearchHistory(state) {
+            state.isSearchHistoryShow = false;
         },
 
         setPlayListCover(state, value) {
@@ -101,6 +129,7 @@ export default createStore({
         playState: (state) => state.playState,
         searchHistory: (state) => state.searchHistory,
         isSearchHistoryShow: (state) => state.isSearchHistoryShow,
+        searchResult: (state) => state.searchResult,
     },
 
     actions: {

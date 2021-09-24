@@ -14,12 +14,14 @@
             </div>
         </div>
         <div class="list">
-            <div class="item" v-for="(item, id) in list" :key="id">
+            <div class="item" v-for="(item, id) in list" :key="id" @click="search(item.searchWord)">
                 <div v-if="id < showId" class="content">
                     <span class="id" :class="{ hot: id < 3 }">{{
                         id + 1
                     }}</span>
-                    <span class="searchWord">{{ item.searchWord }}</span>
+                    <span class="searchWord">{{
+                        item.searchWord
+                    }}</span>
                     <img
                         class="iconUrl"
                         v-if="item.iconUrl"
@@ -45,13 +47,18 @@ import { onMounted, onUpdated, reactive, toRefs } from "vue";
 export default {
     name: "HotSearchList",
     props: ["data"],
-    setup(props) {
+    emits: ["search"],
+    setup(props, { emit }) {
         const state = reactive({
             list: [],
             showId: 10,
             moreShow: true,
             active: 1,
         });
+
+        const search = (searchWord) => {
+            emit("search", searchWord);
+        };
 
         const action = () => {
             if (state.moreShow == true) {
@@ -73,6 +80,7 @@ export default {
         return {
             ...toRefs(state),
             action,
+            search,
         };
     },
 };
@@ -103,7 +111,7 @@ export default {
             font-size: 10px;
             .iconfont {
                 margin-right: 2px;
-                color: rgb(117, 117, 117);
+                color: rgb(95, 95, 95);
                 font-size: 8px;
             }
         }
@@ -124,10 +132,11 @@ export default {
             .content {
                 display: flex;
                 align-items: center;
+                flex-wrap: nowrap;
                 padding: 8px 0;
                 .id {
                     color: grey;
-                    font-size: 16px;
+                    font-size: 14px;
                     &.hot {
                         color: red;
                     }
@@ -138,7 +147,7 @@ export default {
                     margin: 0 6px 0 10px;
                 }
                 .iconUrl {
-                    height: 12px;
+                    height: 10px;
                 }
             }
         }

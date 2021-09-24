@@ -157,6 +157,7 @@ export default {
 <style scoped lang='scss'>
 .musicZone {
     margin-top: 20px;
+    padding-bottom: 60px;
     .name {
         margin-bottom: 10px;
         font-size: 14px;

@@ -90,7 +90,7 @@ export default {
                 state.offcialPlayList = res.data.data.blocks[7];
                 state.podCast24 = res.data.data.blocks[9];
                 state.videoCollection = res.data.data.blocks[10];
-                // console.log(res.data.data.blocks[10]);
+                // console.log(res.data.data.blocks[9]);
             });
         });
 

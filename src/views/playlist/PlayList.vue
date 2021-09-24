@@ -78,8 +78,7 @@ export default {
 
 <style scoped lang='scss'>
 .playList {
-    overflow: scroll;
-    height: 100%;
+    height: 100vh;
     .loading {
         margin-top: 50px;
     }

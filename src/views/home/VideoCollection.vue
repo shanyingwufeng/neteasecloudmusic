@@ -32,4 +32,9 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+.videoCollection {
+    margin-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
 </style>
