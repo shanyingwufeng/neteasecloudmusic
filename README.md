@@ -1,1 +1,1 @@
-前端学习-移动端-网易云音乐：https://www.shanyingwufeng.com/neteasecloudmusic
+前端学习-移动端（Vue3.0）-网易云音乐：https://music.shanyingwufeng.com
