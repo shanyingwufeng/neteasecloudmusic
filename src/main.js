@@ -7,7 +7,7 @@ import './styles/index.css'
 import 'amfe-flexible'
 import {
     Toast, Tabbar, TabbarItem, Popup, Cell, CellGroup,
-    Dialog, Loading, Lazyload, Button, Tab, Tabs
+    Dialog, Loading, Lazyload, Button, Tab, Tabs, Field
 } from 'vant';
 
 // 使用swiper的compositon API
@@ -18,5 +18,5 @@ SwiperCore.use([Autoplay, Pagination]);
 
 createApp(App)
     .use(Toast).use(Tabbar).use(TabbarItem).use(Popup).use(Cell).use(CellGroup)
-    .use(Dialog).use(Loading).use(Lazyload).use(Button).use(Tab).use(Tabs)
+    .use(Dialog).use(Loading).use(Lazyload).use(Button).use(Tab).use(Tabs).use(Field)
     .use(store).use(router).mount('#app')

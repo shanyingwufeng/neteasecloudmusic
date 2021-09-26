@@ -27,3 +27,10 @@ export function userDetail(id) {
         url: `/user/detail?uid=` + id,
     })
 }
+
+// 说明 : 调用此接口,可获取所有榜单
+export function getTopList() {
+    return request({
+        url: '/toplist',
+    })
+}

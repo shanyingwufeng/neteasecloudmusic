@@ -12,7 +12,7 @@
                 type="primary"
                 size="large"
                 class="login-button"
-                @click="$router.push('/phoneLogin')"
+                @click="$router.push('/phonelogin')"
                 >手机号登录</van-button
             >
             <van-button
@@ -49,14 +49,14 @@ export default {
     name: "Login",
     setup() {
         const moreLogin = [
-            { className: "icon-weixin1", loginPath: "wxLogin" },
-            { className: "icon-dengluqqhover59a6de", loginPath: "qqLogin" },
-            { className: "icon-weibo2", loginPath: "wbLogin" },
-            { className: "icon-wangyi", loginPath: "emailLogin" },
+            { className: "icon-weixin1", loginPath: "wxlogin" },
+            { className: "icon-dengluqqhover59a6de", loginPath: "qqlogin" },
+            { className: "icon-weibo2", loginPath: "wblogin" },
+            { className: "icon-wangyi", loginPath: "emaillogin" },
         ];
         onMounted(() => {
             $store.commit("hiddenBottom");
-        })
+        });
         return { moreLogin };
     },
 };

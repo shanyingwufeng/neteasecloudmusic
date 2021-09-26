@@ -70,6 +70,7 @@ export default {
 .playList-song {
     padding: 0 10px;
     padding-top: 40px;
+    padding-bottom: 54px;
     background-color: #fff;
     .ad {
         display: flex;

@@ -23,8 +23,8 @@
         <NewAlbumNewSong :data="newAlbumNewSong" />
         <!-- 专属场景歌单 -->
         <OffcialPlayList :data="offcialPlayList" />
-        <!-- 24小时播客 -->
-        <PodCast24 :data="podCast24" />
+        <!-- 广播电台和24小时播客 -->
+        <BroadCastAndPodCast24 :data="broadCastAndPodCast24" />
         <!-- 视频合辑 -->
         <VideoCollection :data="videoCollection" />
     </div>
@@ -42,7 +42,7 @@ import BoutiqueMusicVideo from "@/views/home/BoutiqueMusicVideo.vue";
 import RadarPlaylist from "@/views/home/RadarPlaylist.vue";
 import NewAlbumNewSong from "@/views/home/albumandsong/NewAlbumNewSong.vue";
 import OffcialPlayList from "@/views/home/OffcialPlayList.vue";
-import PodCast24 from "@/views/home/PodCast24.vue";
+import BroadCastAndPodCast24 from "@/views/home/BroadCastAndPodCast24.vue";
 import VideoCollection from "@/views/home/VideoCollection.vue";
 
 import { onMounted, reactive, toRefs } from "vue";
@@ -61,7 +61,7 @@ export default {
         BoutiqueMusicVideo,
         RadarPlaylist,
         OffcialPlayList,
-        PodCast24,
+        BroadCastAndPodCast24,
         VideoCollection,
         NewAlbumNewSong,
     },
@@ -75,7 +75,7 @@ export default {
             radarPlayList: "", // 雷达歌单
             offcialPlayList: "", // 专属场景歌单
             newAlbumNewSong: [], // 新歌新碟数字专辑
-            podCast24: "", // 24小时播客
+            broadCastAndPodCast24: "", // 24小时播客
             videoCollection: "", // 视频合辑
         });
 
@@ -88,7 +88,7 @@ export default {
                 state.musicVideo = res.data.data.blocks[5];
                 state.radarPlayList = res.data.data.blocks[6];
                 state.offcialPlayList = res.data.data.blocks[7];
-                state.podCast24 = res.data.data.blocks[9];
+                state.broadCastAndPodCast24 = res.data.data.blocks[9];
                 state.videoCollection = res.data.data.blocks[10];
                 // console.log(res.data.data.blocks[9]);
             });

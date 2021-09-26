@@ -38,7 +38,7 @@ export default {
             author: {},
             comment: 0,
             tracks: [],
-            trackIds: [],
+            trackIds: "",
         });
 
         const id = route.query.id;
@@ -49,12 +49,24 @@ export default {
                 .then((res) => {
                     state.playlist = res.data.playlist;
                     state.author = res.data.playlist.creator;
-                    // 所有歌曲的id
+                    // 所有歌曲的id;
                     state.trackIds = res.data.playlist.trackIds
                         .map((x) => {
                             return x.id;
                         })
                         .toString();
+
+                    // const result = [];
+                    // const arr = res.data.playlist.trackIds.map((x) => {
+                    //     return x.id;
+                    // });
+                    // for (let i = 0; i < arr.length; i += 10) {
+                    //     result.push(arr.slice(i, i + 10));
+                    // }
+                    // console.log(result[state.page].toString());
+
+                    // state.trackIds = result[state.page].toString();
+
                     getSongDetail(state.trackIds).then((res) => {
                         // 所有歌曲信息
                         state.tracks = res.data.songs;

@@ -9,6 +9,8 @@
         <SearchArtist :data="artist" />
         <!-- 专辑 -->
         <SearchAlbum :data="album" />
+        <!-- 相关搜索 -->
+        <SearchSimQuery :data="simQuery" @search="search" />
         <!-- 用户 -->
         <SearchUser :data="user" />
     </div>
@@ -19,6 +21,7 @@ import SearchSingle from "./SearchSingle.vue";
 import SearchPlayList from "./SearchPlayList.vue";
 import SearchArtist from "./SearchArtist.vue";
 import SearchAlbum from "./SearchAlbum.vue";
+import SearchSimQuery from "./SearchSimQuery.vue";
 import SearchUser from "./SearchUser.vue";
 import { toRefs, reactive, onMounted } from "vue";
 
@@ -29,25 +32,33 @@ export default {
         SearchPlayList,
         SearchArtist,
         SearchAlbum,
+        SearchSimQuery,
         SearchUser,
     },
     props: ["data"],
-    setup(props) {
+    emits: ["search"],
+    setup(props, { emit }) {
         const state = reactive({
             single: "", // 单曲
             playList: "", // 歌单
             newMlog: "", // 视频
             artist: "", // 艺人
             album: "", // 专辑
+            simQuery: "", // 相关搜索
             user: "", // 用户
         });
 
-        // console.log(props.data.new_mlog);
+        const search = (searchWord) => {
+            emit("search", searchWord);
+        };
+
+        // console.log(props.data.sim_query);
         state.single = props.data.song;
         state.playList = props.data.playList;
         state.newMlog = props.data.new_mlog;
         state.artist = props.data.artist;
         state.album = props.data.album;
+        state.simQuery = props.data.sim_query;
         state.user = props.data.user;
 
         onMounted(() => {
@@ -56,10 +67,11 @@ export default {
             state.newMlog = props.data.new_mlog;
             state.artist = props.data.artist;
             state.album = props.data.album;
+            state.simQuery = props.data.sim_query;
             state.user = props.data.user;
         });
 
-        return { ...toRefs(state) };
+        return { ...toRefs(state), search };
     },
 };
 </script>

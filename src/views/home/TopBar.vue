@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import SideBar from "./SideBar.vue";
+import SideBar from "@/views/home/SideBar.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { toRefs, reactive, onMounted, onActivated, onDeactivated } from "vue";
 import { getSearchHot } from "@/api/search/index";
@@ -126,7 +126,7 @@ export default {
         .searchKeyword {
             overflow: hidden;
             height: 30px;
-            line-height: 32px;
+            line-height: 30px;
             color: #999;
             font-size: 12px;
             .text {

@@ -24,6 +24,7 @@ export default {
 
         const store = useStore();
 
+        // padding-bottom根据有没有本地存储的音乐而变化
         const pb = () => {
             return store.state.playControl.songName ? "100px" : "60px";
         };

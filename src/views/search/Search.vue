@@ -34,7 +34,7 @@
         </div>
 
         <!-- 搜索结果 -->
-        <SearchResult :data="searchSongs" v-if="searchResult" />
+        <SearchResult :data="searchSongs" v-if="searchResult" @search="search" />
     </div>
 </template>
 

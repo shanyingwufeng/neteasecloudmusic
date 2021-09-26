@@ -31,14 +31,16 @@ export default {
     top: 4px;
     right: 4px;
     padding: 0 4px;
-    background-color: rgba($color: #464545, $alpha: 0.8);
+    background-color: rgba($color: #444444, $alpha: 0.8);
     border-radius: 6px;
     color: #fff;
-    font-size: 10px;
-    opacity: 0.8;
+    opacity: 0.7;
     .iconfont {
         margin-right: 2px;
-        font-size: 12px;
+        font-size: 8px;
+    }
+    .number {
+        font-size: 8px;
     }
 }
 </style>

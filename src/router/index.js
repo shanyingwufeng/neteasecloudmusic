@@ -50,14 +50,14 @@ const routes = [
         path: '/me',
         name: 'Me',
         component: () => import('@/views/profile/Me.vue'),
-        // 路由守卫
-        beforeEnter: (to, from, next) => {
-            if ($store.state.user.isLogin) {
-                next();
-            } else {
-                next("/login");
-            }
-        },
+        // // 路由守卫
+        // beforeEnter: (to, from, next) => {
+        //     if ($store.state.user.isLogin) {
+        //         next();
+        //     } else {
+        //         next("/login");
+        //     }
+        // },
     },
     {
         // 登录页面
@@ -67,7 +67,7 @@ const routes = [
 
     },
     {
-        path: '/phoneLogin',
+        path: '/phonelogin',
         name: 'PhoneLogin',
         component: () => import('@/views/login/PhoneLogin.vue'),
     },
