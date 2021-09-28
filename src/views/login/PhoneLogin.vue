@@ -60,9 +60,11 @@ import { Toast } from "vant";
 import {
     getPhoneVerificationCode,
     verifyPhoneCaptcha,
+    loginCellphoneByCaptcha,
 } from "@/api/login/index.js";
 import CaptchaInputBox from "@/components/CaptchaInputBox.vue";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
     name: "PhoneLogin",
@@ -77,19 +79,60 @@ export default {
             verificationCode: 0,
         });
 
+        const store = useStore();
         const router = useRouter();
 
         const input = (code) => {
             if (code.length >= 4) {
                 state.verificationCode = code.slice(0, 4);
-                verifyPhoneCaptcha(state.phoneNumber, state.verificationCode).then(
-                    (res) => {
-                        if (res.data.data) {
-                            console.log(res);
+                verifyPhoneCaptcha(
+                    state.phoneNumber,
+                    state.verificationCode
+                ).then((res) => {
+                    if (res.data.data) {
+                        loginCellphoneByCaptcha(
+                            state.phoneNumber,
+                            state.verificationCode
+                        ).then((res) => {
+                            console.log(res.data);
+                            console.log(
+                                `使用手机号登录成功！欢迎您！${res.data.profile.nickname}`
+                            );
+                            localStorage.cookie = encodeURIComponent(
+                                res.data.cookie
+                            );
+                            store.state.user.isLogin = true;
+                            store.state.user.id = res.data.profile.userId;
+                            store.state.user.nickName =
+                                res.data.profile.nickname;
+                            store.state.user.picUrl =
+                                res.data.profile.avatarUrl;
+                            store.state.user.userDetail = res.data.profile;
+                            localStorage.userLoginInfo = JSON.stringify(
+                                store.state.user
+                            );
                             router.push("/me");
-                        }   
+                        });
                     }
-                );
+                    // if (res.data.data) {
+                    //     console.log(res.data);
+                    //     // console.log(
+                    //     //     `使用手机号登录成功！欢迎您！${res.data.profile.nickname}`
+                    //     // );
+                    //     // localStorage.cookie = encodeURIComponent(
+                    //     //     res.data.cookie
+                    //     // );
+                    //     // store.state.user.isLogin = true;
+                    //     // store.state.user.id = result.data.profile.userId;
+                    //     // store.state.user.nickName = res.data.profile.nickname;
+                    //     // store.state.user.picUrl = res.data.profile.avatarUrl;
+                    //     // store.state.user.userDetail = res.data.profile;
+                    //     // localStorage.userLoginInfo = JSON.stringify(
+                    //     //     res.state.user
+                    //     // );
+                    //     router.push("/me");
+                    // }
+                });
             }
         };
 
@@ -117,9 +160,8 @@ export default {
                 // state.hasVerificationCode = true;
                 // startTimer();
                 getPhoneVerificationCode(state.phoneNumber).then((res) => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     if (res.data.data) {
-                        // state.phoneInput.focus();
                         state.hasVerificationCode = true;
                         startTimer();
                     }

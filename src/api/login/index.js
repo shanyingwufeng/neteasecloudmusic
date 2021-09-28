@@ -14,6 +14,13 @@ export function verifyPhoneCaptcha(phoneNumber, captcha) {
     });
 }
 
+// 调用此接口实现手机号码登录
+export function loginCellphoneByCaptcha(phoneNumber, captcha) {
+    return request({
+        url: `/login/cellphone?phone=${phoneNumber}&captcha=${captcha}`,
+    });
+}
+
 // 说明 : 调用此接口 , 可退出登录
 export function logout() {
     return request({
