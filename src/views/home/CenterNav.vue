@@ -89,11 +89,11 @@ export default {
                 border-radius: 50%;
                 .date {
                     position: absolute;
-                    top: 3px;
+                    top: 2px;
                     left: 50%;
                     transform: translateX(-48%);
                     color: #fff;
-                    font-size: 14px;
+                    font-size: 12px;
                 }
             }
             .title {

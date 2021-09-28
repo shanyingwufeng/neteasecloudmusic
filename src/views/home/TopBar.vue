@@ -21,9 +21,7 @@
             </van-popup>
         </div>
         <router-link class="center" :class="{ scroll: scroll }" to="/search">
-            <div>
-                <span class="iconfont icon-sousuo"></span>
-            </div>
+            <span class="iconfont icon-sousuo"></span>
             <div class="searchKeyword">
                 <swiper
                     :autoplay="autoplay"
@@ -157,22 +155,21 @@ export default {
         &.scroll {
             background-color: rgba(235, 235, 235, 0.5);
         }
-        .iconfont {
+        .icon-sousuo {
             margin-right: 6px;
             color: rgb(148, 148, 148);
-            font-size: 14px;
+            font-size: 16px;
         }
         .searchKeyword {
             overflow: hidden;
             height: 30px;
             line-height: 30px;
-            color: #999;
             .text {
                 color: rgb(148, 148, 148);
                 font-size: 14px;
             }
             .swiper-container {
-                height: 60px;
+                height: 50px;
             }
         }
     }

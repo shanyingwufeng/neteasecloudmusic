@@ -137,7 +137,7 @@ export default {
                     .firstImage {
                         overflow: hidden;
                         .swiper-container {
-                            height: 140px;
+                            height: 160px;
                             padding-right: 0;
                             .icon-wuxian {
                                 position: absolute;

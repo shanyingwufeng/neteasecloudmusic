@@ -2,11 +2,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// import './styles/index.css'
 import 'amfe-flexible'
 import {
     Toast, Tabbar, TabbarItem, Popup, Cell, CellGroup,
-    Dialog, Loading, Lazyload, Button, Tab, Tabs, Field
+    Dialog, Loading, Lazyload, Button, Tab, Tabs, Field,
 } from 'vant';
 
 // 使用swiper的compositon API

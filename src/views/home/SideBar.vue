@@ -69,7 +69,29 @@
             <van-cell title="关于" is-link icon="info-o" />
         </van-cell-group>
         <van-cell-group inset class="close">
-            <van-cell title="关闭云音乐" center />
+            <van-cell
+                v-if="$store.state.user.isLogin"
+                title="退出登录/关闭"
+                center
+                @click="showPopup"
+            />
+            <van-cell v-else title="关闭云音乐" center />
+            <van-popup
+                v-model:show="show"
+                round
+                position="bottom"
+                :style="{ height: '20%' }"
+                teleport="#app"
+                class="logout-close"
+            >
+                <div class="top">
+                    <span>退出登录/关闭</span>
+                </div>
+                <div class="bottom">
+                    <span>关闭云音乐</span>
+                    <span @click="logoutAccount()">退出登录</span>
+                </div>
+            </van-popup>
         </van-cell-group>
     </div>
 </template>
@@ -77,6 +99,7 @@
 <script>
 import { ref, reactive } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
+import { logout } from "@/api/login/index.js";
 
 export default {
     name: "SideBar",
@@ -92,6 +115,23 @@ export default {
             { text: "体验乐花卡，领黑胶vip" },
             { text: "立享21项专属特权" },
         ]);
+
+        const show = ref(false);
+
+        const logoutAccount = () => {
+            logout().then((res) => {
+                if (res.data.code == 200) {
+                    localStorage.removeItem("userLoginInfo");
+                    localStorage.removeItem("cookie");
+                }
+                location.reload();
+            });
+        };
+
+        const showPopup = () => {
+            show.value = true;
+        };
+
         // swiper相关配置属性放在swiper_options这个变量里
         let swiper_options = reactive({
             autoplay: {
@@ -102,7 +142,7 @@ export default {
             speed: 400,
         });
         // 将swiper_options返回给模板中的swiper组件使用
-        return { swiper_options, messages };
+        return { swiper_options, messages, show, logoutAccount, showPopup };
     },
 };
 </script>

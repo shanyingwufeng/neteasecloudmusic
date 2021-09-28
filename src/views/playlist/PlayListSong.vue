@@ -1,16 +1,24 @@
 <!-- 歌单歌曲 -->
 <template>
     <div class="playList-song">
-        <div class="ad">
+        <div class="ad" v-if="!$store.state.user.isLogin">
             <div class="left">
                 <span class="iconfont icon-xiaohongshuicon"></span>
                 <span>微胖女生显胖瘦裤分享</span>
             </div>
             <div class="right">
                 <span>广告</span>
-                <div>
-                    <span class="iconfont icon-youjiantou"></span>
-                </div>
+                <span class="iconfont icon-youjiantou"></span>
+            </div>
+        </div>
+        <div class="ad" v-if="$store.state.user.isLogin">
+            <div class="left">
+                <span class="iconfont icon-jingyunyinxiaopt"></span>
+                <span>畅想酷炫鲸云音效</span>
+            </div>
+            <div class="right">
+                <span>开启视觉盛宴</span>
+                <span class="iconfont icon-youjiantou"></span>
             </div>
         </div>
         <div class="top" v-show="playlist.length !== 0">
@@ -39,14 +47,30 @@
                 <div class="left">
                     <div class="id">{{ i + 1 }}</div>
                     <div class="content">
-                        <div class="title">{{ item.name }}</div>
+                        <div class="title">
+                            <span>{{ item.name }}</span>
+                            <span
+                                v-if="item.alia.length !== 0"
+                                style="color: rgb(156, 156, 156)"
+                                >（{{ item.alia[0] }}）</span
+                            >
+                        </div>
                         <div class="bottom">
-                            <span class="author">
-                                <span>{{ item.ar[0].name }} - </span>
-                            </span>
-                            <span>{{
-                                item.alia[0] ? item.alia[0] : item.name
-                            }}</span>
+                            <div v-if="item.fee == 1">
+                                <span class="vip">VIP</span>
+                                <span class="sq">SQ</span>
+                            </div>
+                            <div v-if="item.fee == 8">
+                                <span class="sq">SQ</span>
+                            </div>
+                            <div class="authorAndAl">
+                                <span>{{ item.ar[0].name }}</span>
+                                <span
+                                    >-{{
+                                        item.al.name ? item.al.name : item.name
+                                    }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -114,7 +138,7 @@ export default {
                 font-size: 22px;
             }
             .playAll {
-                margin-right: 4px;
+                margin-right: 6px;
                 font-size: 18px;
                 font-weight: 700;
             }
@@ -129,7 +153,7 @@ export default {
                 font-size: 18px;
             }
             .iconfont:first-child {
-                margin-right: 12px;
+                margin-right: 18px;
             }
         }
     }
@@ -156,20 +180,33 @@ export default {
                     color: #333;
                     font-size: 14px;
                     .title {
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 1;
-                        -webkit-box-orient: vertical;
+                        @include ellipsis1();
+                        margin-bottom: 4px;
                     }
                     .bottom {
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 1;
-                        -webkit-box-orient: vertical;
+                        display: flex;
+                        align-items: center;
                         color: #999;
                         font-size: 10px;
+                        .authorAndAl {
+                            @include ellipsis1();
+                        }
+                        .vip {
+                            margin-right: 4px;
+                            padding: 0 0.4px;
+                            border: 1px solid rgb(255, 45, 45);
+                            border-radius: 4px;
+                            color: rgb(255, 45, 45);
+                            font-size: 8px;
+                        }
+                        .sq {
+                            margin-right: 4px;
+                            padding: 0 0.4px;
+                            border: 1px solid red;
+                            border-radius: 4px;
+                            color: red;
+                            font-size: 8px;
+                        }
                     }
                 }
             }

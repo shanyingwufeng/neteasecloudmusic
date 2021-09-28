@@ -1,9 +1,7 @@
 <!-- 播放次数 -->
 <template>
     <div class="play-count">
-        <div class="icon">
-            <span class="iconfont icon-bofangsanjiaoxing"></span>
-        </div>
+        <span class="iconfont icon-bofangsanjiaoxing"></span>
         <span class="number">{{ changeValue(playCount, point) }}</span>
     </div>
 </template>
@@ -30,11 +28,11 @@ export default {
     position: absolute;
     top: 4px;
     right: 4px;
-    padding: 0 4px;
-    background-color: rgba($color: #4b4b4b, $alpha: 0.8);
+    padding: 1px 4px;
+    background-color: rgb(85, 85, 85);
     border-radius: 6px;
     color: #fff;
-    opacity: 0.7;
+    opacity: 0.8;
     .iconfont {
         margin-right: 2px;
         font-size: 8px;

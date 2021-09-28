@@ -192,7 +192,7 @@ export default {
     }
     .bottom {
         position: absolute;
-        bottom: 30px;
+        bottom: 54px;
         width: 100%;
         padding: 0 30px;
         .btnList {

@@ -1,10 +1,10 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 import { emailLogin, userDetail } from "@/api/index.js";
 
 export default createStore({
     state: {
         // 播放列表
-        playlist: '',
+        playlist: "",
 
         // 底部播放控制信息
         playControl: {
@@ -18,19 +18,23 @@ export default createStore({
 
         // 歌单封面
         playListCover: {
-            coverImgUrl: '',
-            name: '',
+            coverImgUrl: "",
+            name: "",
             tags: [],
-            description: '',
+            description: "",
         },
 
         // 登录用户
         user: {
-            isLogin: false,
-            account: {},
-            userDetail: {},
-            nickName: '',
-            picUrl: '',
+            isLogin: localStorage.getItem("userLoginInfo")
+                ? JSON.parse(localStorage.getItem("userLoginInfo")).isLogin
+                : false,
+            id: 0,
+            nickName: localStorage.getItem("userLoginInfo")
+                ? JSON.parse(localStorage.getItem("userLoginInfo")).nickName
+                : "",
+            picUrl: "",
+            userDetail: "",
         },
 
         // 加载等待
@@ -47,7 +51,7 @@ export default createStore({
 
         isSearchHistoryShow: false, // 是否显示搜索历史页面
 
-        searchKeyword: '', // 搜索关键词
+        searchKeyword: "", // 搜索关键词
     },
 
     mutations: {
@@ -125,7 +129,7 @@ export default createStore({
         setSearchHistory(state, value) {
             state.searchHistory = value;
             state.isSearchHistoryShow = true;
-        }
+        },
     },
 
     // getters只会依赖state中的成员去更新
@@ -140,23 +144,23 @@ export default createStore({
     },
 
     actions: {
+        // 邮箱登录
         async emailLogin(content, payload) {
-            console.log(payload);
             const result = await emailLogin(payload.email, payload.password);
-            console.log(result);
             if (result.data.code == 200) {
+                console.log(
+                    `邮箱登录成功！欢迎您！${result.data.profile.nickname}`
+                );
+                localStorage.cookie = encodeURIComponent(result.data.cookie);
+                // localStorage.cookie = JSON.stringify(encodeURIComponent(result.data.cookie));
                 content.state.user.isLogin = true;
-                content.state.user.account = result.data.account;
-                localStorage.cookie = JSON.stringify(encodeURIComponent(result.data.cookie));
-                let userInfo = await userDetail(result.data.account.id);
-                console.log(userInfo);
+                content.state.user.id = result.data.profile.userId;
                 content.state.user.nickName = result.data.profile.nickname;
-                content.state.user.userDetail = userInfo.data;
-                content.state.user.picUrl = userInfo.data.profile.avatarUrl;
+                content.state.user.picUrl = result.data.profile.avatarUrl;
+                content.state.user.userDetail = result.data.profile;
                 localStorage.userLoginInfo = JSON.stringify(content.state.user);
-                content.commit("setUser", content.state.user);
             }
             return result;
-        }
+        },
     },
-})
+});

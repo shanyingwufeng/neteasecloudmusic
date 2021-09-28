@@ -33,7 +33,11 @@
                 </div>
                 <div class="top-right">
                     <div class="play-list-name">
-                        <span class="title">{{ playlist.name }}</span>
+                        <span
+                            class="title"
+                            :class="{ hasDescription: !playlist.description }"
+                            >{{ playlist.name }}</span
+                        >
                         <div class="author">
                             <img class="header" v-lazy="author.avatarUrl" />
                             <span class="nickname">{{ author.nickname }}</span>
@@ -46,6 +50,7 @@
                         to="/playlistcover"
                         class="description"
                         @click="jumpCover()"
+                        v-if="playlist.description"
                     >
                         <span>{{ playlist.description }}</span>
                         <div class="icon">
@@ -55,18 +60,42 @@
                 </div>
             </div>
             <!-- 收藏数、评论数和分享数 -->
-            <div class="playList-info">
-                <div class="item">
+            <div class="playListInfo">
+                <div
+                    class="item"
+                    v-if="$store.state.user.nickName === author.nickname"
+                    style="color: grey"
+                >
+                    <span class="iconfont icon-zhengque"></span>
+                    <span>{{
+                        playlist.subscribedCount === 0
+                            ? "收藏"
+                            : changeValue(playlist.subscribedCount, 1)
+                    }}</span>
+                </div>
+                <div class="item" v-else>
                     <span class="iconfont icon-shoucanggedan"></span>
-                    <span>{{ changeValue(playlist.subscribedCount, 1) }}</span>
+                    <span>{{
+                        playlist.subscribedCount === 0
+                            ? "收藏"
+                            : changeValue(playlist.subscribedCount, 1)
+                    }}</span>
                 </div>
                 <div class="item">
                     <span class="iconfont icon-pinglun"></span>
-                    <span>{{ changeValue(playlist.commentCount, 1) }}</span>
+                    <span>{{
+                        playlist.subscribedCount === 0
+                            ? "评论"
+                            : changeValue(playlist.commentCount, 1)
+                    }}</span>
                 </div>
                 <div class="item">
                     <span class="iconfont icon-fenxiang"></span>
-                    <span>{{ changeValue(playlist.shareCount, 1) }}</span>
+                    <span>{{
+                        playlist.subscribedCount === 0
+                            ? "分享"
+                            : changeValue(playlist.shareCount, 1)
+                    }}</span>
                 </div>
             </div>
         </div>
@@ -128,7 +157,7 @@ export default {
             background-position: center;
             background-repeat: no-repeat;
             transform: scale(1.2);
-            filter: blur(40px) contrast(0.8) brightness(0.8);
+            filter: blur(70px) contrast(0.8) brightness(0.8);
         }
         .bg::after {
             content: "";
@@ -199,14 +228,17 @@ export default {
                         overflow: hidden;
                         margin-bottom: 4px;
                         color: #fff;
-                        font-size: 13px;
+                        font-size: 14px;
                         white-space: nowrap;
                         text-overflow: ellipsis;
+                        &.hasDescription {
+                            margin-bottom: 34px;
+                        }
                     }
                     .author {
                         display: flex;
                         align-items: center;
-                        color: rgb(216, 216, 216);
+                        color: rgb(226, 226, 226);
                         font-size: 12px;
                         font-weight: 700;
                         .header {
@@ -239,7 +271,7 @@ export default {
                 }
             }
         }
-        .playList-info {
+        .playListInfo {
             display: flex;
             justify-content: space-between;
             position: absolute;
@@ -247,7 +279,7 @@ export default {
             bottom: -30px;
             transform: translateX(-50%);
             width: 88%;
-            padding: 10px;
+            padding: 14px;
             background-color: #fff;
             box-shadow: 1px 1px 1px rgba(209, 209, 209, 0.5);
             border-radius: 20px;

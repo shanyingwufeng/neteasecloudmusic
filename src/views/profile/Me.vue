@@ -52,7 +52,7 @@
         <CenterNav />
 
         <!-- 我喜欢的音乐 -->
-        <MyLoveMusic />
+        <MyLoveMusic :data="playlist[0]" />
 
         <!-- 创建和收藏歌单 -->
         <div class="createAndCollectPlayList">
@@ -73,7 +73,7 @@
         </div>
 
         <!-- 创建歌单 -->
-        <CreatePlayList />
+        <CreatePlayList :list="playlist" />
 
         <!-- 收藏 -->
         <CollectPlayList />
@@ -92,8 +92,12 @@ import CollectPlayList from "@/views/profile/CollectPlayList.vue";
 import RecommendForYou from "@/views/profile/RecommendForYou.vue";
 import { onMounted, reactive, toRefs } from "vue";
 import { useStore } from "vuex";
-
-import { getsublist } from "@/api/index.js";
+import {
+    getUserSubCount,
+    getUserDetail,
+    getUserLevel,
+    getUserPlayList,
+} from "@/api/index.js";
 
 export default {
     name: "Me",
@@ -110,6 +114,7 @@ export default {
             isSideBarShow: false,
             create: true,
             collect: false,
+            playlist: [],
         });
 
         const createClick = () => {
@@ -130,17 +135,27 @@ export default {
 
         // padding-bottom根据有没有本地存储的音乐而变化
         const pb = () => {
-            return store.state.playControl.songName ? "120px" : "80px";
+            return store.state.playControl.songName ? "140px" : "100px";
         };
 
         onMounted(() => {
-            getsublist().then((res) => {
-                if (localStorage.getItem("cookie")) {
-                    console.log(res.data);
-                    store.state.user.picUrl = res.data.profile.avatarUrl;
-                    store.state.user.nickName = res.data.profile.nickname;
-                }
-            });
+            if (localStorage.getItem("userLoginInfo")) {
+                store.commit(
+                    "setUser",
+                    JSON.parse(localStorage.getItem("userLoginInfo"))
+                );
+                getUserDetail(store.state.user.id).then((res) => {
+                    // console.log(res.data);
+                });
+                getUserLevel().then((res) => {
+                    // console.log(res.data);
+                });
+                getUserPlayList(store.state.user.id).then((res) => {
+                    // console.log(res.data);
+                    state.playlist = res.data.playlist;
+                    // console.log(state.playlist);
+                });
+            }
         });
 
         return {
@@ -191,16 +206,16 @@ export default {
             }
             .img {
                 margin-right: 10px;
-                width: 40px;
-                height: 40px;
+                width: 44px;
+                height: 44px;
                 border-radius: 50%;
             }
             .username {
-                font-size: 18px;
+                margin-right: 2px;
+                font-size: 16px;
             }
             .icon-youjiantou {
-                margin-top: 4px;
-                font-size: 14px;
+                font-size: 12px;
             }
         }
     }

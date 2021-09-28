@@ -38,7 +38,7 @@ export default {
                 state.list = res.data.banners;
                 new Swiper(".slideShow-swiper", {
                     autoplay: {
-                        delay: 5000,
+                        delay: 6000,
                         disableOnInteraction: false,
                     },
                     loop: true,
@@ -97,7 +97,7 @@ export default {
             .swiper-pagination-bullet {
                 display: inline-block;
                 width: 8px;
-                height: 4px;
+                height: 2px;
                 margin: 0 4px;
                 background-color: #000;
                 border-radius: 4px;
