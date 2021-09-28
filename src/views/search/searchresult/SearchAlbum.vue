@@ -69,13 +69,13 @@ export default {
 <style scoped lang='scss'>
 .searchAlbum {
     margin-bottom: 14px;
-    background-color: #fff;
+    background-color: $color-white-background;
     border-radius: 10px;
     .titleBar {
         font-size: 16px;
     }
     .list {
-        padding: 0 var(--padding);
+        padding: 0 $padding;
         .item {
             display: flex;
             align-items: center;
@@ -93,10 +93,12 @@ export default {
                     display: flex;
                     flex-direction: column;
                     .name {
+                        @include ellipsis1();
                         margin-bottom: 4px;
                         font-size: 16px;
                     }
                     .author {
+                        @include ellipsis1();
                         color: grey;
                         font-size: 10px;
                     }

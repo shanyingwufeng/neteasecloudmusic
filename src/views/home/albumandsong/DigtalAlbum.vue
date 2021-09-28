@@ -73,10 +73,12 @@ export default {
 
 <style scoped lang='scss'>
 .digtalAlbum {
-    padding: var(--padding);
-    padding-top: 0;
+    padding: $padding;
+    padding-top: 8px;
     padding-right: 0;
-    background-color: #fff;
+    background-color: $color-white-background;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     .list {
         .swiper-container {
             padding-right: 24px;
@@ -105,36 +107,24 @@ export default {
                             flex-direction: column;
                             padding: 12px 0;
                             padding-right: 14px;
-                            border-bottom: 1px solid rgba(235, 234, 234, 0.5);
+                            border-bottom: 1px solid rgba(234, 234, 234, 0.5);
                             .top {
                                 display: flex;
                                 align-items: center;
                                 margin-bottom: 4px;
                                 .mainTitle {
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
-                                    display: -webkit-box;
-                                    -webkit-line-clamp: 1;
-                                    -webkit-box-orient: vertical;
+                                    @include ellipsis1();
                                     margin-right: 4px;
                                     font-size: 16px;
                                 }
                                 .author {
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
-                                    display: -webkit-box;
-                                    -webkit-line-clamp: 1;
-                                    -webkit-box-orient: vertical;
+                                    @include ellipsis1();
                                     color: grey;
                                     font-size: 12px;
                                 }
                             }
                             .subTitle {
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                display: -webkit-box;
-                                -webkit-line-clamp: 1;
-                                -webkit-box-orient: vertical;
+                                @include ellipsis1();
                                 color: grey;
                                 font-size: 12px;
                             }

@@ -1,5 +1,6 @@
 import { request } from "./request";
-
+import $store from "@/store/index.js";
+ 
 // 获取歌单详情
 export function getPlayListDetail(id) {
     return request({
@@ -14,10 +15,10 @@ export function getSongDetail(id) {
     })
 }
 
-// 手机登录
-export function phoneLogin(phone, password) {
+// 邮箱登录
+export function emailLogin(email, password) {
     return request({
-        url: `/login/cellphone?phone=${phone}&password=${password}`
+        url: `/login?email=${email}&password=${password}`
     })
 }
 
@@ -32,5 +33,12 @@ export function userDetail(id) {
 export function getTopList() {
     return request({
         url: '/toplist',
+    })
+}
+
+// 说明 : 收藏歌手列表
+export function getsublist() {
+    return request({
+        url: `/user/account?cookie=${localStorage.getItem("cookie")}`,
     })
 }

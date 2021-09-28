@@ -1,10 +1,11 @@
 <!-- 首页-顶部栏 -->
 <template>
-    <div class="topBar">
+    <div class="topBar" :class="{ scroll: scroll }">
         <div class="left">
             <van-cell
                 @click="showSideBar"
                 class="iconfont icon-icon-"
+                :class="{ scroll: scroll }"
             ></van-cell>
             <van-popup
                 v-model:show="isSideBarShow"
@@ -19,7 +20,7 @@
                 <SideBar />
             </van-popup>
         </div>
-        <router-link class="center" to="/search">
+        <router-link class="center" :class="{ scroll: scroll }" to="/search">
             <div>
                 <span class="iconfont icon-sousuo"></span>
             </div>
@@ -46,17 +47,22 @@
 <script>
 import SideBar from "@/views/home/SideBar.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { toRefs, reactive, onMounted, onActivated, onDeactivated } from "vue";
+import { toRefs, reactive, onActivated, onDeactivated, onMounted } from "vue";
 import { getSearchHot } from "@/api/search/index";
 
 export default {
     name: "TopBar",
-    components: { SideBar, Swiper, SwiperSlide },
+    components: {
+        SideBar,
+        Swiper,
+        SwiperSlide,
+    },
     setup() {
         const state = reactive({
             isSideBarShow: false,
             searchKeyword: [],
             isSwiperKeep: false,
+            scroll: false,
         });
 
         const showSideBar = () => {
@@ -64,24 +70,41 @@ export default {
         };
 
         // swiper相关配置属性放在swiper_options这个变量里
-        let swiper_options = reactive({
+        const swiper_options = reactive({
             autoplay: {
                 delay: 4000,
                 disableOnInteraction: false,
             },
             loop: true,
-            speed: 600,
+            speed: 1400,
             direction: "vertical",
+            observeParents: true,
+            observer: true,
         });
 
+        const windowScroll = () => {
+            // 滚动条距离页面顶部的距离
+            // 以下写法原生兼容
+            let scrollTop =
+                window.pageYOffset ||
+                document.documentElement.scrollTop ||
+                document.body.scrollTop;
+            if (scrollTop !== 0) {
+                state.scroll = true;
+            } else {
+                state.scroll = false;
+            }
+        };
+
         onMounted(() => {
-            getSearchHot().then((res) => {
-                state.searchKeyword = res.data.result.hots;
-            });
+            window.addEventListener("scroll", windowScroll);
         });
 
         onActivated(() => {
             state.isSwiperKeep = true;
+            getSearchHot().then((res) => {
+                state.searchKeyword = res.data.result.hots;
+            });
         });
 
         onDeactivated(() => {
@@ -95,19 +118,31 @@ export default {
 
 <style scoped lang='scss'>
 .topBar {
+    position: sticky;
+    top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--padding);
-    background-color: var(--color-home-topbarandslideshow-background);
+    width: 100%;
+    padding: $padding;
+    background-color: rgb(240, 240, 240);
+    box-shadow: 0 -1px $color-white-background;
+    z-index: 999;
+    &.scroll {
+        padding-bottom: 8px;
+        background-color: $color-white-background;
+    }
     .left {
         .van-cell {
             display: flex;
             padding: 0;
-            background-color: var(--color-home-topbarandslideshow-background);
+            background-color: rgb(240, 240, 240);
             &:before {
                 color: #555;
-                font-size: 20px;
+                font-size: $font-size-medium;
+            }
+            &.scroll {
+                background-color: $color-white-background;
             }
         }
     }
@@ -117,10 +152,14 @@ export default {
         width: 82%;
         height: 30px;
         padding: 0 12px;
-        background-color: #fff;
+        background-color: $color-white-background;
         border-radius: 14px;
+        &.scroll {
+            background-color: rgba(235, 235, 235, 0.5);
+        }
         .iconfont {
-            margin-right: 8px;
+            margin-right: 6px;
+            color: rgb(148, 148, 148);
             font-size: 14px;
         }
         .searchKeyword {
@@ -128,10 +167,12 @@ export default {
             height: 30px;
             line-height: 30px;
             color: #999;
-            font-size: 12px;
             .text {
                 color: rgb(148, 148, 148);
                 font-size: 14px;
+            }
+            .swiper-container {
+                height: 60px;
             }
         }
     }

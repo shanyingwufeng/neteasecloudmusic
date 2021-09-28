@@ -1,7 +1,7 @@
 <!-- 首页-音乐日历 -->
 <template>
-    <div class="musicCalendar home-playList">
-        <TitleBar :titleBarName="titleBarName" rightText="更多"  />
+    <div class="musicCalendar home-card">
+        <TitleBar :titleBarName="titleBarName" rightText="更多" />
         <Ad adLeft="领取你的今日好运" adRight="查看运势解读" />
         <div class="detail">
             <div class="list" v-for="(item, id) in list" :key="id">
@@ -60,21 +60,17 @@ export default {
 <style scoped lang='scss'>
 .musicCalendar {
     .detail {
-        padding: var(--padding);
+        padding: $padding;
         .list {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: var(--padding);
+            padding-bottom: $padding;
             border-bottom: 1px solid
                 rgba($color: rgb(221, 221, 221), $alpha: 0.4);
             .left {
                 .title {
-                    overflow: hidden;
-                    -webkit-line-clamp: 1;
-                    text-overflow: ellipsis;
-                    display: -webkit-box;
-                    -webkit-box-orient: vertical;
+                    @include ellipsis1();
                     margin-top: 4px;
                     font-size: 14px;
                 }
@@ -98,7 +94,7 @@ export default {
                 }
             }
             &:last-child {
-                padding-top: var(--padding);
+                padding-top: $padding;
                 padding-bottom: 0;
                 border-bottom: 0;
             }

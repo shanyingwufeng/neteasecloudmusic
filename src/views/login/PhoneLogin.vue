@@ -62,6 +62,7 @@ import {
     verifyPhoneCaptcha,
 } from "@/api/login/index.js";
 import CaptchaInputBox from "@/components/CaptchaInputBox.vue";
+import { useRouter } from 'vue-router';
 
 export default {
     name: "PhoneLogin",
@@ -71,17 +72,22 @@ export default {
             phoneNumber: "",
             phoneInput: "",
             hasVerificationCode: false,
-            count: 10,
+            count: 60,
             sendCode: false,
             verificationCode: 0,
         });
 
+        const router = useRouter();
+
         const input = (code) => {
-            if (code.length >= 6) {
-                state.verificationCode = code.slice(0, 6);
-                verifyPhoneCaptcha(state.phoneNumber, verifyPhoneCaptcha).then(
+            if (code.length >= 4) {
+                state.verificationCode = code.slice(0, 4);
+                verifyPhoneCaptcha(state.phoneNumber, state.verificationCode).then(
                     (res) => {
-                        console.log(res.data);
+                        if (res.data.data) {
+                            console.log(res);
+                            router.push("/me");
+                        }   
                     }
                 );
             }
@@ -108,6 +114,8 @@ export default {
                 state.phoneInput.focus();
                 return false;
             } else {
+                // state.hasVerificationCode = true;
+                // startTimer();
                 getPhoneVerificationCode(state.phoneNumber).then((res) => {
                     console.log(res.data);
                     if (res.data.data) {
@@ -148,23 +156,24 @@ export default {
     position: fixed;
     width: 100%;
     height: 100vh;
-    padding: var(--padding);
+    padding: $padding;
     padding-top: 20px;
-    background-color: #fff;
+    background-color: $color-white-background;
     z-index: 999;
     .topBar {
         display: flex;
         justify-content: space-between;
         align-items: center;
         .left {
+            display: flex;
+            align-items: center;
             .iconfont {
+                margin-top: 2px;
                 margin-right: 14px;
-                font-size: 16px;
-                vertical-align: middle;
+                font-size: 18px;
             }
             .title {
                 font-size: 18px;
-                vertical-align: middle;
             }
         }
         .right {

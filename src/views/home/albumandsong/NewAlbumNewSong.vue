@@ -66,7 +66,7 @@ export default {
     .van-tabs__nav {
         display: flex;
         align-items: center;
-        padding-left: var(--padding);
+        padding-left: $padding;
         padding-top: 6px;
         padding-bottom: 0;
         border-radius: 10px;
@@ -78,11 +78,11 @@ export default {
                 content: "";
                 position: absolute;
                 top: 50%;
-                right: 10px;
+                right: 8px;
                 transform: translateY(-50%);
                 width: 1px;
                 height: 80%;
-                background-color: rgb(204, 201, 201);
+                background-color: rgb(201, 201, 201);
             }
             &:nth-last-child(2) {
                 flex: 0.2;

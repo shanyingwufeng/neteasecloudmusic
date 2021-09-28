@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { phoneLogin, userDetail } from "@/api/index.js";
+import { emailLogin, userDetail } from "@/api/index.js";
 
 export default createStore({
     state: {
@@ -30,6 +30,7 @@ export default createStore({
             account: {},
             userDetail: {},
             nickName: '',
+            picUrl: '',
         },
 
         // 加载等待
@@ -139,15 +140,19 @@ export default createStore({
     },
 
     actions: {
-        async login(content, payload) {
-            // console.log(payload);
-            let result = await phoneLogin(payload.username, payload.password);
+        async emailLogin(content, payload) {
+            console.log(payload);
+            const result = await emailLogin(payload.email, payload.password);
+            console.log(result);
             if (result.data.code == 200) {
                 content.state.user.isLogin = true;
                 content.state.user.account = result.data.account;
+                localStorage.cookie = JSON.stringify(encodeURIComponent(result.data.cookie));
                 let userInfo = await userDetail(result.data.account.id);
+                console.log(userInfo);
                 content.state.user.nickName = result.data.profile.nickname;
                 content.state.user.userDetail = userInfo.data;
+                content.state.user.picUrl = userInfo.data.profile.avatarUrl;
                 localStorage.userLoginInfo = JSON.stringify(content.state.user);
                 content.commit("setUser", content.state.user);
             }

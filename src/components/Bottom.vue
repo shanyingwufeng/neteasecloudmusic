@@ -87,12 +87,12 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #fff;
+    background-color: $color-white-background;
     z-index: 99;
     .playControl {
         position: relative;
         padding: 8px 10px;
-        background-color: #fff;
+        background-color: $color-white-background;
         border-top: 1px solid rgba(210, 210, 210, 0.2);
         border-bottom: 1px solid rgba(210, 210, 210, 0.2);
         .left {
@@ -134,7 +134,7 @@ export default {
         justify-content: space-around;
         align-items: center;
         padding: 6px 0 4px 0;
-        background-color: #fff;
+        background-color: $color-white-background;
         .tab-bar-item {
             display: flex;
             flex-direction: column;

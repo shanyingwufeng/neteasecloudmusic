@@ -123,7 +123,7 @@ export default {
                 align-items: center;
                 padding-top: 0;
                 padding-left: 0;
-                background-color: #f4f4f4;
+                background-color: $color-background;
                 .van-tab {
                     display: block;
                     flex: 0.2;
@@ -145,9 +145,9 @@ export default {
                 flex-wrap: wrap;
                 justify-content: center;
                 align-items: center;
-                padding: var(--padding);
+                padding: $padding;
                 padding-top: 10px;
-                background-color: #fff;
+                background-color: $color-white-background;
                 border-radius: 8px;
                 box-shadow: 2px 2px 10px rgb(236, 236, 236);
                 .item {
@@ -168,9 +168,7 @@ export default {
                             }
                         }
                         .searchWord {
-                            overflow: hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
+                            @include ellipsis1();
                             color: #444;
                             font-size: 14px;
                             margin: 0 6px 0 10px;

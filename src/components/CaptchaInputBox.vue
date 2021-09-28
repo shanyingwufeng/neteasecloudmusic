@@ -21,7 +21,7 @@ export default {
     props: {
         size: {
             type: [String, Number],
-            default: 6,
+            default: 4,
         },
     },
     data() {
@@ -32,7 +32,7 @@ export default {
     },
     watch: {
         code() {
-            this.code = this.code.toString().slice(0, 6);
+            this.code = this.code.toString().slice(0, 4);
             this.current = this.code.length;
             this.$emit("input", this.code);
         },
@@ -42,7 +42,7 @@ export default {
             return typeof this.size == "number" ? this.size : Number(this.size);
         },
         loopDiv() {
-            return new Array(6);
+            return new Array(4);
         },
     },
     methods: {
@@ -81,7 +81,7 @@ export default {
 }
 
 .captchaInputBox {
-    padding: 0 22px;
+    padding: 0 10px;
     .confirm-warpper {
         input {
             position: absolute;

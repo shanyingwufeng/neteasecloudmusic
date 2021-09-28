@@ -1,7 +1,7 @@
 <!-- 首页-雷达歌单 -->
 <template>
-    <div class="radar-playList home-playList">
-        <TitleBar :titleBarName="titleBarName" rightText="更多" />
+    <div class="radar-playList home-card">
+        <TitleBar titleBarName="雷达歌单" rightText="更多" />
         <PlayListSwiper :list="list" :point="0" />
     </div>
 </template>
@@ -22,7 +22,6 @@ export default {
         });
 
         onUpdated(() => {
-            state.titleBarName = props.data.uiElement.subTitle.title;
             state.list = props.data.creatives;
         });
 

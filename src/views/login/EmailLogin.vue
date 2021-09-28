@@ -22,7 +22,7 @@
                 v-model="password"
                 class="passwordInput"
             />
-            <van-button round block type="primary" @click="submit()">
+            <van-button round block type="primary" @click="login()">
                 登录
             </van-button>
             <div class="resetPassword">
@@ -36,53 +36,42 @@
 </template>
 
 <script>
-import { nextTick, onMounted, reactive, toRefs } from "vue";
+import { onMounted, reactive, toRefs } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
     name: "EmailLogin",
     components: {},
-
     setup() {
         const state = reactive({
             emailInput: "",
+            email: "",
+            password: "",
         });
+
+        const store = useStore();
+        const router = useRouter();
+
+        const login = async () => {
+            const result = await store.dispatch("emailLogin", {
+                email: state.email,
+                password: state.password,
+            });
+            if (result.data.code == 200) {
+                router.push("/me");
+            }
+        };
 
         onMounted(() => {
             state.emailInput.focus();
         });
 
-        return { ...toRefs(state) };
-    },
-    data() {
         return {
-            email: "",
-            password: "",
+            ...toRefs(state),
+            login,
         };
     },
-    methods: {
-        async loginEvent() {
-            let result = await this.$store.dispatch("login", {
-                username: this.email,
-                password: this.password,
-            });
-            if (result.data.code == 200) {
-                this.$router.push("/me");
-            }
-        },
-        // add() {
-        //     console.log("111");
-        // }
-    },
-    // mounted() {
-    //     this.$refs.getFocus.click();
-    // },
-    // watch: {
-    //     $route(to) {
-    //         if (to.path === "/") {
-    //             location.reload();
-    //         }
-    //     },
-    // },
 };
 </script>
 
@@ -91,9 +80,9 @@ export default {
     position: fixed;
     width: 100%;
     height: 100vh;
-    padding: var(--padding);
+    padding: $padding;
     padding-top: 20px;
-    background-color: #fff;
+    background-color: $color-white-background;
     z-index: 999;
     .topBar {
         display: flex;
@@ -118,7 +107,7 @@ export default {
             caret-color: red;
         }
         input.emailInput {
-            margin-bottom: 46px;
+            margin-bottom: 40px;
         }
         .van-button {
             height: 40px;

@@ -1,7 +1,7 @@
 <!-- 首页-轮播图 -->
 <template>
     <div class="slideShow">
-        <div class="swiper-container slideShow-swiper">
+        <div class="swiper-container slideShow-swiper" v-if="isSwiperKeep">
             <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, id) in list" :key="id">
                     <a :href="item.url">
@@ -15,13 +15,13 @@
 </template>
 
 <script>
-import { onUpdated, onMounted, reactive, toRefs } from "vue";
+import { reactive, onActivated, onDeactivated, toRefs } from "vue";
+import { getHomePageBanner } from "@/api/home/index.js";
 import { Swiper } from "swiper";
 
 export default {
     name: "SlideShow",
-    props: ["data"],
-    setup(props) {
+    setup() {
         const state = reactive({
             list: [
                 { pic: require("@/assets/slideshow/swiper1.jpg") },
@@ -32,22 +32,29 @@ export default {
             isSwiperKeep: false,
         });
 
-        onUpdated(() => {
-            state.list = props.data.extInfo.banners;
-            new Swiper(".slideShow-swiper", {
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                },
-                loop: true,
-                speed: 400,
-                observeParents: true,
-                observer: true,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
+        onActivated(() => {
+            state.isSwiperKeep = true;
+            getHomePageBanner().then((res) => {
+                state.list = res.data.banners;
+                new Swiper(".slideShow-swiper", {
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    loop: true,
+                    speed: 400,
+                    observeParents: true,
+                    observer: true,
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
+                });
             });
+        });
+
+        onDeactivated(() => {
+            state.isSwiperKeep = false;
         });
 
         return { ...toRefs(state) };
@@ -58,11 +65,12 @@ export default {
 <style lang='scss'>
 .slideShow {
     display: flex;
-    padding: 0 var(--padding);
+    padding: 0 $padding;
     background: linear-gradient(
         to bottom,
-        var(--color-home-topbarandslideshow-background),
-        #fff
+        rgb(240, 240, 240),
+        rgb(245, 245, 245),
+        $color-white-background
     );
     .swiper-container {
         position: relative;
@@ -72,6 +80,7 @@ export default {
                 img {
                     display: block;
                     width: 100%;
+                    height: 100%;
                     border-radius: 8px;
                 }
             }
@@ -88,14 +97,14 @@ export default {
             .swiper-pagination-bullet {
                 display: inline-block;
                 width: 8px;
-                height: 3px;
-                margin: 0 3px;
-                border-radius: 4px;
+                height: 4px;
+                margin: 0 4px;
                 background-color: #000;
+                border-radius: 4px;
                 opacity: 0.2;
             }
             .swiper-pagination-bullet-active {
-                background-color: #fff;
+                background-color: $color-white-background;
                 opacity: 1;
             }
         }

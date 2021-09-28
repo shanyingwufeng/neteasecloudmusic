@@ -34,7 +34,7 @@ export default {
     flex-wrap: wrap;
     margin-bottom: 14px;
     padding: 20px 0;
-    background-color: #fff;
+    background-color: $color-white-background;
     border-radius: 10px;
     .item {
         flex: 25%;

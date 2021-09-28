@@ -56,13 +56,13 @@ export default {
 <style scoped lang='scss'>
 .searchArtist {
     margin-bottom: 14px;
-    background-color: #fff;
+    background-color: $color-white-background;
     border-radius: 10px;
     .titleBar {
         font-size: 16px;
     }
     .list {
-        padding: 0 var(--padding);
+        padding: 0 $padding;
         .item {
             display: flex;
             align-items: center;
@@ -78,6 +78,7 @@ export default {
                     border-radius: 50%;
                 }
                 .name {
+                    @include ellipsis1();
                     font-size: 16px;
                 }
             }

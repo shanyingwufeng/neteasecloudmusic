@@ -11,3 +11,16 @@ export function changeValue(num, point = 0) {
     }
     return result;
 }
+
+export function getRandomArrayValue(arr, num) {
+    var sData = arr.slice(0), i = arr.length, min = i - num, item, index;
+    while (i-- > min) {
+        index = Math.floor((i + 1) * Math.random());
+        item = sData[index];
+        sData[index] = sData[i];
+        sData[i] = item;
+    }
+    return sData.slice(min);
+}
+
+

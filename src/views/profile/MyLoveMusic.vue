@@ -27,8 +27,8 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--padding);
-    background-color: #fff;
+    padding: $padding;
+    background-color: $color-white-background;
     border-radius: 10px;
     .left {
         display: flex;

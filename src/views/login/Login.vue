@@ -1,7 +1,7 @@
 <!-- 登录页面 -->
 <template>
     <div class="login">
-        <img src="@/assets/wangyilogo.jpg" />
+        <img src="@/assets/login-wangyilogo.jpg" />
         <!-- 向周围扩散的圆圈 -->
         <div class="circle">
             <div class="pulse1"></div>

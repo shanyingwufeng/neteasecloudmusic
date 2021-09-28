@@ -1,0 +1,24 @@
+html,
+body {
+    height: 100%;
+    color: $color-text;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+.iconfont {
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.home-card {
+    margin-bottom: 10px;
+    background-color: $color-white-background;
+    border-radius: 10px;
+    .home-card-swiper {
+        padding: 0 0 $padding $padding;
+    }
+}

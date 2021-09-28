@@ -136,7 +136,7 @@ export default {
             width: 100%;
             margin-top: 5px;
             padding-bottom: 4px;
-            background-color: #f4f4f4;
+            background-color: $color-background;
             border: 0;
             border-bottom: 1px solid rgba(161, 161, 161, 0.6);
             font-size: 16px;

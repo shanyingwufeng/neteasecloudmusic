@@ -26,7 +26,11 @@
             <!-- 搜索历史 -->
             <SearchHistory @search="search" />
             <!-- 热搜榜 -->
-            <HotSearchList :data="detailSearchHot" :mvData="detailSearchMvHot" @search="search" />
+            <HotSearchList
+                :data="detailSearchHot"
+                :mvData="detailSearchMvHot"
+                @search="search"
+            />
             <!-- 音乐专区 -->
             <MusicZone />
             <!-- 推荐活动 -->
@@ -34,7 +38,11 @@
         </div>
 
         <!-- 搜索结果 -->
-        <SearchResult :data="searchSongs" v-if="searchResult" @search="search" />
+        <SearchResult
+            :data="searchSongs"
+            v-if="searchResult"
+            @search="search"
+        />
     </div>
 </template>
 
@@ -214,8 +222,8 @@ export default {
 .search {
     height: 100%;
     overflow: scroll;
-    padding: var(--padding);
-    background-color: #f4f4f4;
+    padding: $padding;
+    background: $color-background;
     .searchInput {
         position: relative;
         display: flex;
@@ -229,7 +237,7 @@ export default {
             width: 100%;
             margin-top: 5px;
             padding-bottom: 4px;
-            background-color: #f4f4f4;
+            background-color: $color-background;
             border: 0;
             border-bottom: 1px solid rgba(161, 161, 161, 0.6);
             font-size: 16px;

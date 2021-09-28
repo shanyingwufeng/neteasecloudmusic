@@ -65,7 +65,7 @@ export default {
 <style scoped lang='scss'>
 .centerNav {
     display: flex;
-    padding: var(--padding) 0;
+    padding: 14px 0;
     padding-left: 8px;
     background-color: #fff;
     border-bottom: 1px solid rgb(241, 239, 239);

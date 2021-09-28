@@ -56,13 +56,13 @@ export default {
 <style scoped lang='scss'>
 .searchUser {
     margin-bottom: 14px;
-    background-color: #fff;
+    background-color: $color-white-background;
     border-radius: 10px;
     .titleBar {
         font-size: 16px;
     }
     .list {
-        padding: 0 var(--padding);
+        padding: 0 $padding;
         .item {
             display: flex;
             align-items: center;
@@ -87,9 +87,7 @@ export default {
                         font-size: 16px;
                     }
                     .signature {
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
+                        @include ellipsis1();
                         color: grey;
                         font-size: 10px;
                     }

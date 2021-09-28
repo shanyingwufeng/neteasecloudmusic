@@ -30,15 +30,21 @@
         <!-- 立即登录 -->
         <div class="logo">
             <router-link class="user" to="/login">
-                <span class="iconfont icon-user"></span>
+                <span
+                    class="iconfont icon-user"
+                    v-if="!$store.state.user.picUrl"
+                ></span>
+                <img
+                    :src="$store.state.user.picUrl"
+                    class="img"
+                    v-if="$store.state.user.picUrl"
+                />
                 <span class="username">{{
                     $store.state.user.nickName
                         ? $store.state.user.nickName
                         : "立即登录"
                 }}</span>
-                <div>
-                    <span class="iconfont icon-youjiantou"></span>
-                </div>
+                <span class="iconfont icon-youjiantou"></span>
             </router-link>
         </div>
 
@@ -84,8 +90,10 @@ import MyLoveMusic from "@/views/profile/MyLoveMusic.vue";
 import CreatePlayList from "@/views/profile/CreatePlayList.vue";
 import CollectPlayList from "@/views/profile/CollectPlayList.vue";
 import RecommendForYou from "@/views/profile/RecommendForYou.vue";
-import { reactive, toRefs } from "vue";
-import {useStore} from "vuex"
+import { onMounted, reactive, toRefs } from "vue";
+import { useStore } from "vuex";
+
+import { getsublist } from "@/api/index.js";
 
 export default {
     name: "Me",
@@ -125,6 +133,16 @@ export default {
             return store.state.playControl.songName ? "120px" : "80px";
         };
 
+        onMounted(() => {
+            getsublist().then((res) => {
+                if (localStorage.getItem("cookie")) {
+                    console.log(res.data);
+                    store.state.user.picUrl = res.data.profile.avatarUrl;
+                    store.state.user.nickName = res.data.profile.nickname;
+                }
+            });
+        });
+
         return {
             ...toRefs(state),
             showSideBar,
@@ -139,8 +157,7 @@ export default {
 <style scoped lang='scss'>
 .me {
     overflow: scroll;
-    height: 100%;
-    padding: 0 var(--padding);
+    padding: 0 $padding;
     background-color: #f5f5f5;
     .topBar {
         display: flex;
@@ -150,7 +167,7 @@ export default {
         .left {
             .van-cell {
                 padding: 0;
-                background-color: #f5f5f5;
+                background-color: $color-background;
                 font-size: 20px;
             }
         }
@@ -170,13 +187,20 @@ export default {
             .icon-user {
                 margin-right: 10px;
                 color: rgb(243, 54, 54);
-                font-size: 30px;
+                font-size: 36px;
+            }
+            .img {
+                margin-right: 10px;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
             }
             .username {
-                font-size: 16px;
+                font-size: 18px;
             }
             .icon-youjiantou {
-                font-size: 16px;
+                margin-top: 4px;
+                font-size: 14px;
             }
         }
     }
@@ -198,7 +222,7 @@ export default {
                 &.redLine::before {
                     content: "";
                     position: absolute;
-                    bottom: 0;
+                    bottom: -6px;
                     left: 50%;
                     transform: translateX(-50%);
                     width: 60px;

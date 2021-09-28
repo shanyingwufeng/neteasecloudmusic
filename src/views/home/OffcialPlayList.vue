@@ -1,6 +1,6 @@
 <!-- 首页-专属场景歌单 -->
 <template>
-    <div class="offcial-playList home-playList">
+    <div class="offcial-playList home-card">
         <TitleBar :titleBarName="titleBarName" rightText="更多" />
         <PlayListSwiper :list="list" :point="0" />
     </div>

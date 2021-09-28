@@ -95,9 +95,9 @@ export default {
             flex-direction: column;
             align-items: center;
             img {
-                width: 200px;
-                height: 200px;
-                margin: 80px 0 10px 0;
+                width: 170px;
+                height: 170px;
+                margin: 80px 0 20px 0;
                 border-radius: 12px;
             }
             .name {

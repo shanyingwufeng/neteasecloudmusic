@@ -1,6 +1,6 @@
 <!-- 首页-广播电台和24小时播客 -->
 <template>
-    <div class="broadCastAndPodCast24 home-playList">
+    <div class="broadCastAndPodCast24 home-card">
         <van-tabs v-model:active="active">
             <van-tab title="广播电台">
                 <div class="list">
@@ -81,12 +81,11 @@ export default {
 <style lang='scss'>
 .broadCastAndPodCast24 {
     padding-top: 8px;
-    padding-right: 0;
-    padding-bottom: 6px;
     .van-tabs__nav {
         display: flex;
         align-items: center;
-        padding-left: var(--padding);
+        padding-bottom: 0;
+        padding-left: $padding;
         border-radius: 10px;
         .van-tab {
             display: block;
@@ -121,12 +120,12 @@ export default {
     }
 
     .van-tabs__content {
-        padding-top: 6px;
+        padding: 8px 0 16px 0;
         .list {
             padding-left: var(--padding);
             padding-bottom: var(--padding);
             .swiper-container {
-                padding-right: 36px;
+                padding-right: 40px;
                 .swiper-wrapper {
                     display: flex;
                     justify-content: space-between;
@@ -166,11 +165,7 @@ export default {
                             font-size: 20px;
                         }
                         .name {
-                            overflow: hidden;
-                            -webkit-line-clamp: 1;
-                            text-overflow: ellipsis;
-                            display: -webkit-box;
-                            -webkit-box-orient: vertical;
+                            @include ellipsis1();
                             font-size: 14px;
                             line-height: 1.4;
                         }

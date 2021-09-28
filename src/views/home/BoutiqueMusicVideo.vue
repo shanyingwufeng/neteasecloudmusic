@@ -1,8 +1,8 @@
 <!-- 首页-精选音乐视频 -->
 <template>
-    <div class="boutique-music-video home-playList">
+    <div class="boutique-music-video home-card">
         <TitleBar :titleBarName="titleBarName" rightText="换一批" />
-        <div class="list home-playList-Swiper">
+        <div class="list home-card-swiper">
             <div class="swiper-container boutique-music-video-swiper">
                 <div class="swiper-wrapper">
                     <div
@@ -76,11 +76,7 @@ export default {
                         border-radius: 10px;
                     }
                     .name {
-                        overflow: hidden;
-                        display: -webkit-box;
-                        text-overflow: ellipsis;
-                        -webkit-line-clamp: 2;
-                        -webkit-box-orient: vertical;
+                        @include ellipsis2();
                     }
                 }
             }

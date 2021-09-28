@@ -1,8 +1,8 @@
 <!-- 首页-精品歌单 -->
 <template>
-    <div class="boutique-playList home-playList">
+    <div class="boutique-playList home-card">
         <TitleBar titleBarName="精品歌单" rightText="更多" />
-        <div class="list home-playList-Swiper">
+        <div class="list home-card-swiper">
             <div class="swiper-container boutique-playList-swiper">
                 <div class="swiper-wrapper">
                     <router-link
@@ -72,11 +72,7 @@ export default {
                         border-radius: 10px;
                     }
                     .name {
-                        overflow: hidden;
-                        display: -webkit-box;
-                        text-overflow: ellipsis;
-                        -webkit-line-clamp: 2;
-                        -webkit-box-orient: vertical;
+                        @include ellipsis2();
                     }
                 }
             }

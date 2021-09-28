@@ -23,8 +23,8 @@ export default {
 <style scoped lang='scss'>
 .collectPlayList {
     margin-top: 20px;
-    padding: var(--padding);
-    background-color: #fff;
+    padding: $padding;
+    background-color: $color-white-background;
     border-radius: 10px;
     .topBar {
         display: flex;

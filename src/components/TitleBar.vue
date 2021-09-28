@@ -42,23 +42,23 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--padding);
+    padding: $padding;
     .name {
-        font-size: 18px;
+        font-size: $font-size-medium;
     }
     .more {
         display: flex;
         align-items: center;
-        padding: 2px 8px;
-        border: 1px solid rgb(221, 219, 219);
+        padding: 2px 4px;
+        border: 1px solid rgb(219, 219, 219);
         border-radius: 12px;
-        font-size: 10px;
+        font-size: 8px;
         .icon-bofang3 {
-            margin-right: 2px;
+            margin-right: 1px;
             color: #555;
         }
         .icon-youjiantou {
-            margin-left: 2px;
+            margin-left: 1px;
         }
         .iconfont {
             font-size: 8px;

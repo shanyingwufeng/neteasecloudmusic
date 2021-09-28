@@ -43,7 +43,7 @@ export default {
 .searchSimQuery {
     margin-bottom: 14px;
     padding-bottom: 6px;
-    background-color: #fff;
+    background-color: $color-white-background;
     border-radius: 10px;
     .titleBar {
         font-size: 16px;
@@ -51,7 +51,7 @@ export default {
     .list {
         display: flex;
         flex-wrap: wrap;
-        padding: 0 var(--padding);
+        padding: 0 $padding;
         .item {
             margin-right: 12px;
             margin-bottom: 12px;

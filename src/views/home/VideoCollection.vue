@@ -1,6 +1,6 @@
 <!-- 首页-视频合辑 -->
 <template>
-    <div class="videoCollection home-playList" :style="{ paddingBottom: pb() }">
+    <div class="videoCollection home-card" :style="{ paddingBottom: pb() }">
         <TitleBar :titleBarName="titleBarName" rightText="更多" />
         <PlayListSwiper :list="list" :point="0" />
     </div>

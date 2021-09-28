@@ -171,7 +171,7 @@ export default {
             display: flex;
             margin-right: 10px;
             margin-bottom: 10px;
-            background-color: #fff;
+            background-color: $color-white-background;
             border-radius: 6px;
             .content.hasSubtitle {
                 flex: 1;

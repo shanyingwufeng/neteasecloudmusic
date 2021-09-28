@@ -4,11 +4,11 @@
         <!-- 顶部栏 -->
         <TopBar />
         <!-- 轮播图 -->
-        <SlideShow :data="banner" />
+        <SlideShow />
         <!-- 中间导航  -->
         <CenterNav />
         <!-- 推荐歌单 -->
-        <RecommendPlayList :data="recommendPlayList" />
+        <RecommendPlayList />
         <!-- 音乐日历 -->
         <MusicCalendar :data="musicCalendar" />
         <!-- 精品歌单 -->
@@ -44,8 +44,7 @@ import NewAlbumNewSong from "@/views/home/albumandsong/NewAlbumNewSong.vue";
 import OffcialPlayList from "@/views/home/OffcialPlayList.vue";
 import BroadCastAndPodCast24 from "@/views/home/BroadCastAndPodCast24.vue";
 import VideoCollection from "@/views/home/VideoCollection.vue";
-
-import { onMounted, reactive, toRefs } from "vue";
+import { onActivated, onMounted, reactive, toRefs } from "vue";
 import { getHomePageInfo } from "@/api/home/index.js";
 
 export default {
@@ -68,7 +67,6 @@ export default {
 
     setup() {
         const state = reactive({
-            banner: [], // 顶部轮播图
             recommendPlayList: "", // 推荐歌单
             musicCalendar: "", // 音乐日历
             musicVideo: "", // 精选音乐视频
@@ -79,9 +77,8 @@ export default {
             videoCollection: "", // 视频合辑
         });
 
-        onMounted(() => {
+        onActivated(() => {
             getHomePageInfo().then(async (res) => {
-                state.banner = res.data.data.blocks[0];
                 state.recommendPlayList = res.data.data.blocks[1];
                 state.newAlbumNewSong = res.data.data.blocks[2];
                 state.musicCalendar = res.data.data.blocks[3];
@@ -90,7 +87,7 @@ export default {
                 state.offcialPlayList = res.data.data.blocks[7];
                 state.broadCastAndPodCast24 = res.data.data.blocks[9];
                 state.videoCollection = res.data.data.blocks[10];
-                // console.log(res.data.data.blocks[9]);
+                // console.log(res.data.data.blocks[1]);
             });
         });
 
@@ -101,6 +98,7 @@ export default {
 
 <style scoped lang='scss'>
 .home {
-    background-color: #f5f5f5;
+    background: $color-background;
+    line-height: 1.3;
 }
 </style>

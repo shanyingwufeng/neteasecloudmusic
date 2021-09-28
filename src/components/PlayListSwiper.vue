@@ -1,6 +1,6 @@
 <!-- 轮播内容 -->
 <template>
-    <div class="playList-swiper home-playList-Swiper">
+    <div class="playList-swiper home-card-swiper">
         <div class="swiper-container swiper">
             <div class="swiper-wrapper">
                 <router-link
@@ -47,7 +47,7 @@ export default {
                 observer: true,
             });
         });
-        
+
         return { list };
     },
 };
@@ -69,11 +69,7 @@ export default {
                     border-radius: 10px;
                 }
                 .name {
-                    overflow: hidden;
-                    display: -webkit-box;
-                    text-overflow: ellipsis;
-                    -webkit-line-clamp: 2;
-                    -webkit-box-orient: vertical;
+                    @include ellipsis2();
                 }
             }
         }
