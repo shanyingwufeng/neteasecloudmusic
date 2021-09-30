@@ -46,6 +46,7 @@ import BroadCastAndPodCast24 from "@/views/home/BroadCastAndPodCast24.vue";
 import VideoCollection from "@/views/home/VideoCollection.vue";
 import { onActivated, onMounted, reactive, toRefs } from "vue";
 import { getHomePageInfo } from "@/api/home/index.js";
+import { useStore } from 'vuex';
 
 export default {
     name: "Home",
@@ -77,7 +78,10 @@ export default {
             videoCollection: "", // 视频合辑
         });
 
+        const store = useStore();
+
         onActivated(() => {
+            store.commit("bottom/setIsShow", true);
             getHomePageInfo().then(async (res) => {
                 state.recommendPlayList = res.data.data.blocks[1];
                 state.newAlbumNewSong = res.data.data.blocks[2];
@@ -87,7 +91,7 @@ export default {
                 state.offcialPlayList = res.data.data.blocks[7];
                 state.broadCastAndPodCast24 = res.data.data.blocks[9];
                 state.videoCollection = res.data.data.blocks[10];
-                // console.log(res.data.data.blocks[1]);
+                // console.log(res.data.data.blocks[5]);
             });
         });
 

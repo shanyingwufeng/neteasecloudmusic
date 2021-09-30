@@ -1,6 +1,5 @@
 <!-- 个人中心 -->
 <template>
-    <!-- {{ $store.state.user.account.userName }} -->
     <div class="me" :style="{ paddingBottom: pb() }">
         <!-- 顶部 -->
         <div class="topBar">
@@ -90,7 +89,7 @@ import MyLoveMusic from "@/views/profile/MyLoveMusic.vue";
 import CreatePlayList from "@/views/profile/CreatePlayList.vue";
 import CollectPlayList from "@/views/profile/CollectPlayList.vue";
 import RecommendForYou from "@/views/profile/RecommendForYou.vue";
-import { onMounted, reactive, toRefs } from "vue";
+import { computed, onMounted, reactive, toRefs } from "vue";
 import { useStore } from "vuex";
 import {
     getUserSubCount,
@@ -132,10 +131,13 @@ export default {
         };
 
         const store = useStore();
+        const paddingBottom = computed(() => {
+            return store.state.play.playSong.id ? "140px" : "80px";
+        });
 
         // padding-bottom根据有没有本地存储的音乐而变化
         const pb = () => {
-            return store.state.playControl.songName ? "140px" : "100px";
+            return paddingBottom.value;
         };
 
         onMounted(() => {
@@ -171,7 +173,6 @@ export default {
 
 <style scoped lang='scss'>
 .me {
-    overflow: scroll;
     padding: 0 $padding;
     background-color: #f5f5f5;
     .topBar {

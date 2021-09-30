@@ -36,25 +36,26 @@
 <script>
 import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import $store from "@/store/index.js";
+import { useStore } from "vuex";
 
 export default {
     name: "PlayListCover",
     setup() {
         const router = useRouter();
+        const store = useStore();
 
         onMounted(() => {
-            $store.commit("hiddenBottom");
+            store.commit("bottom/setIsShow", false);
         });
 
         const goBack = () => {
-            $store.commit("showBottom");
+            store.commit("bottom/setIsShow", true);
             router.go(-1);
         };
 
         return {
             goBack,
-            playListCover: computed(() => $store.state.playListCover),
+            playListCover: computed(() => store.state.playListCover),
         };
     },
 };

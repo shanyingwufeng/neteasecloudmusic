@@ -4,7 +4,7 @@
         <div class="topBar">
             <div class="left">
                 <span>创建歌单</span>
-                <span v-if="list">({{ list.length - 1 }}个)</span>
+                <span v-if="list.length">({{ list.length - 1 }}个)</span>
             </div>
             <div class="right">
                 <span class="iconfont icon-jia"></span>

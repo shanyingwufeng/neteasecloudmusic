@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import { reactive, onUpdated, toRefs } from "vue";
 import TitleBar from "@/components/TitleBar.vue";
 import PlayListSwiper from "@/components/PlayListSwiper.vue";
+import { reactive, onUpdated, toRefs } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -26,7 +26,7 @@ export default {
 
         // padding-bottom根据有没有本地存储的音乐而变化
         const pb = () => {
-            return store.state.playControl.songName ? "120px" : "80px";
+            return store.state.play.playSong.id ? "120px" : "60px";
         };
 
         onUpdated(() => {

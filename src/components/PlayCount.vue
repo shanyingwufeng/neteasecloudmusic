@@ -26,11 +26,11 @@ export default {
     display: flex;
     align-items: center;
     position: absolute;
-    top: 4px;
-    right: 4px;
+    top: 5px;
+    right: 5px;
     padding: 1px 4px;
-    background-color: rgb(85, 85, 85);
-    border-radius: 6px;
+    background-color: rgba(73, 73, 73, 0.7);
+    border-radius: 8px;
     color: #fff;
     opacity: 0.8;
     .iconfont {

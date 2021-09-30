@@ -1,12 +1,13 @@
 <!-- 播放页面 -->
 <template>
     <div class="playPage">
-        <img class="bg" v-lazy="$store.getters.songImgUrl" />
+        <img class="bg" v-lazy="playSong.imgUrl" />
         <div class="top">
             <span class="iconfont icon-jiantou9" @click="$router.go(-1)"></span>
-            <span class="songName">
-                {{ $store.getters.songName }}
-            </span>
+            <div class="songInfo">
+                <span class="songName">{{ playSong.name }}</span>
+                <span class="songAuthor">{{ playSong.author }}</span>
+            </div>
             <span class="iconfont icon-fenxiang"></span>
         </div>
         <div class="center">
@@ -20,7 +21,7 @@
             <img src="@/assets/disc.png" class="cd" />
             <!-- 歌曲图片 -->
             <img
-                v-lazy="$store.getters.songImgUrl"
+                v-lazy="playSong.imgUrl"
                 class="songImg"
                 :class="{
                     songImgRoute: play,
@@ -41,12 +42,16 @@
                 <span class="iconfont icon-shangyiqu"></span>
                 <span
                     v-if="!playState"
-                    class="iconfont icon-bofang playandstop"
+                    class="iconfont icon-bofang7 playandstop"
                     @click="musicPlay()"
                 ></span>
                 <span
                     v-else
-                    class="iconfont icon-zantingtingzhi21 playandstop"
+                    class="
+                        iconfont
+                        icon-pcduanbizhixiazaicishutubiao
+                        playandstop
+                    "
                     @click="musicPause()"
                 ></span>
                 <span class="iconfont icon-xiayiqu"></span>
@@ -77,21 +82,32 @@ export default {
         const musicPlay = () => {
             state.play = true;
             state.isPaused = false;
-            store.commit("setPlayState", true);
+            store.commit("play/setPlayState", true);
         };
 
         const musicPause = () => {
             state.isPaused = true;
-            store.commit("setPlayState", false);
+            store.commit("play/setPlayState", false);
         };
 
         onMounted(async () => {
             if (id) {
-                store.commit("setPlayState", false);
+                store.commit("play/setPlayState", false);
                 await getSongDetail(id).then((res) => {
-                    store.commit("setPlayControl", res.data.songs[0]);
+                    console.log(res.data);
+                    const playSong = {
+                        id: 0,
+                        name: "",
+                        author: "",
+                        imgUrl: "",
+                    };
+                    playSong.id = res.data.songs[0].id;
+                    playSong.name = res.data.songs[0].name;
+                    playSong.author = res.data.songs[0].ar[0].name;
+                    playSong.imgUrl = res.data.songs[0].al.picUrl;
+                    store.commit("play/setPlaySong", playSong);
                 });
-                store.commit("setPlayState", true);
+                store.commit("play/setPlayState", true);
             }
         });
 
@@ -99,7 +115,8 @@ export default {
             ...toRefs(state),
             musicPause,
             musicPlay,
-            playState: computed(() => store.state.playState),
+            playState: computed(() => store.state.play.playState),
+            playSong: computed(() => store.state.play.playSong),
         };
     },
 };
@@ -130,24 +147,31 @@ export default {
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        transform: scale(1.2);
-        filter: blur(20px) contrast(0.8) brightness(0.8);
+        transform: scale(5);
+        filter: blur(50px) contrast(0.8) brightness(0.8);
         z-index: -1;
     }
     .top {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-top: 4px;
-        margin-bottom: 14px;
-        padding: 10px;
+        padding: $padding 20px;
         color: #fff;
-        .songName {
-            overflow: hidden;
-            padding: 0 20px;
-            font-size: 18px;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+        .songInfo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            .songName {
+                @include ellipsis1();
+                padding: 0 20px;
+                font-size: 14px;
+            }
+            .songAuthor {
+                @include ellipsis1();
+                color: rgb(190, 190, 190);
+                font-size: 12px;
+            }
         }
         .iconfont {
             font-size: 20px;
@@ -155,36 +179,37 @@ export default {
     }
     .center {
         position: absolute;
-        top: 50px;
+        top: 64px;
         left: 0;
         width: 100%;
+        height: 440px;
         text-align: center;
         .controlLever {
             position: absolute;
             top: 0;
             left: 46%;
-            width: 96px;
+            width: 90px;
             transform-origin: 8px 0;
             transition: all 0.6s;
             z-index: 1;
         }
         .controlLever.active {
-            transform: rotate(-24deg);
+            transform: rotate(-26deg);
         }
         .cd {
             position: absolute;
-            top: 88px;
+            top: 84px;
             left: 50%;
             transform: translateX(-50%);
-            width: 270px;
+            width: 280px;
         }
         .songImg {
-            width: 168px;
-            margin-top: 140px;
+            width: 176px;
+            margin-top: 136px;
             border-radius: 50%;
         }
         .songImgRoute {
-            animation: rotation 30s linear infinite;
+            animation: rotation 40s linear infinite;
         }
         .pause {
             animation-play-state: paused;
@@ -192,7 +217,7 @@ export default {
     }
     .bottom {
         position: absolute;
-        bottom: 54px;
+        bottom: 30px;
         width: 100%;
         padding: 0 30px;
         .btnList {
@@ -201,7 +226,7 @@ export default {
             align-items: center;
             margin-bottom: 30px;
             .iconfont {
-                color: rgb(223, 223, 223);
+                color: rgb(233, 233, 233);
                 font-size: 20px;
             }
         }
@@ -211,7 +236,7 @@ export default {
             align-items: center;
             .iconfont {
                 color: #fff;
-                font-size: 24px;
+                font-size: 22px;
                 opacity: 0.8;
             }
             .playandstop {

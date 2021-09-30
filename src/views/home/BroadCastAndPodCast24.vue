@@ -125,7 +125,8 @@ export default {
             padding-left: var(--padding);
             padding-bottom: var(--padding);
             .swiper-container {
-                padding-right: 40px;
+                padding-left: 5px;
+                padding-right: 30px;
                 .swiper-wrapper {
                     display: flex;
                     justify-content: space-between;
@@ -142,25 +143,29 @@ export default {
                             top: 0;
                             left: 50%;
                             transform: translateX(-50%);
-                            width: 70px;
-                            height: 70px;
-                            background-color: rgba($color: #524949, $alpha: .5);
+                            width: 90px;
+                            height: 90px;
+                            background-color: rgba(
+                                $color: #524949,
+                                $alpha: 0.4
+                            );
                             border-radius: 50%;
                         }
                         img {
-                            width: 70px;
-                            height: 70px;
+                            display: block;
+                            width: 90px;
+                            height: 90px;
                             margin-bottom: 6px;
                             border-radius: 50%;
                         }
                         .iconfont {
                             position: absolute;
-                            top: 50%;
+                            top: 52%;
                             left: 50%;
                             transform: translateX(-40%) translateY(-100%);
                             color: rgba(
-                                $color: rgb(226, 224, 224),
-                                $alpha: 0.7
+                                $color: rgb(235, 235, 235),
+                                $alpha: 0.8
                             );
                             font-size: 20px;
                         }

@@ -1,19 +1,19 @@
 import { createStore } from "vuex";
-import { emailLogin, userDetail } from "@/api/index.js";
+import { emailLogin } from "@/api/index.js";
+import play from "./modules/play.js";
+import bottom from "./modules/bottom.js";
 
 export default createStore({
+    modules: {
+        play,
+        bottom,
+    },
+
     state: {
-        // 播放列表
+        // 播放歌单
         playlist: "",
 
-        // 底部播放控制信息
-        playControl: {
-            songId: localStorage.getItem("songId"), // 歌曲id
-            songImgUrl: localStorage.getItem("songImgUrl"), // 歌曲图片地址
-            songName: localStorage.getItem("songName"), // 歌曲名
-        },
-
-        // 歌曲播放状态（播放还是暂停）
+        // 歌曲播放状态（播放还是暂停)
         playState: false,
 
         // 歌单封面
@@ -54,6 +54,17 @@ export default createStore({
         searchKeyword: "", // 搜索关键词
     },
 
+    // getters 只会依赖 state 中的成员去更新
+    getters: {
+        songId: (state) => state.playControl.songId,
+        songImgUrl: (state) => state.playControl.songImgUrl,
+        songName: (state) => state.playControl.songName,
+        playState: (state) => state.playState,
+        searchHistory: (state) => state.searchHistory,
+        isSearchHistoryShow: (state) => state.isSearchHistoryShow,
+        searchResult: (state) => state.searchResult,
+    },
+
     mutations: {
         setSearchKeyword(state, value) {
             state.searchKeyword = value;
@@ -91,14 +102,6 @@ export default createStore({
             state.searchResult = false;
         },
 
-        showBottom(state) {
-            state.bottomShow = true;
-        },
-
-        hiddenBottom(state) {
-            state.bottomShow = false;
-        },
-
         showSearchHistory(state) {
             state.isSearchHistoryShow = true;
         },
@@ -111,36 +114,10 @@ export default createStore({
             state.playListCover = value;
         },
 
-        setPlayControl(state, value) {
-            // console.log(value);
-            localStorage.setItem("songId", value.id);
-            localStorage.setItem("songImgUrl", value.al.picUrl);
-            localStorage.setItem("songName", value.name);
-            state.playControl.songId = localStorage.getItem("songId");
-            state.playControl.songImgUrl = localStorage.getItem("songImgUrl");
-            state.playControl.songName = localStorage.getItem("songName");
-        },
-
-        // 设置播放状态
-        setPlayState(state, value) {
-            state.playState = value;
-        },
-
         setSearchHistory(state, value) {
             state.searchHistory = value;
             state.isSearchHistoryShow = true;
         },
-    },
-
-    // getters只会依赖state中的成员去更新
-    getters: {
-        songId: (state) => state.playControl.songId,
-        songImgUrl: (state) => state.playControl.songImgUrl,
-        songName: (state) => state.playControl.songName,
-        playState: (state) => state.playState,
-        searchHistory: (state) => state.searchHistory,
-        isSearchHistoryShow: (state) => state.isSearchHistoryShow,
-        searchResult: (state) => state.searchResult,
     },
 
     actions: {
@@ -152,7 +129,6 @@ export default createStore({
                     `邮箱登录成功！欢迎您！${result.data.profile.nickname}`
                 );
                 localStorage.cookie = encodeURIComponent(result.data.cookie);
-                // localStorage.cookie = JSON.stringify(encodeURIComponent(result.data.cookie));
                 content.state.user.isLogin = true;
                 content.state.user.id = result.data.profile.userId;
                 content.state.user.nickName = result.data.profile.nickname;

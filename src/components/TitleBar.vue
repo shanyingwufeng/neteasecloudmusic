@@ -3,12 +3,17 @@
     <div class="titleBar">
         <span class="name">{{ name }}</span>
         <div class="more" v-if="rightText !== ''">
-            <div v-if="rightText == '播放'">
+            <div v-if="rightText == '更多'" class="item item1">
+                <span class="text">{{ rightText }}</span>
+                <span class="iconfont icon-gengduo2"></span>
+            </div>
+            <div v-else-if="rightText == '播放'" class="item item2">
+                <span class="text">{{ rightText }}</span>
                 <span class="iconfont icon-bofang3"></span>
             </div>
-            <span>{{ rightText }}</span>
-            <div v-if="rightText == '更多'">
-                <span class="iconfont icon-youjiantou"></span>
+            <div v-else-if="rightText == '换一批'" class="item item3">
+                <span class="iconfont icon-shuaxin"></span>
+                <span class="text">{{ rightText }}</span>
             </div>
         </div>
     </div>
@@ -47,21 +52,23 @@ export default {
         font-size: $font-size-medium;
     }
     .more {
-        display: flex;
-        align-items: center;
-        padding: 2px 4px;
-        border: 1px solid rgb(219, 219, 219);
-        border-radius: 12px;
-        font-size: 8px;
-        .icon-bofang3 {
-            margin-right: 1px;
-            color: #555;
+        padding: 2px 6px;
+        border: 1px solid rgba($color: #000000, $alpha: 0.2);
+        border-radius: 14px;
+        .item {
+            display: flex;
+            align-items: center;
+            .text {
+                font-size: 12px;
+            }
+            .iconfont {
+                font-size: 10px;
+            }
         }
-        .icon-youjiantou {
-            margin-left: 1px;
-        }
-        .iconfont {
-            font-size: 8px;
+        .item3 {
+            .iconfont {
+                margin-right: 2px;
+            }
         }
     }
 }

@@ -81,11 +81,11 @@ export default {
                 margin-left: 20px;
                 .iconfont {
                     margin-right: 14px;
-                    padding: 3px;
+                    padding: 2px 4px;
                     border: 1px solid
-                        rgba($color: rgb(134, 134, 134), $alpha: 0.4);
+                        rgba($color: rgb(134, 134, 134), $alpha: 0.3);
                     border-radius: 50%;
-                    font-size: 16px;
+                    font-size: 14px;
                 }
                 img {
                     display: block;

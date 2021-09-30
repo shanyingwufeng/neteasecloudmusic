@@ -8,8 +8,8 @@
                 ref="searchInput"
                 type="text"
                 :placeholder="placeholder"
-                @keydown.enter="search(searchKeyword)"
                 v-model="searchKeyword"
+                @keydown.enter="search(searchKeyword)"
             />
             <span
                 class="iconfont icon-cha-copy fork"
@@ -220,8 +220,8 @@ export default {
 
 <style scoped lang='scss'>
 .search {
-    height: 100%;
     overflow: scroll;
+    height: 100vh;
     padding: $padding;
     background: $color-background;
     .searchInput {

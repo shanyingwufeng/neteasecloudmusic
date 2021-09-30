@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import $store from "@/store/index.js";
 import { onMounted } from "vue";
+import { useStore } from 'vuex';
 
 export default {
     name: "Login",
@@ -54,8 +54,11 @@ export default {
             { className: "icon-weibo2", loginPath: "wblogin" },
             { className: "icon-wangyi", loginPath: "emaillogin" },
         ];
+
+        const store = useStore();
+
         onMounted(() => {
-            $store.commit("hiddenBottom");
+            store.commit("bottom/setIsShow", false);
         });
         return { moreLogin };
     },
@@ -68,20 +71,20 @@ export default {
         transform: scale(0);
         opacity: 0;
     }
-    25% {
-        transform: scale(1.4);
-        opacity: 0.1;
-    }
+    // 25% {
+    //     transform: scale(1.4);
+    //     opacity: 0.1;
+    // }
     50% {
-        transform: scale(1.8);
-        opacity: 0.2;
+        transform: scale(1.5);
+        opacity: 0.15;
     }
-    75% {
-        transform: scale(2.2);
-        opacity: 0.1;
-    }
+    // 75% {
+    //     transform: scale(2.2);
+    //     opacity: 0.1;
+    // }
     100% {
-        transform: scale(2.6);
+        transform: scale(3);
         opacity: 0;
     }
 }
@@ -127,7 +130,7 @@ export default {
             border-radius: 30px;
             z-index: 1;
             opacity: 0;
-            animation: warn 3s linear 4s;
+            animation: warn 3s linear 6s;
             animation-iteration-count: infinite;
         }
     }

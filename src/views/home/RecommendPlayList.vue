@@ -12,8 +12,37 @@
                         }"
                     >
                         <div v-if="id === 0">
-                            <div class="firstImage">
-                                <swiper
+                            <div class="firstImage" v-if="isSwiperKeep">
+                                <van-swipe
+                                    style="height: 138px"
+                                    vertical
+                                    loop
+                                    :duration="700"
+                                    :autoplay="4000"
+                                    :show-indicators="false"
+                                >
+                                    <van-swipe-item
+                                        v-for="(list1Item, id) in list1"
+                                        :key="id"
+                                    >
+                                        <router-link
+                                            :to="{
+                                                path: '/listview',
+                                                query: { id: list1Item.id },
+                                            }"
+                                            class="vanSwiperItem"
+                                        >
+                                            <img v-lazy="list1Item.picUrl" />
+                                            <span class="name">{{
+                                                list1Item.name
+                                            }}</span>
+                                            <span
+                                                class="iconfont icon-wuxian"
+                                            ></span
+                                        ></router-link>
+                                    </van-swipe-item>
+                                </van-swipe>
+                                <!-- <swiper
                                     :autoplay="autoplay"
                                     :loop="loop"
                                     :speed="speed"
@@ -38,7 +67,7 @@
                                             ></span
                                         ></router-link>
                                     </swiper-slide>
-                                </swiper>
+                                </swiper> -->
                             </div>
                         </div>
                         <div v-else>
@@ -54,7 +83,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, onUpdated } from "vue";
+import { reactive, onMounted, onActivated, onDeactivated, toRefs } from "vue";
 import TitleBar from "@/components/TitleBar.vue";
 import PlayListSwiper from "@/components/PlayListSwiper.vue";
 import PlayCount from "@/components/PlayCount.vue";
@@ -75,6 +104,7 @@ export default {
         const state = reactive({
             list1: [],
             list2: [],
+            isSwiperKeep: false,
         });
 
         // swiper相关配置属性放在swiper_options这个变量里
@@ -99,6 +129,14 @@ export default {
                 state.list1 = state.list.slice(0, 5);
                 state.list2 = state.list.slice(5, 11);
             });
+        });
+
+        onActivated(() => {
+            state.isSwiperKeep = true;
+        });
+
+        onDeactivated(() => {
+            state.isSwiperKeep = false;
         });
 
         return {
@@ -136,18 +174,28 @@ export default {
                     }
                     .firstImage {
                         overflow: hidden;
-                        .swiper-container {
-                            height: 160px;
-                            padding-right: 0;
-                            .icon-wuxian {
-                                position: absolute;
-                                top: 0;
-                                right: 4px;
-                                color: #fff;
-                                font-size: 22px;
-                            }
+                        .icon-wuxian {
+                            position: absolute;
+                            top: -8px;
+                            right: 2px;
+                            color: #fff;
+                            font-size: 28px;
                         }
                     }
+                    // .firstImage {
+                    //     overflow: hidden;
+                    //     .swiper-container {
+                    //         height: 160px;
+                    //         padding-right: 0;
+                    //         .icon-wuxian {
+                    //             position: absolute;
+                    //             top: 0;
+                    //             right: 4px;
+                    //             color: #fff;
+                    //             font-size: 22px;
+                    //         }
+                    //     }
+                    // }
                 }
             }
         }

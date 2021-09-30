@@ -10,7 +10,8 @@
                         v-for="(item, id) in list"
                         :key="id"
                     >
-                        <img v-lazy="item.resource.mlogBaseData.coverUrl" />
+                        <!-- <img v-lazy="item.resource.mlogBaseData.coverUrl" /> -->
+                        <img v-lazy="item.resource.mlogExtVO.song.coverUrl" />
                         <span class="name">{{
                             item.resource.mlogBaseData.text
                         }}</span>
@@ -70,8 +71,8 @@ export default {
                     border-radius: 10px;
                     flex-direction: column;
                     img {
-                        width: 104px;
-                        height: 104px;
+                        width: 100%;
+                        // height: 120px;
                         margin-bottom: 4px;
                         border-radius: 10px;
                     }

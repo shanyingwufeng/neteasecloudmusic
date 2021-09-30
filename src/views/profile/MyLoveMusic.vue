@@ -5,7 +5,7 @@
             <img src="@/assets/default.jpg" />
             <div class="content">
                 <span class="title">我喜欢的音乐</span>
-                <span class="count">1首</span>
+                <span class="count">0首</span>
             </div>
         </div>
         <router-link

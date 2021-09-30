@@ -1,12 +1,12 @@
 <!-- 底部播放控制和导航 -->
 <template>
-    <div class="bottom" v-if="!$route.meta.hiddenBottom">
+    <div class="bottom" v-if="bottomShow">
         <!-- 底部播放控制区 -->
-        <div class="playControl" v-if="$store.getters.songName">
+        <div class="playControl" v-if="playSong.id">
             <router-link class="left" to="/playpage">
-                <img class="songImg" v-lazy="$store.getters.songImgUrl" />
+                <img class="songImg" v-lazy="playSong.imgUrl" />
                 <span class="title">
-                    {{ $store.getters.songName }}
+                    {{ playSong.name }}
                 </span>
             </router-link>
             <div class="right">
@@ -42,21 +42,15 @@
 </template>
 
 <script>
-import { toRefs, computed, reactive } from "vue";
+import { reactive, toRefs, computed } from "vue";
 import { useStore } from "vuex";
 
 export default {
     name: "Bottom",
     setup() {
-        const store = useStore();
-
         const state = reactive({
             tabBarData: [
-                {
-                    className: "icon-yemian-copy-copy-copy-copy",
-                    title: "发现",
-                    path: "/",
-                },
+                { className: "icon-home", title: "发现", path: "/" },
                 { className: "icon-a-ziyuan8", title: "播客", path: "/boke" },
                 { className: "icon-wode-copy", title: "我的", path: "/me" },
                 { className: "icon-Kgeriji", title: "k歌", path: "/k" },
@@ -64,18 +58,22 @@ export default {
             ],
         });
 
+        const store = useStore();
+
         const play = (playState) => {
             if (playState) {
-                store.commit("setPlayState", false);
+                store.commit("play/setPlayState", false);
             } else {
-                store.commit("setPlayState", true);
+                store.commit("play/setPlayState", true);
             }
         };
 
         return {
             ...toRefs(state),
             play,
-            playState: computed(() => store.state.playState),
+            bottomShow: computed(() => store.state.bottom.isShow),
+            playState: computed(() => store.state.play.playState),
+            playSong: computed(() => store.getters["play/getPlaySong"]),
         };
     },
 };
@@ -87,6 +85,7 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
+    line-height: 1.2;
     background-color: $color-white-background;
     z-index: 99;
     .playControl {

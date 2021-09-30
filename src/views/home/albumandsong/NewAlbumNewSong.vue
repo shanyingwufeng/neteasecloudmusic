@@ -23,14 +23,17 @@ import DigtalAlbum from "./DigtalAlbum.vue";
 
 export default {
     name: "AlbumAndSong",
-    components: { NewSong, NewAlbum, DigtalAlbum },
+    components: {
+        NewSong,
+        NewAlbum,
+        DigtalAlbum,
+    },
     props: ["data"],
     setup(props) {
         const newAlbumNewSong = ref([]);
         const newSong = ref([]);
         const newAlbum = ref([]);
         const digtalAlbum = ref([]);
-
         const active = ref(0);
 
         watch(newAlbumNewSong, () => {
@@ -73,19 +76,19 @@ export default {
         .van-tab {
             display: block;
             flex: 0.14;
-            font-size: 16px;
+            font-size: 18px;
             &::before {
                 content: "";
                 position: absolute;
                 top: 50%;
-                right: 8px;
+                right: 5px;
                 transform: translateY(-50%);
                 width: 1px;
                 height: 80%;
                 background-color: rgb(201, 201, 201);
             }
             &:nth-last-child(2) {
-                flex: 0.2;
+                flex: 0.24;
             }
             &:nth-last-child(2)::before {
                 width: 0;

@@ -41,7 +41,7 @@
                     下一步
                 </van-button>
             </div>
-            <div class="codeInputBox" v-if="hasVerificationCode">
+            <!-- <div class="codeInputBox" v-if="hasVerificationCode">
                 <CaptchaInputBox @input="input" />
                 <div class="bottom">
                     <span class="name">手机号码已停用</span>
@@ -49,7 +49,7 @@
                         <span class="iconfont icon-youjiantou"></span>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
