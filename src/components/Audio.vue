@@ -18,13 +18,27 @@ export default {
     setup() {
         const store = useStore();
         const audio = ref();
+        const intervalId = ref(0);
         const playState = computed(() => store.state.play.playState);
+
+        const updateTime = () => {
+            store.commit("play/setPlayCurrentTime", 0);
+            intervalId.value = setInterval(() => {
+                // console.log(audio._value.currentTime);
+                store.commit(
+                    "play/setPlayCurrentTime",
+                    audio._value.currentTime
+                );
+            }, 1000);
+        };
 
         watch(playState, () => {
             if (playState.value) {
                 audio.value.play();
+                updateTime();
             } else {
                 audio.value.pause();
+                clearInterval(intervalId.value);
             }
         });
 

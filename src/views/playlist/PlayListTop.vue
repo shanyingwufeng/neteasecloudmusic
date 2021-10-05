@@ -1,6 +1,6 @@
 <!-- 歌单顶部 -->
 <template>
-    <div class="playList-top">
+    <div class="playListTop">
         <div class="bg-box">
             <img
                 class="bg"
@@ -46,17 +46,16 @@
                             </div>
                         </div>
                     </div>
-                    <router-link
-                        to="/playlistcover"
-                        class="description"
-                        @click="jumpCover()"
+                    <div
                         v-if="playlist.description"
+                        class="description"
+                        @click="showPlayListCover()"
                     >
                         <span>{{ playlist.description }}</span>
                         <div class="icon">
                             <span class="iconfont icon-youjiantou"></span>
                         </div>
-                    </router-link>
+                    </div>
                 </div>
             </div>
             <!-- 收藏数、评论数和分享数 -->
@@ -106,48 +105,53 @@
 import PlayCount from "@/components/PlayCount.vue";
 import $store from "@/store/index.js";
 import { changeValue } from "@/utils/index.js";
+import { onUpdated, reactive, toRefs } from "vue";
 
 export default {
     name: "PlayListTop",
-    components: {
-        PlayCount,
-    },
-    props: ["playlist", "author"],
-    setup(props) {
-        const jumpCover = () => {
-            // console.log(props.playlist.coverImgUrl);
-            // console.log(props.playlist.name);
-            // console.log(props.playlist.description);
-            // console.log(props.playlist.tags);
-            // console.log($store.state.playListCover);
+    components: { PlayCount },
+    props: ["playlist"],
+    setup(props, { emit }) {
+        const state = reactive({
+            author: "",
+        });
+
+        onUpdated(() => {
+            state.author = props.playlist.creator;
+        });
+
+        // 显示歌单封面
+        const showPlayListCover = () => {
             let { coverImgUrl, name, description, tags } = props.playlist;
-            // state.coverImgUrl = coverImgUrl;
-            // state.name = name;
-            // state.description = description;
-            // state.tags = tags;
             $store.commit("setPlayListCover", {
                 coverImgUrl,
                 name,
                 description,
                 tags,
             });
+            emit("showPlayListCover");
         };
-        return { changeValue, jumpCover };
+
+        return {
+            ...toRefs(state),
+            changeValue,
+            showPlayListCover,
+        };
     },
 };
 </script>
 
 <style scoped lang='scss'>
-.playList-top {
+.playListTop {
     position: relative;
-    padding: 10px;
+    padding: $padding;
     .bg-box {
         overflow: hidden;
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
-        height: 100vh;
+        height: 100%;
         background: #fff;
         z-index: -1;
         .bg {
@@ -157,7 +161,7 @@ export default {
             background-position: center;
             background-repeat: no-repeat;
             transform: scale(1.2);
-            filter: blur(70px) contrast(0.8) brightness(0.8);
+            filter: blur(30px) contrast(0.5) brightness(0.5);
         }
         .bg::after {
             content: "";
@@ -172,7 +176,6 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 6px 0;
         color: #fff;
         .left {
             display: flex;
@@ -204,8 +207,7 @@ export default {
         justify-content: space-between;
         .top {
             display: flex;
-            margin: 30px 0 40px 0;
-            padding-right: 10px;
+            margin: 40px 0 50px 0;
             .top-left {
                 position: relative;
                 display: flex;

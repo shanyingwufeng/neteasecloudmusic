@@ -7,14 +7,14 @@
                 <swiper-slide v-for="(item, id) in list2" :key="id">
                     <router-link
                         :to="{
-                            path: '/listview',
+                            path: '/playlist',
                             query: { id: item.id },
                         }"
                     >
                         <div v-if="id === 0">
                             <div class="firstImage" v-if="isSwiperKeep">
                                 <van-swipe
-                                    style="height: 138px"
+                                    style="height: 140px"
                                     vertical
                                     loop
                                     :duration="700"
@@ -27,7 +27,7 @@
                                     >
                                         <router-link
                                             :to="{
-                                                path: '/listview',
+                                                path: '/playlist',
                                                 query: { id: list1Item.id },
                                             }"
                                             class="vanSwiperItem"
@@ -54,7 +54,7 @@
                                     >
                                         <router-link
                                             :to="{
-                                                path: '/listview',
+                                                path: '/playlist',
                                                 query: { id: list1Item.id },
                                             }"
                                         >
@@ -161,11 +161,10 @@ export default {
                     position: relative;
                     display: flex;
                     flex-direction: column;
-                    border-radius: 10px;
+                    border-radius: 12px;
                     img {
                         display: block;
-                        width: 104px;
-                        height: 104px;
+                        width: 100%;
                         margin-bottom: 4px;
                         border-radius: 10px;
                     }

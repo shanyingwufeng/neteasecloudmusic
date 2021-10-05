@@ -64,42 +64,40 @@ export default {
 
 <style scoped lang='scss'>
 .centerNav {
-    display: flex;
-    padding: 14px 0;
-    padding-left: 8px;
-    background-color: #fff;
-    border-bottom: 1px solid rgb(241, 239, 239);
-    justify-content: space-around;
+    background-color: $color-white-background;
+    border-bottom: 1px solid rgb(240, 240, 240);
     .swiper-container {
-        padding-right: 30px;
-        .item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            .iconfont {
-                position: relative;
-                width: 44px;
-                height: 44px;
-                line-height: 44px;
-                background-color: #f8eaec;
-                color: #dd342b;
-                font-size: 26px;
-                font-weight: 700;
-                border-radius: 50%;
-                .date {
-                    position: absolute;
-                    top: 3px;
-                    left: 50%;
-                    transform: translateX(-48%);
-                    color: #fff;
-                    font-size: 12px;
+        padding: $padding 30px $padding $padding;
+        .swiper-wrapper {
+            .item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                .iconfont {
+                    position: relative;
+                    width: 44px;
+                    height: 44px;
+                    line-height: 44px;
+                    background-color: #f8eaec;
+                    color: #dd342b;
+                    font-size: 26px;
+                    font-weight: 700;
+                    border-radius: 50%;
+                    .date {
+                        position: absolute;
+                        top: 3px;
+                        left: 50%;
+                        transform: translateX(-48%);
+                        color: #fff;
+                        font-size: 12px;
+                    }
                 }
-            }
-            .title {
-                margin-top: 6px;
-                color: #444;
-                font-size: 10px;
+                .title {
+                    margin-top: 6px;
+                    color: #444;
+                    font-size: 10px;
+                }
             }
         }
     }

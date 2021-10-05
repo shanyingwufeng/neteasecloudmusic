@@ -3,11 +3,30 @@
     <div class="bottom" v-if="bottomShow">
         <!-- 底部播放控制区 -->
         <div class="playControl" v-if="playSong.id">
-            <router-link class="left" to="/playpage">
-                <img class="songImg" v-lazy="playSong.imgUrl" />
-                <span class="title">
-                    {{ playSong.name }}
-                </span>
+            <router-link
+                class="left"
+                :to="{
+                    path: '/playpage',
+                    query: { id: playSong.id, from: 'bottom' },
+                }"
+            >
+                <div class="recode">
+                    <img src="@/assets/disc.png" class="cd" />
+                    <img
+                        class="songImg"
+                        :class="{
+                            songImgRoute: play,
+                            pause: !playState,
+                        }"
+                        v-lazy="playSong.imgUrl"
+                    />
+                </div>
+                <div class="songAndAuthor">
+                    <span class="title"> {{ playSong.name }} - </span>
+                    <span class="author">
+                        {{ playSong.author }}
+                    </span>
+                </div>
             </router-link>
             <div class="right">
                 <!-- 播放按钮 -->
@@ -56,6 +75,7 @@ export default {
                 { className: "icon-Kgeriji", title: "k歌", path: "/k" },
                 { className: "icon-pengyou", title: "云村", path: "/friends" },
             ],
+            play: true,
         });
 
         const store = useStore();
@@ -80,6 +100,15 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+@keyframes rotation {
+    from {
+        transform: rotateZ(0deg);
+    }
+    to {
+        transform: rotateZ(360deg);
+    }
+}
+
 .bottom {
     position: fixed;
     bottom: 0;
@@ -90,25 +119,48 @@ export default {
     z-index: 99;
     .playControl {
         position: relative;
-        padding: 8px 10px;
+        padding: 12px 14px;
         background-color: $color-white-background;
         border-top: 1px solid rgba(210, 210, 210, 0.2);
         border-bottom: 1px solid rgba(210, 210, 210, 0.2);
         .left {
             display: flex;
             align-items: center;
-            width: 70%;
-            .songImg {
-                width: 32px;
-                height: 32px;
-                margin-right: 6px;
-                border-radius: 50%;
+            width: 80%;
+            .recode {
+                position: absolute;
+                top: -7px;
+                left: 14px;
+                .cd {
+                    width: 44px;
+                    height: 44px;
+                }
+                .songImg {
+                    position: absolute;
+                    top: 8px;
+                    left: 8px;
+                    width: 28px;
+                    height: 28px;
+                    margin-right: 8px;
+                    border-radius: 50%;
+                }
+                .songImgRoute {
+                    animation: rotation 40s linear infinite;
+                }
+                .pause {
+                    animation-play-state: paused;
+                }
             }
-            .title {
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                font-size: 14px;
+            .songAndAuthor {
+                margin-left: 54px;
+                @include ellipsis1();
+                .title {
+                    font-size: 14px;
+                }
+                .author {
+                    color: grey;
+                    font-size: 12px;
+                }
             }
         }
         .right {

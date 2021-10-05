@@ -12,8 +12,8 @@ const routes = [
     },
     {
         // 歌单
-        path: "/listview",
-        name: "ListView",
+        path: "/playlist",
+        name: "PlayList",
         component: () => import("@/views/playlist/PlayList.vue"),
         meta: {
             hiddenTabBar: true,
@@ -95,15 +95,6 @@ const routes = [
         path: "/friends",
         name: "Friends",
         component: () => import("@/views/cloudvillage/CloudVillage.vue"),
-    },
-    {
-        // 歌单封面
-        path: "/playlistcover",
-        name: "PlayListCover",
-        component: () => import("@/views/playlist/PlayListCover.vue"),
-        meta: {
-            hiddenBottom: true,
-        },
     },
 ];
 

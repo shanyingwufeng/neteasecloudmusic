@@ -2,13 +2,14 @@
 <template>
     <div class="topBar" :class="{ scroll: scroll }">
         <div class="left">
-            <van-cell
+            <span
                 @click="showSideBar"
                 class="iconfont icon-icon-"
                 :class="{ scroll: scroll }"
-            ></van-cell>
+            >
+            </span>
             <van-popup
-                v-model:show="isSideBarShow"
+                v-model:show="sideBarShow"
                 position="left"
                 :style="{
                     width: '80vw',
@@ -21,13 +22,15 @@
             </van-popup>
         </div>
         <router-link class="center" :class="{ scroll: scroll }" to="/search">
-            <span class="iconfont icon-sousuo"></span>
+            <span class="iconfont icon-sousuo1"></span>
             <div class="searchKeyword">
                 <swiper
                     :autoplay="autoplay"
                     :loop="loop"
                     :speed="speed"
                     :direction="direction"
+                    :observeParents="observeParents"
+                    :observer="observer"
                     v-if="isSwiperKeep"
                 >
                     <swiper-slide v-for="(item, id) in searchKeyword" :key="id">
@@ -57,14 +60,14 @@ export default {
     },
     setup() {
         const state = reactive({
-            isSideBarShow: false,
+            sideBarShow: false,
             searchKeyword: [],
             isSwiperKeep: false,
             scroll: false,
         });
 
         const showSideBar = () => {
-            state.isSideBarShow = true;
+            state.sideBarShow = true;
         };
 
         // swiper相关配置属性放在swiper_options这个变量里
@@ -100,9 +103,13 @@ export default {
 
         onActivated(() => {
             state.isSwiperKeep = true;
-            getSearchHot().then((res) => {
-                state.searchKeyword = res.data.result.hots;
-            });
+            getSearchHot()
+                .then((res) => {
+                    state.searchKeyword = res.data.result.hots;
+                })
+                .catch(() => {
+                    state.searchKeyword = [];
+                });
         });
 
         onDeactivated(() => {
@@ -130,34 +137,28 @@ export default {
         padding-bottom: 8px;
         background-color: $color-white-background;
     }
+
     .left {
-        .van-cell {
-            display: flex;
-            padding: 0;
-            background-color: rgb(240, 240, 240);
-            &:before {
-                color: #555;
-                font-size: $font-size-medium;
-            }
-            &.scroll {
-                background-color: $color-white-background;
-            }
+        .icon-icon- {
+            font-size: $font-size-medium;
         }
     }
+
     .center {
         display: flex;
         align-items: center;
         width: 82%;
         height: 30px;
-        padding: 0 12px;
+        padding: 0 14px;
         background-color: $color-white-background;
         border-radius: 14px;
         &.scroll {
             background-color: rgba(235, 235, 235, 0.5);
         }
-        .icon-sousuo {
+        .icon-sousuo1 {
+            display: flex;
             margin-right: 6px;
-            color: rgb(148, 148, 148);
+            color: #333;
             font-size: 16px;
         }
         .searchKeyword {
@@ -169,14 +170,14 @@ export default {
                 font-size: 14px;
             }
             .swiper-container {
-                height: 50px;
+                height: 40px;
             }
         }
     }
+
     .right {
-        margin-top: 2px;
         .iconfont {
-            font-size: 20px;
+            font-size: $font-size-medium;
         }
     }
 }

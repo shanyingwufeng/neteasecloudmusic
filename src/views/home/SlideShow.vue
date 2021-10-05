@@ -26,10 +26,8 @@ export default {
             list: [
                 { pic: require("@/assets/slideshow/swiper1.jpg") },
                 { pic: require("@/assets/slideshow/swiper2.jpg") },
-                { pic: require("@/assets/slideshow/swiper3.jpg") },
-                { pic: require("@/assets/slideshow/swiper4.jpg") },
             ],
-            isSwiperKeep: false,
+            isSwiperKeep: true,
         });
 
         onActivated(() => {
@@ -69,7 +67,7 @@ export default {
     background: linear-gradient(
         to bottom,
         rgb(240, 240, 240),
-        rgb(245, 245, 245),
+        rgb(248, 248, 248),
         $color-white-background
     );
     .swiper-container {
@@ -87,7 +85,7 @@ export default {
         }
         .swiper-pagination {
             position: absolute;
-            bottom: 4px;
+            bottom: 2px;
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
@@ -97,9 +95,9 @@ export default {
             .swiper-pagination-bullet {
                 display: inline-block;
                 width: 8px;
-                height: 2px;
+                height: 4px;
                 margin: 0 4px;
-                background-color: #000;
+                background-color: rgb(0, 0, 0);
                 border-radius: 4px;
                 opacity: 0.2;
             }

@@ -1,7 +1,7 @@
 <!-- 歌单歌曲 -->
 <template>
-    <div class="playList-song">
-        <div class="ad" v-if="!$store.state.user.isLogin">
+    <div class="playListSong">
+        <!-- <div class="ad" v-if="!$store.state.user.isLogin">
             <div class="left">
                 <span class="iconfont icon-xiaohongshuicon"></span>
                 <span>微胖女生显胖瘦裤分享</span>
@@ -20,8 +20,8 @@
                 <span>开启视觉盛宴</span>
                 <span class="iconfont icon-youjiantou"></span>
             </div>
-        </div>
-        <div class="top" v-show="playlist.length !== 0">
+        </div> -->
+        <div class="top" v-if="playlist.length !== 0">
             <div class="top-left">
                 <span class="iconfont icon-bofang"></span>
                 <span class="playAll">播放全部</span>
@@ -35,14 +35,11 @@
             </div>
         </div>
         <div class="detail">
-            <router-link
+            <div
                 class="item"
-                v-for="(item, i) in tracks"
+                v-for="(item, i) in songList"
                 :key="i"
-                :to="{
-                    path: '/playpage',
-                    query: { id: item.id },
-                }"
+                @click="play(item.id)"
             >
                 <div class="left">
                     <div class="id">{{ i + 1 }}</div>
@@ -78,20 +75,38 @@
                     <span class="iconfont icon-bofang"></span>
                     <span class="iconfont icon-gengduo"></span>
                 </div>
-            </router-link>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import { useRouter } from "vue-router";
+import { reactive, toRefs } from "vue";
+
 export default {
     name: "PlayListSong",
-    props: ["playlist", "tracks"],
+    props: ["playlist", "songList"],
+    setup() {
+        const state = reactive({
+            idArr: [],
+        });
+        const router = useRouter();
+
+        const play = (id) => {
+            router.push(`/playpage?id=${id}`);
+        };
+
+        return {
+            ...toRefs(state),
+            play,
+        };
+    },
 };
 </script>
 
 <style scoped lang='scss'>
-.playList-song {
+.playListSong {
     padding: 0 10px;
     padding-top: 40px;
     padding-bottom: 54px;

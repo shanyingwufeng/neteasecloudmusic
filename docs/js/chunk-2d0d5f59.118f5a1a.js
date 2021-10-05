@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0d5f59"],{7109:function(c,a,e){"use strict";e.r(a);var t=e("7a23"),d=Object(t["V"])("data-v-1bc13d66");Object(t["D"])("data-v-1bc13d66");var n={class:""};Object(t["B"])();var b=d((function(c,a,e,d,b,o){return Object(t["A"])(),Object(t["g"])("div",n,"k歌")})),o={name:"",components:{}};o.render=b,o.__scopeId="data-v-1bc13d66";a["default"]=o}}]);
-//# sourceMappingURL=chunk-2d0d5f59.118f5a1a.js.map

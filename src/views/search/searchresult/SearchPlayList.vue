@@ -8,7 +8,7 @@
                 v-for="(item, id) in list"
                 :key="id"
                 :to="{
-                    path: '/listview',
+                    path: '/playlist',
                     query: { id: item.id },
                 }"
             >

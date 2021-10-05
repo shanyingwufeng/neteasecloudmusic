@@ -49,14 +49,14 @@ export default {
             email: "",
             password: "",
         });
-
         const store = useStore();
         const router = useRouter();
 
         const login = async () => {
-            const result = await store.dispatch("emailLogin", {
-                email: state.email,
+            const result = await store.dispatch("user/login", {
+                account: state.email,
                 password: state.password,
+                loginWay: "email",
             });
             if (result.data.code == 200) {
                 router.push("/me");

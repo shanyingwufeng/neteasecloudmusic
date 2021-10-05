@@ -10,7 +10,7 @@
             </div>
             <span class="iconfont icon-fenxiang"></span>
         </div>
-        <div class="center">
+        <div class="center" @click="showLyric = !showLyric" v-show="!showLyric">
             <!-- 控制杆子 -->
             <img
                 src="@/assets/needle-ab.png"
@@ -21,13 +21,35 @@
             <img src="@/assets/disc.png" class="cd" />
             <!-- 歌曲图片 -->
             <img
+                ref="songImg"
                 v-lazy="playSong.imgUrl"
                 class="songImg"
                 :class="{
                     songImgRoute: play,
                     pause: !playState,
+                    zuoyi: zuoyi,
+                    youyi: youyi,
                 }"
             />
+        </div>
+        <div class="lyric" @click="showLyric = !showLyric" v-show="showLyric">
+            <div v-if="lyric" class="hasLyric" ref="playLyric">
+                <p
+                    class="item"
+                    :class="{
+                        active:
+                            playCurrentTime >= parseInt(item.time) &&
+                            playCurrentTime < parseInt(item.next),
+                    }"
+                    v-for="(item, id) in lyric"
+                    :key="id"
+                >
+                    {{ item.lyric }}
+                </p>
+            </div>
+            <div v-else class="noLyric">
+                <span>暂无歌词，如有请告知我们，谢谢！</span>
+            </div>
         </div>
         <div class="bottom">
             <div class="btnList">
@@ -39,7 +61,7 @@
             </div>
             <div class="playControl">
                 <span class="iconfont icon-suijibofang"></span>
-                <span class="iconfont icon-shangyiqu"></span>
+                <span class="iconfont icon-shangyiqu" @click="preSong()"></span>
                 <span
                     v-if="!playState"
                     class="iconfont icon-bofang7 playandstop"
@@ -54,7 +76,7 @@
                     "
                     @click="musicPause()"
                 ></span>
-                <span class="iconfont icon-xiayiqu"></span>
+                <span class="iconfont icon-xiayiqu" @click="nextSong()"></span>
                 <span class="iconfont icon-bofangliebiao"></span>
             </div>
         </div>
@@ -62,22 +84,30 @@
 </template>
 
 <script>
-import { computed, onMounted, reactive, toRefs } from "vue";
+import { computed, onMounted, reactive, watch, toRefs } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-import { getSongDetail } from "@/api/index.js";
+import { getLyricList } from "@/utils/index.js";
 
 export default {
     name: "PlayPage",
     setup() {
-        const store = useStore();
-        const route = useRoute();
-        const id = route.query.id;
-
         const state = reactive({
             play: true,
             isPaused: false,
+            showLyric: false,
+            lyric: "",
+            songIds: "",
+            index: 0,
+            zuoyi: false,
+            youyi: false,
+            playLyric: null,
+            playCurrentTime: 0,
         });
+
+        const store = useStore();
+        const route = useRoute();
+        const id = route.query.id;
 
         const musicPlay = () => {
             state.play = true;
@@ -90,24 +120,84 @@ export default {
             store.commit("play/setPlayState", false);
         };
 
+        const preSong = () => {
+            state.zuoyi = true;
+            store.commit("play/setPlayState", false);
+            setTimeout(async () => {
+                if (state.index == 0) {
+                    state.index = state.songIds.length - 1;
+                    await store.dispatch(
+                        "play/setPlaySongInfo",
+                        state.songIds[state.index]
+                    );
+                    state.lyric = getLyricList(store.state.play.playSong.lyric);
+                    store.commit("play/setPlayState", true);
+                } else {
+                    state.index = state.index - 1;
+                    await store.dispatch(
+                        "play/setPlaySongInfo",
+                        state.songIds[state.index]
+                    );
+                    state.lyric = getLyricList(store.state.play.playSong.lyric);
+                    store.commit("play/setPlayState", true);
+                    state.zuoyi = false;
+                }
+            }, 500);
+        };
+
+        const nextSong = () => {
+            state.youyi = true;
+            store.commit("play/setPlayState", false);
+            setTimeout(async () => {
+                if (state.index == state.songIds.length - 1) {
+                    state.index = 0;
+                    await store.dispatch(
+                        "play/setPlaySongInfo",
+                        state.songIds[state.index]
+                    );
+                    state.lyric = getLyricList(store.state.play.playSong.lyric);
+                    store.commit("play/setPlayState", true);
+                } else {
+                    state.index = state.index + 1;
+                    await store.dispatch(
+                        "play/setPlaySongInfo",
+                        state.songIds[state.index]
+                    );
+                    state.lyric = getLyricList(store.state.play.playSong.lyric);
+                    store.commit("play/setPlayState", true);
+                    state.youyi = false;
+                }
+            }, 500);
+        };
+
         onMounted(async () => {
             if (id) {
                 store.commit("play/setPlayState", false);
-                await getSongDetail(id).then((res) => {
-                    console.log(res.data);
-                    const playSong = {
-                        id: 0,
-                        name: "",
-                        author: "",
-                        imgUrl: "",
-                    };
-                    playSong.id = res.data.songs[0].id;
-                    playSong.name = res.data.songs[0].name;
-                    playSong.author = res.data.songs[0].ar[0].name;
-                    playSong.imgUrl = res.data.songs[0].al.picUrl;
-                    store.commit("play/setPlaySong", playSong);
-                });
+                await store.dispatch("play/setPlaySongInfo", id);
+                state.songIds = store.state.play.songIds;
+                state.index = state.songIds.indexOf(Number(id));
+                state.lyric = getLyricList(store.state.play.playSong.lyric);
                 store.commit("play/setPlayState", true);
+            }
+        });
+
+        state.playCurrentTime = computed(() => {
+            return store.state.play.playCurrentTime;
+        });
+
+        watch(state, (newValue) => {
+            // console.log(newValue.playCurrentTime);
+            // console.log([state.playLyric]);
+            // let item = document.querySelector(".lyric");
+            // console.log(state.playLyric.offsetHeight);
+            let p = document.querySelector("p.active");
+            if (p !== null) {
+                let offsetTop = p.offsetTop;
+                let h = state.playLyric.offsetHeight;
+                // console.log(offsetTop + "--" + h);
+                if (offsetTop > h) {
+                    state.playLyric.scrollTop = offsetTop;
+                }
             }
         });
 
@@ -115,8 +205,10 @@ export default {
             ...toRefs(state),
             musicPause,
             musicPlay,
-            playState: computed(() => store.state.play.playState),
+            preSong,
+            nextSong,
             playSong: computed(() => store.state.play.playSong),
+            playState: computed(() => store.state.play.playState),
         };
     },
 };
@@ -169,7 +261,7 @@ export default {
             }
             .songAuthor {
                 @include ellipsis1();
-                color: rgb(190, 190, 190);
+                color: rgb(219, 219, 219);
                 font-size: 12px;
             }
         }
@@ -182,7 +274,7 @@ export default {
         top: 64px;
         left: 0;
         width: 100%;
-        height: 440px;
+        height: 480px;
         text-align: center;
         .controlLever {
             position: absolute;
@@ -204,9 +296,18 @@ export default {
             width: 280px;
         }
         .songImg {
-            width: 176px;
-            margin-top: 136px;
+            position: absolute;
+            top: 135px;
+            left: 26%;
+            width: 179px;
             border-radius: 50%;
+            transition: all 0.5s linear;
+            &.youyi {
+                left: 110%;
+            }
+            &.zuoyi {
+                left: -50%;
+            }
         }
         .songImgRoute {
             animation: rotation 40s linear infinite;
@@ -215,16 +316,42 @@ export default {
             animation-play-state: paused;
         }
     }
-    .bottom {
+    .lyric {
         position: absolute;
-        bottom: 30px;
+        top: 80px;
+        left: 0;
         width: 100%;
-        padding: 0 30px;
+        height: 460px;
+        .hasLyric {
+            overflow: scroll;
+            overflow-x: hidden;
+            height: 100%;
+            transition: all 1s linear;
+            .item {
+                color: #fff;
+                line-height: 2;
+                text-align: center;
+                &.active {
+                    color: rgb(221, 14, 14);
+                    transform: scale(1.3);
+                    transition: all 1.5s linear;
+                }
+            }
+        }
+        .noLyric {
+            color: #fff;
+        }
+    }
+    .bottom {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 120px;
+        padding: $padding 20px;
         .btnList {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            margin-bottom: 30px;
             .iconfont {
                 color: rgb(233, 233, 233);
                 font-size: 20px;
@@ -234,13 +361,14 @@ export default {
             display: flex;
             justify-content: space-around;
             align-items: center;
+            margin-top: 14px;
             .iconfont {
                 color: #fff;
                 font-size: 22px;
                 opacity: 0.8;
             }
             .playandstop {
-                font-size: 40px;
+                font-size: 38px;
             }
         }
     }

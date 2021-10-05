@@ -21,7 +21,7 @@
                     <SideBar />
                 </van-popup>
             </div>
-            <div class="right">
+            <div class="right" @click="$router.push('/search')">
                 <span class="iconfont icon-sousuo"></span>
             </div>
         </div>
@@ -141,6 +141,7 @@ export default {
         };
 
         onMounted(() => {
+            store.commit("bottom/setIsShow", true);
             if (localStorage.getItem("userLoginInfo")) {
                 store.commit(
                     "setUser",

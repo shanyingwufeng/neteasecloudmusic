@@ -1,6 +1,6 @@
 <!-- 首页-视频合辑 -->
 <template>
-    <div class="videoCollection home-card" :style="{ paddingBottom: pb() }">
+    <div class="videoCollection home-card">
         <TitleBar :titleBarName="titleBarName" rightText="更多" />
         <PlayListSwiper :list="list" :point="0" />
     </div>
@@ -22,27 +22,15 @@ export default {
             list: [],
         });
 
-        const store = useStore();
-
-        // padding-bottom根据有没有本地存储的音乐而变化
-        const pb = () => {
-            return store.state.play.playSong.id ? "120px" : "60px";
-        };
-
         onUpdated(() => {
             state.titleBarName = props.data.uiElement.subTitle.title;
             state.list = props.data.creatives;
         });
 
-        return { ...toRefs(state), pb };
+        return { ...toRefs(state) };
     },
 };
 </script>
 
 <style scoped lang='scss'>
-.videoCollection {
-    margin-bottom: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
 </style>

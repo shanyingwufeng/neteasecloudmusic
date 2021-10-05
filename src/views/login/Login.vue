@@ -163,7 +163,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-around;
-            margin: 30px 0;
+            margin: 30px 0 48px 0;
             .item {
                 display: flex;
                 .iconfont {
@@ -175,10 +175,12 @@ export default {
         .info {
             position: absolute;
             bottom: 0;
-            left: 0;
-            width: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 84%;
             color: #de6a5e;
             font-size: 6px;
+            text-align: center;
             a {
                 color: #fabab3;
             }

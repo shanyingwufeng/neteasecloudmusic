@@ -138,10 +138,10 @@ export default {
         });
 
         onActivated(async () => {
-            if (route.meta.isBack == false) {
-                store.commit("hiddenLoadingContent");
+            if (route.meta.isBack === false) {
+                // store.commit("hiddenLoadingContent");
                 store.commit("showLoading");
-                store.commit("hiddenSearchResult");
+                // store.commit("hiddenSearchResult");
                 await getSearchDefault().then((res) => {
                     state.searchInput.focus();
                     state.placeholder = res.data.data.showKeyword;
@@ -229,13 +229,13 @@ export default {
         display: flex;
         align-items: center;
         .back {
+            display: flex;
             margin-right: 12px;
             color: rgb(68, 68, 68);
             font-size: 22px;
         }
         input {
             width: 100%;
-            margin-top: 5px;
             padding-bottom: 4px;
             background-color: $color-background;
             border: 0;
@@ -245,8 +245,9 @@ export default {
             caret-color: red;
         }
         .fork {
+            display: flex;
             position: absolute;
-            top: 6px;
+            top: 4px;
             right: 6px;
             font-size: 16px;
         }

@@ -35,26 +35,18 @@
 
 <script>
 import { computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
 export default {
     name: "PlayListCover",
     setup() {
-        const router = useRouter();
         const store = useStore();
 
         onMounted(() => {
             store.commit("bottom/setIsShow", false);
         });
 
-        const goBack = () => {
-            store.commit("bottom/setIsShow", true);
-            router.go(-1);
-        };
-
         return {
-            goBack,
             playListCover: computed(() => store.state.playListCover),
         };
     },
@@ -85,8 +77,8 @@ export default {
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            transform: scale(1.2);
-            filter: blur(40px) contrast(0.8) brightness(0.8);
+            transform: scale(2);
+            filter: blur(20px) contrast(0.8) brightness(0.8);
         }
     }
     .center {

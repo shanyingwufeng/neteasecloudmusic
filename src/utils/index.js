@@ -15,7 +15,11 @@ export function changeValue(num, point = 0) {
 
 // 说明：从数组中随机取出几个元素组成新的数组
 export function getRandomArrayValue(arr, num) {
-    var sData = arr.slice(0), i = arr.length, min = i - num, item, index;
+    var sData = arr.slice(0),
+        i = arr.length,
+        min = i - num,
+        item,
+        index;
     while (i-- > min) {
         index = Math.floor((i + 1) * Math.random());
         item = sData[index];
@@ -23,4 +27,27 @@ export function getRandomArrayValue(arr, num) {
         sData[i] = item;
     }
     return sData.slice(min);
+}
+
+// 设置歌曲歌词信息
+export function getLyricList(lyric) {
+    if (lyric) {
+        let arr = lyric.split(/\n/gis).map((item, i, arr) => {
+            let min = parseInt(item.slice(1, 3));
+            let sec = parseInt(item.slice(4, 6));
+            let ms = parseInt(item.slice(7, 10));
+            return {
+                lyric: item.slice(11, item.length),
+                time: ms / 1000 + sec + min * 60,
+            };
+        });
+        arr.forEach((item, i) => {
+            if (i < arr.length - 1) {
+                item.next = arr[i + 1].time;
+            } else {
+                item.next = arr[i - 1].time;
+            }
+        });
+        return arr;
+    }
 }

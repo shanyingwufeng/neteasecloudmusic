@@ -9,7 +9,7 @@
                         class="swiper-slide"
                         v-for="(item, id) in list"
                         :key="id"
-                        :to="{ path: '/listview', query: { id: item.id } }"
+                        :to="{ path: '/playlist', query: { id: item.id } }"
                     >
                         <img v-lazy="item.coverImgUrl" />
                         <span class="name">{{ item.name }}</span>
@@ -27,6 +27,7 @@ import { getHighQualityPlayList } from "@/api/home/index.js";
 import { Swiper } from "swiper";
 import PlayCount from "@/components/PlayCount.vue";
 import TitleBar from "@/components/TitleBar.vue";
+import { useStore } from "vuex";
 
 export default {
     name: "BoutiquePlayList",

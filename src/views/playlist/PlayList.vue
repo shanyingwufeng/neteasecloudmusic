@@ -1,112 +1,77 @@
 <!-- 歌单 -->
 <template>
     <div class="playList">
-        <PlayListTop :playlist="playlist" :author="author" />
-        <!-- 数据加载完成之前的动画 -->
+        <PlayListTop
+            :playlist="playlist"
+            @showPlayListCover="showPlayListCover"
+        />
         <Loading v-if="loading" />
-        <PlayListSong :playlist="playlist" :tracks="tracks" v-if="!loading" />
+        <PlayListSong
+            :playlist="playlist"
+            :songList="songList"
+            v-if="!loading"
+        />
     </div>
 </template>
 
 <script>
-import { reactive, onMounted, toRefs, computed } from "vue";
-import { useRoute } from "vue-router";
-import { useStore } from "vuex";
-import {
-    getPlayListDetail,
-    getSongDetail,
-    getMyPlayListDetail,
-} from "@/api/index";
-import Loading from "@/components/Loading.vue";
 import PlayListTop from "@/views/playlist/PlayListTop.vue";
+import Loading from "@/components/Loading.vue";
 import PlayListSong from "@/views/playlist/PlayListSong.vue";
-import { Toast } from "vant";
+import { reactive, onMounted, toRefs, computed } from "vue";
+import { useStore } from "vuex";
+import { useRoute } from "vue-router";
+import { getSongDetail } from "@/api/play/index.js";
 
 export default {
     name: "PlayList",
     components: {
-        Loading,
         PlayListTop,
+        Loading,
         PlayListSong,
     },
     setup() {
-        const route = useRoute();
-        const store = useStore();
-        const id = route.query.id;
         const state = reactive({
-            list: [],
-            playlist: {
-                trackIds: [],
-                subscribedCount: 0,
-            },
-            author: {},
-            comment: 0,
-            tracks: [],
-            trackIds: "",
+            playlist: "",
+            author: "",
+            songList: "",
         });
 
+        const store = useStore();
+        const route = useRoute();
+        const id = route.query.id;
+
+        // 显示歌单封面
+        const showPlayListCover = () => {
+            state.playListCover = false;
+        };
+
         onMounted(async () => {
-            if (localStorage.getItem("userLoginInfo")) {
-                store.commit("showLoading");
-                await getMyPlayListDetail(id)
-                    .then((res) => {
-                        // console.log(res.data.playlist);
-                        state.playlist = res.data.playlist;
-                        state.author = res.data.playlist.creator;
-                        state.tracks = res.data.playlist.tracks;
-                        store.commit("setPlayList", state.tracks);
-                        store.commit("hiddenLoading");
+            store.commit("setLoading", true);
+            await store.dispatch("play/setPlayList", id);
+            state.playlist = store.state.play.playList;
+            store.commit(
+                "play/setSongIds",
+                state.playlist.trackIds.map((x) => {
+                    return x.id;
+                })
+            );
+            await getSongDetail(
+                state.playlist.trackIds
+                    .map((x) => {
+                        return x.id;
                     })
-                    .catch(() => {
-                        store.commit("hiddenLoading");
-                        Toast("加载失败");
-                    });
-            } else {
-                store.commit("showLoading");
-                await getPlayListDetail(id)
-                    .then((res) => {
-                        // console.log(res.data.playlist);
-                        state.playlist = res.data.playlist;
-                        state.author = res.data.playlist.creator;
-                        // 所有歌曲的id;
-                        state.trackIds = res.data.playlist.trackIds
-                            .map((x) => {
-                                return x.id;
-                            })
-                            .toString();
-
-                        // const result = [];
-                        // const arr = res.data.playlist.trackIds.map((x) => {
-                        //     return x.id;
-                        // });
-                        // for (let i = 0; i < arr.length; i += 10) {
-                        //     result.push(arr.slice(i, i + 10));
-                        // }
-                        // console.log(result[state.page].toString());
-
-                        // state.trackIds = result[state.page].toString();
-
-                        getSongDetail(state.trackIds)
-                            .then((res) => {
-                                // 所有歌曲信息
-                                state.tracks = res.data.songs;
-                                store.commit("setPlayList", state.tracks);
-                                store.commit("hiddenLoading");
-                            })
-                            .catch(() => {
-                                store.commit("hiddenLoading");
-                                Toast("歌曲加载失败");
-                            });
-                    })
-                    .catch(() => {
-                        store.commit("hiddenLoading");
-                        Toast("加载失败");
-                    });
-            }
+                    .toString()
+            ).then((res) => {
+                state.songList = res.data.songs;
+                // store.commit("play/setSongList", state.songList);
+                store.commit("setLoading", false);
+            });
         });
 
         return {
             ...toRefs(state),
+            showPlayListCover,
             loading: computed(() => store.state.loading),
         };
     },
@@ -115,9 +80,10 @@ export default {
 
 <style scoped lang='scss'>
 .playList {
+    overflow: scroll;
     height: 100vh;
     .loading {
-        margin-top: 50px;
+        margin-top: 70px;
     }
 }
 </style>
