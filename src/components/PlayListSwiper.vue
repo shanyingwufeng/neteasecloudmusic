@@ -12,14 +12,18 @@
                         query: { id: item.creativeId },
                     }"
                 >
-                    <img v-lazy="item.uiElement.image.imageUrl" />
-                    <span class="name">{{
-                        item.uiElement.mainTitle.title
-                    }}</span>
-                    <PlayCount
-                        :playCount="item.resources[0].resourceExtInfo.playCount"
-                        :point="point"
-                    />
+                    <lazy-component>
+                        <img v-lazy="item.uiElement.image.imageUrl" />
+                        <span class="name">{{
+                            item.uiElement.mainTitle.title
+                        }}</span>
+                        <PlayCount
+                            :playCount="
+                                item.resources[0].resourceExtInfo.playCount
+                            "
+                            :point="point"
+                        />
+                    </lazy-component>
                 </router-link>
             </div>
         </div>
@@ -34,15 +38,32 @@ import PlayCount from "@/components/PlayCount.vue";
 export default {
     name: "PlayListSwiper",
     components: { PlayCount },
-    props: ["list", "point"],
+    props: {
+        list: {
+            type: Array,
+            default: "",
+        },
+        point: {
+            type: Number,
+            default: 0,
+        },
+        slidesPerView: {
+            type: Number,
+            default: 3,
+        },
+        spaceBetween: {
+            type: Number,
+            default: 14,
+        },
+    },
     setup(props) {
         const list = ref([]);
 
         onUpdated(() => {
             list.value = props.list;
             new Swiper(".swiper", {
-                slidesPerView: 3,
-                spaceBetween: 14,
+                slidesPerView: props.slidesPerView,
+                spaceBetween: props.spaceBetween,
                 observeParents: true,
                 observer: true,
             });

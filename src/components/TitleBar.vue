@@ -62,6 +62,8 @@ export default {
                 font-size: 12px;
             }
             .iconfont {
+                display: flex;
+                align-items: center;
                 font-size: 10px;
             }
         }

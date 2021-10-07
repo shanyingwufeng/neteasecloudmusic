@@ -50,12 +50,12 @@ export default {
             store.commit("setLoading", true);
             await store.dispatch("play/setPlayList", id);
             state.playlist = store.state.play.playList;
-            store.commit(
-                "play/setSongIds",
-                state.playlist.trackIds.map((x) => {
-                    return x.id;
-                })
-            );
+            // store.commit(
+            //     "play/setSongIds",
+            //     state.playlist.trackIds.map((x) => {
+            //         return x.id;
+            //     })
+            // );
             await getSongDetail(
                 state.playlist.trackIds
                     .map((x) => {

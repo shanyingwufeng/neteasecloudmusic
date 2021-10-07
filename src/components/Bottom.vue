@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, computed } from "vue";
+import { reactive, toRefs, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -190,14 +190,14 @@ export default {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-around;
+            padding: 0 14px;
             .iconfont {
                 margin-bottom: 2px;
-                font-size: 18px;
+                font-size: 20px;
             }
             .title {
                 margin-top: 2px;
-                font-size: 12px;
+                font-size: 8px;
             }
         }
         .router-link-active {

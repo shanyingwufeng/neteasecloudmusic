@@ -7,6 +7,7 @@
                     class="item swiper-slide"
                     v-for="(item, id) in list"
                     :key="id"
+                    @click="jump(item.path)"
                 >
                     <span class="iconfont" :class="item.className">
                         <span class="date" v-if="item.date">{{ nowDate }}</span>
@@ -21,6 +22,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import { Swiper } from "swiper";
+import { useRouter } from "vue-router";
 
 export default {
     name: "CenterNav",
@@ -31,9 +33,15 @@ export default {
                 className: "icon-meirituijian1",
                 title: "每日推荐",
                 date: true,
+                path: "/dailyrecommend",
             },
             { id: 2, className: "icon-sirenfm-copy-copy", title: "私人FM" },
-            { id: 3, className: "icon-gedan4", title: "歌单" },
+            {
+                id: 3,
+                className: "icon-gedan4",
+                title: "歌单",
+                path: "/playlistsquare",
+            },
             { id: 4, className: "icon-paihangbang2", title: "排行榜" },
             {
                 id: 5,
@@ -49,7 +57,15 @@ export default {
             { id: 8, className: "icon-fangjian", title: "歌房" },
             { id: 9, className: "icon-rwjl", title: "游戏专区" },
         ];
+
         const nowDate = ref(Number);
+
+        const router = useRouter();
+
+        const jump = (path) => {
+            router.push(path);
+        };
+
         onMounted(() => {
             nowDate.value = new Date().getDate();
             new Swiper(".center-nav-swiper", {
@@ -57,7 +73,12 @@ export default {
                 spaceBetween: 12,
             });
         });
-        return { list, nowDate };
+
+        return {
+            list,
+            nowDate,
+            jump,
+        };
     },
 };
 </script>

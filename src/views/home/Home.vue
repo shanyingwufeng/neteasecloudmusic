@@ -11,6 +11,10 @@
         <RecommendPlayList />
         <!-- 新歌新碟数字专辑 -->
         <NewAlbumNewSong :data="newAlbumNewSong" />
+
+        <!-- 排行榜 -->
+        <TopList />
+
         <!-- 音乐日历 -->
         <MusicCalendar :data="musicCalendar" />
         <!-- 精选音乐视频 -->
@@ -34,6 +38,7 @@ import SlideShow from "@/views/home/SlideShow.vue";
 import CenterNav from "@/views/home/CenterNav.vue";
 import RecommendPlayList from "@/views/home/RecommendPlayList.vue";
 import NewAlbumNewSong from "@/views/home/albumandsong/NewAlbumNewSong.vue";
+import TopList from "@/views/home/TopList.vue";
 import MusicCalendar from "@/views/home/MusicCalendar.vue";
 import BoutiqueMusicVideo from "@/views/home/BoutiqueMusicVideo.vue";
 import RadarPlaylist from "@/views/home/RadarPlaylist.vue";
@@ -42,7 +47,7 @@ import BroadCastAndPodCast24 from "@/views/home/BroadCastAndPodCast24.vue";
 import VideoCollection from "@/views/home/VideoCollection.vue";
 import BoutiquePlayList from "@/views/home/BoutiquePlayList.vue";
 import { useStore } from "vuex";
-import { onActivated, reactive, toRefs } from "vue";
+import { onActivated, onDeactivated, reactive, toRefs } from "vue";
 import { getHomePageInfo } from "@/api/home/index.js";
 
 export default {
@@ -53,6 +58,7 @@ export default {
         CenterNav,
         RecommendPlayList,
         NewAlbumNewSong,
+        TopList,
         MusicCalendar,
         BoutiqueMusicVideo,
         RadarPlaylist,
@@ -90,7 +96,7 @@ export default {
                 state.offcialPlayList = res.data.data.blocks[7];
                 state.broadCastAndPodCast24 = res.data.data.blocks[9];
                 state.videoCollection = res.data.data.blocks[10];
-                // console.log(res.data.data.blocks);
+                // console.log(res.data.data.blocks[2]);
             });
         });
 

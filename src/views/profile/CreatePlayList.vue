@@ -17,7 +17,7 @@
                 v-for="(item, id) in list"
                 :key="id"
                 :to="{
-                    path: '/listview',
+                    path: '/playlist',
                     query: { id: item.id },
                 }"
             >
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { onUpdated, reactive, toRefs } from "vue";
+import { reactive, toRefs } from "vue";
 
 export default {
     name: "CreatePlayList",

@@ -43,3 +43,10 @@ export function getsublist() {
         url: `/user/account?cookie=${localStorage.getItem("cookie")}`,
     });
 }
+
+// 说明 : 获取所有榜单内容摘要
+export function getTopListDetail() {
+    return request({
+        url: `/toplist/detail`,
+    });
+}

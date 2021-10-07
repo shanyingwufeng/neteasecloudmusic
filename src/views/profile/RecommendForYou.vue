@@ -16,7 +16,7 @@
                 v-for="(item, index) in list"
                 :key="index"
                 :to="{
-                    path: '/listview',
+                    path: '/playlist',
                     query: { id: item.id },
                 }"
             >

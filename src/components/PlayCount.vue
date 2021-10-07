@@ -1,6 +1,6 @@
 <!-- 播放次数 -->
 <template>
-    <div class="play-count">
+    <div class="playCount">
         <span class="iconfont icon-bofangsanjiaoxing"></span>
         <span class="number">{{ changeValue(playCount, point) }}</span>
     </div>
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.play-count {
+.playCount {
     display: flex;
     align-items: center;
     position: absolute;

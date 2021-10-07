@@ -48,7 +48,9 @@ createApp(App)
     .use(SwipeItem)
     .use(PullRefresh)
     .use(Divider)
-    .use(Lazyload)
+    .use(Lazyload, {
+        lazyComponent: true,
+    })
     .use(store)
     .use(router)
     .mount("#app");

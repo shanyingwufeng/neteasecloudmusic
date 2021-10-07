@@ -56,7 +56,40 @@
                 <span class="iconfont icon-shoucang"></span>
                 <span class="iconfont icon-iconset0425"></span>
                 <span class="iconfont icon-changpian"></span>
-                <span class="iconfont icon-58pinglun"></span>
+                <div>
+                    <div class="comment" v-if="playSong.comments >= 100000">
+                        <span class="iconfont icon-pinglun_youpinglun_"></span>
+                        <span class="total">10w+</span>
+                    </div>
+                    <div class="comment" v-else-if="playSong.comments >= 10000">
+                        <span class="iconfont icon-pinglun_youpinglun_"></span>
+                        <span class="total w1">1w+</span>
+                    </div>
+                    <div class="comment" v-else-if="playSong.comments >= 1000">
+                        <span class="iconfont icon-pinglun_youpinglun_"></span>
+                        <span class="total">999+</span>
+                    </div>
+                    <div class="comment" v-else-if="playSong.comments >= 100">
+                        <span class="iconfont icon-pinglun_youpinglun_"></span>
+                        <span class="total g100">{{ playSong.comments }}</span>
+                    </div>
+                    <div class="comment" v-else-if="playSong.comments >= 10">
+                        <span class="iconfont icon-pinglun_youpinglun_"></span>
+                        <span class="total g10">{{ playSong.comments }}</span>
+                    </div>
+                    <div
+                        class="comment"
+                        v-else-if="
+                            playSong.comments > 0 && playSong.comments <= 10
+                        "
+                    >
+                        <span class="iconfont icon-pinglun_youpinglun_"></span>
+                        <span class="total g0">{{ playSong.comments }}</span>
+                    </div>
+                    <div class="comment" v-else-if="(playSong.comments == 0)">
+                        <span class="iconfont icon-58pinglun"></span>
+                    </div>
+                </div>
                 <span class="iconfont icon-gengduo"></span>
             </div>
             <div class="playControl">
@@ -108,6 +141,7 @@ export default {
         const store = useStore();
         const route = useRoute();
         const id = route.query.id;
+        const from = route.query.from;
 
         const musicPlay = () => {
             state.play = true;
@@ -121,63 +155,82 @@ export default {
         };
 
         const preSong = () => {
-            state.zuoyi = true;
-            store.commit("play/setPlayState", false);
-            setTimeout(async () => {
-                if (state.index == 0) {
-                    state.index = state.songIds.length - 1;
-                    await store.dispatch(
-                        "play/setPlaySongInfo",
-                        state.songIds[state.index]
-                    );
-                    state.lyric = getLyricList(store.state.play.playSong.lyric);
-                    store.commit("play/setPlayState", true);
-                } else {
-                    state.index = state.index - 1;
-                    await store.dispatch(
-                        "play/setPlaySongInfo",
-                        state.songIds[state.index]
-                    );
-                    state.lyric = getLyricList(store.state.play.playSong.lyric);
-                    store.commit("play/setPlayState", true);
-                    state.zuoyi = false;
-                }
-            }, 500);
+            if (store.getters["play/getSongIds"]) {
+                state.zuoyi = true;
+                store.commit("play/setPlayState", false);
+                setTimeout(async () => {
+                    if (state.index == 0) {
+                        state.index = state.songIds.length - 1;
+                        await store.dispatch(
+                            "play/setPlaySongInfo",
+                            state.songIds[state.index]
+                        );
+                        state.lyric = getLyricList(
+                            store.state.play.playSong.lyric
+                        );
+                        store.commit("play/setPlayState", true);
+                    } else {
+                        state.index = state.index - 1;
+                        await store.dispatch(
+                            "play/setPlaySongInfo",
+                            state.songIds[state.index]
+                        );
+                        state.lyric = getLyricList(
+                            store.state.play.playSong.lyric
+                        );
+                        store.commit("play/setPlayState", true);
+                        state.zuoyi = false;
+                    }
+                }, 500);
+            }
         };
 
         const nextSong = () => {
-            state.youyi = true;
-            store.commit("play/setPlayState", false);
-            setTimeout(async () => {
-                if (state.index == state.songIds.length - 1) {
-                    state.index = 0;
-                    await store.dispatch(
-                        "play/setPlaySongInfo",
-                        state.songIds[state.index]
-                    );
-                    state.lyric = getLyricList(store.state.play.playSong.lyric);
-                    store.commit("play/setPlayState", true);
-                } else {
-                    state.index = state.index + 1;
-                    await store.dispatch(
-                        "play/setPlaySongInfo",
-                        state.songIds[state.index]
-                    );
-                    state.lyric = getLyricList(store.state.play.playSong.lyric);
-                    store.commit("play/setPlayState", true);
-                    state.youyi = false;
-                }
-            }, 500);
+            if (store.getters["play/getSongIds"]) {
+                state.youyi = true;
+                store.commit("play/setPlayState", false);
+                setTimeout(async () => {
+                    if (state.index == state.songIds.length - 1) {
+                        state.index = 0;
+                        await store.dispatch(
+                            "play/setPlaySongInfo",
+                            state.songIds[state.index]
+                        );
+                        state.lyric = getLyricList(
+                            store.state.play.playSong.lyric
+                        );
+                        store.commit("play/setPlayState", true);
+                    } else {
+                        state.index = state.index + 1;
+                        await store.dispatch(
+                            "play/setPlaySongInfo",
+                            state.songIds[state.index]
+                        );
+                        state.lyric = getLyricList(
+                            store.state.play.playSong.lyric
+                        );
+                        store.commit("play/setPlayState", true);
+                        state.youyi = false;
+                    }
+                }, 500);
+            }
         };
 
         onMounted(async () => {
             if (id) {
-                store.commit("play/setPlayState", false);
-                await store.dispatch("play/setPlaySongInfo", id);
-                state.songIds = store.state.play.songIds;
-                state.index = state.songIds.indexOf(Number(id));
-                state.lyric = getLyricList(store.state.play.playSong.lyric);
-                store.commit("play/setPlayState", true);
+                if (from === "bottom") {
+                    await store.dispatch("play/setPlaySongInfo", id);
+                    state.songIds = store.state.play.songIds;
+                    state.index = state.songIds.indexOf(Number(id));
+                    state.lyric = getLyricList(store.state.play.playSong.lyric);
+                } else {
+                    store.commit("play/setPlayState", false);
+                    await store.dispatch("play/setPlaySongInfo", id);
+                    state.songIds = store.state.play.songIds;
+                    state.index = state.songIds.indexOf(Number(id));
+                    state.lyric = getLyricList(store.state.play.playSong.lyric);
+                    store.commit("play/setPlayState", true);
+                }
             }
         });
 
@@ -274,7 +327,7 @@ export default {
         top: 64px;
         left: 0;
         width: 100%;
-        height: 480px;
+        height: 630px;
         text-align: center;
         .controlLever {
             position: absolute;
@@ -317,11 +370,14 @@ export default {
         }
     }
     .lyric {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         position: absolute;
         top: 80px;
         left: 0;
         width: 100%;
-        height: 460px;
+        height: 580px;
         .hasLyric {
             overflow: scroll;
             overflow-x: hidden;
@@ -343,25 +399,50 @@ export default {
         }
     }
     .bottom {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         position: fixed;
         bottom: 0;
         width: 100%;
-        height: 120px;
-        padding: $padding 20px;
+        height: 16%;
+        padding: 0 20px;
         .btnList {
             display: flex;
             justify-content: space-around;
             align-items: center;
             .iconfont {
                 color: rgb(233, 233, 233);
-                font-size: 20px;
+                font-size: 26px;
+            }
+            .comment {
+                position: relative;
+                color: #fff;
+                .total {
+                    position: absolute;
+                    top: 3px;
+                    right: -19px;
+                    font-size: 8px;
+                    &.w1 {
+                        right: -12px;
+                    }
+                    &.g100 {
+                        right: -12px;
+                    }
+                    &.g10 {
+                        right: -5px;
+                    }
+                    &.g0 {
+                        right: 2px;
+                    }
+                }
             }
         }
         .playControl {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            margin-top: 14px;
+            margin-bottom: 14px;
             .iconfont {
                 color: #fff;
                 font-size: 22px;

@@ -12,7 +12,7 @@
             class="left"
             v-if="playlist"
             :to="{
-                path: '/listview',
+                path: '/playlist',
                 query: { id: playlist.id },
             }"
         >

@@ -96,6 +96,22 @@ const routes = [
         name: "Friends",
         component: () => import("@/views/cloudvillage/CloudVillage.vue"),
     },
+    {
+        path: "/dailyrecommend", // 每日推荐
+        name: "DailyRecommend",
+        component: () => import("@/views/recommend/DailyRecommend.vue"),
+        meta: {
+            hiddenTabBar: true,
+        },
+    },
+    {
+        path: "/playlistsquare", // 歌单广场
+        name: "PlayListSquare",
+        component: () => import("@/views/playlist/PlayListSquare.vue"),
+        meta: {
+            hiddenTabBar: true,
+        },
+    },
 ];
 
 const router = createRouter({

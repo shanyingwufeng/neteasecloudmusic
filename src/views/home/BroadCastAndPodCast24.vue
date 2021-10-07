@@ -137,6 +137,7 @@ export default {
                         align-items: center;
                         height: 100%;
                         border-radius: 10px;
+                        text-align: center;
                         &::before {
                             content: "";
                             position: absolute;
@@ -155,7 +156,7 @@ export default {
                             display: block;
                             width: 90px;
                             height: 90px;
-                            margin-bottom: 6px;
+                            margin-bottom: 8px;
                             border-radius: 50%;
                         }
                         .iconfont {
@@ -172,7 +173,6 @@ export default {
                         .name {
                             @include ellipsis1();
                             font-size: 14px;
-                            line-height: 1.4;
                         }
                     }
                 }

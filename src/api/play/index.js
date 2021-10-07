@@ -30,3 +30,10 @@ export function getMyPlayListDetail(id) {
         )}`,
     });
 }
+
+// 说明 : 调用此接口 , 传入音乐 id 和 limit 参数 , 可获得该音乐的所有评论 ( 不需要登录 )
+export function getMusicComment(id) {
+    return request({
+        url: `/comment/music?id=${id}`,
+    });
+}

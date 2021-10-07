@@ -10,15 +10,19 @@
                         v-for="(item, id) in list"
                         :key="id"
                     >
-                        <!-- <img v-lazy="item.resource.mlogBaseData.coverUrl" /> -->
-                        <img v-lazy="item.resource.mlogExtVO.song.coverUrl" />
-                        <span class="name">{{
-                            item.resource.mlogBaseData.text
-                        }}</span>
-                        <PlayCount
-                            :playCount="item.resource.mlogExtVO.playCount"
-                            :point="0"
-                        />
+                        <lazy-component>
+                            <img
+                                v-lazy="item.resource.mlogExtVO.song.coverUrl"
+                                v-if="item.resource.mlogExtVO.song"
+                            />
+                            <span class="name">{{
+                                item.resource.mlogBaseData.text
+                            }}</span>
+                            <PlayCount
+                                :playCount="item.resource.mlogExtVO.playCount"
+                                :point="0"
+                            />
+                        </lazy-component>
                     </div>
                 </div>
             </div>
@@ -72,7 +76,6 @@ export default {
                     flex-direction: column;
                     img {
                         width: 100%;
-                        // height: 120px;
                         margin-bottom: 4px;
                         border-radius: 10px;
                     }

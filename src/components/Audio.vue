@@ -3,7 +3,6 @@
     <div class="audio" v-if="id">
         <audio
             ref="audio"
-            @ended="!playState"
             :src="`https://music.163.com/song/media/outer/url?id=${id}.mp3`"
         ></audio>
     </div>
@@ -24,7 +23,6 @@ export default {
         const updateTime = () => {
             store.commit("play/setPlayCurrentTime", 0);
             intervalId.value = setInterval(() => {
-                // console.log(audio._value.currentTime);
                 store.commit(
                     "play/setPlayCurrentTime",
                     audio._value.currentTime

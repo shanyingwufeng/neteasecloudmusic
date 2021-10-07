@@ -2,6 +2,7 @@ import {
     getLyric,
     getSongDetail,
     getPlayListDetail,
+    getMusicComment,
 } from "@/api/play/index.js";
 import { Toast } from "vant";
 
@@ -41,6 +42,24 @@ const getters = {
         }
         return state.playSong;
     },
+
+    // 获取播放歌单
+    getPlayList: (state) => {
+        if (localStorage.getItem("playList")) {
+            state.playList = JSON.parse(localStorage.getItem("playList"));
+        }
+        return state.playList;
+    },
+
+    // 获取播放状态
+    getPlayState: (state) => {
+        return state.playState;
+    },
+
+    // 获取播放状态
+    getSongIds: (state) => {
+        return state.songIds;
+    },
 };
 
 // 提交 mutation 是更改状态的唯一方法，并且这个过程是同步的
@@ -67,8 +86,8 @@ const mutations = {
     },
 
     // 设置播放歌单
-    setPlayList(state, value) {
-        state.playList = value;
+    setPlayList(state, payload) {
+        state.playList = payload;
     },
 
     // 设置歌单歌曲列表
@@ -95,11 +114,17 @@ const actions = {
     async setPlayList({ commit }, id) {
         await getPlayListDetail(id).then((res) => {
             commit("setPlayList", res.data.playlist);
+            commit(
+                "setSongIds",
+                res.data.playlist.trackIds.map((x) => {
+                    return x.id;
+                })
+            );
         });
     },
 
     // 播放歌曲详情
-    async setPlaySongInfo({ commit, state }, id) {
+    async setPlaySongInfo({ commit }, id) {
         await getSongDetail(id).then(async (res) => {
             const playSong = {
                 id: 0,
@@ -107,6 +132,7 @@ const actions = {
                 author: "",
                 imgUrl: "",
                 lyric: "",
+                comments: 0,
             };
             playSong.id = res.data.songs[0].id;
             playSong.name = res.data.songs[0].name;
@@ -114,11 +140,13 @@ const actions = {
             playSong.imgUrl = res.data.songs[0].al.picUrl;
             playSong.lyric = await getLyric(id).then((res) => {
                 if (res.data.lrc) {
-                    // console.log(res.data.lrc.lyric);
                     return res.data.lrc.lyric;
                 } else {
                     return "";
                 }
+            });
+            playSong.comments = await getMusicComment(id).then((res) => {
+                return res.data.total;
             });
             commit("setPlaySong", playSong);
         });
