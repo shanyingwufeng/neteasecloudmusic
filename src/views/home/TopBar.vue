@@ -21,7 +21,7 @@
                 <SideBar />
             </van-popup>
         </div>
-        <router-link class="center" :class="{ scroll: scroll }" to="/search">
+        <router-link class="center" :class="{ scroll: scroll }" to="/searchpage">
             <span class="iconfont icon-sousuo1"></span>
             <div class="searchKeyword">
                 <swiper
@@ -123,15 +123,15 @@ export default {
 
 <style scoped lang='scss'>
 .topBar {
-    position: sticky;
+    position: fixed;
     top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    height: 58px;
     padding: $padding;
     background-color: rgb(240, 240, 240);
-    box-shadow: 0 -1px $color-white-background;
     z-index: 999;
     &.scroll {
         padding-bottom: 8px;

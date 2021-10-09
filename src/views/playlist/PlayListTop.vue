@@ -9,18 +9,31 @@
                 }"
             />
         </div>
-        <div class="topBar">
+        <div class="topBar" :class="{ scroll: scroll }">
+            <div
+                class="img"
+                :class="{ scroll: scroll }"
+                :style="{
+                    backgroundImage:
+                        scroll == true
+                            ? 'url(' + playlist.coverImgUrl + ')'
+                            : '',
+                }"
+            ></div>
             <div class="left">
                 <span
                     class="iconfont icon-arrowLeft-fill"
                     @click="$router.go(-1)"
                 ></span>
-                <span class="title">歌单</span>
+                <span class="title" :class="{ scroll: scroll }">歌单</span>
+                <span class="name" :class="{ scroll: scroll }">{{
+                    playlist.name
+                }}</span>
             </div>
             <div class="right">
                 <span
                     class="iconfont icon-sousuo"
-                    @click="$router.push('/search')"
+                    @click="$router.push('/searchpage')"
                 ></span>
                 <span class="iconfont icon-gengduo"></span>
             </div>
@@ -41,7 +54,7 @@
                         <div class="author">
                             <img class="header" v-lazy="author.avatarUrl" />
                             <span class="nickname">{{ author.nickname }}</span>
-                            <div class="icon">
+                            <div>
                                 <span class="iconfont icon-youjiantou"></span>
                             </div>
                         </div>
@@ -52,9 +65,7 @@
                         @click="showPlayListCover()"
                     >
                         <span>{{ playlist.description }}</span>
-                        <div class="icon">
-                            <span class="iconfont icon-youjiantou"></span>
-                        </div>
+                        <span class="iconfont icon-youjiantou"></span>
                     </div>
                 </div>
             </div>
@@ -105,7 +116,7 @@
 import PlayCount from "@/components/PlayCount.vue";
 import $store from "@/store/index.js";
 import { changeValue } from "@/utils/index.js";
-import { onUpdated, reactive, toRefs } from "vue";
+import { onMounted, onUpdated, reactive, toRefs } from "vue";
 
 export default {
     name: "PlayListTop",
@@ -114,10 +125,7 @@ export default {
     setup(props, { emit }) {
         const state = reactive({
             author: "",
-        });
-
-        onUpdated(() => {
-            state.author = props.playlist.creator;
+            scroll: false,
         });
 
         // 显示歌单封面
@@ -131,6 +139,28 @@ export default {
             });
             emit("showPlayListCover");
         };
+
+        const windowScroll = () => {
+            // 滚动条距离页面顶部的距离
+            // 以下写法原生兼容
+            let scrollTop =
+                window.pageYOffset ||
+                document.documentElement.scrollTop ||
+                document.body.scrollTop;
+            if (scrollTop !== 0) {
+                state.scroll = true;
+            } else {
+                state.scroll = false;
+            }
+        };
+
+        onMounted(() => {
+            window.addEventListener("scroll", windowScroll);
+        });
+
+        onUpdated(() => {
+            state.author = props.playlist.creator;
+        });
 
         return {
             ...toRefs(state),
@@ -173,20 +203,61 @@ export default {
         }
     }
     .topBar {
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        width: 100%;
+        height: 54px;
+        padding: $padding;
+        padding-bottom: 0;
         color: #fff;
+        z-index: 999;
+        transition: background-color 0.8s ease-in;
+        &.scroll {
+            padding: 6px $padding;
+        }
+        .img {
+            display: none;
+            &.scroll {
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: block;
+                width: 100%;
+                height: 54px;
+                background-size: cover;
+                background-position: top;
+                background-repeat: no-repeat;
+                transform: scale(1.2);
+                filter: blur(5px) contrast(0.5) brightness(0.5);
+                z-index: -1;
+            }
+        }
         .left {
             display: flex;
             align-items: center;
+            width: 80%;
             font-size: 16px;
             .iconfont {
-                margin-right: 16px;
+                margin-right: 12px;
                 font-size: 22px;
             }
             .title {
                 font-size: 20px;
+                &.scroll {
+                    display: none;
+                }
+            }
+            .name {
+                display: none;
+                &.scroll {
+                    display: block;
+                    font-size: 14px;
+                }
             }
         }
         .right {
@@ -205,6 +276,7 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        margin-top: 20px;
         .top {
             display: flex;
             margin: 40px 0 50px 0;

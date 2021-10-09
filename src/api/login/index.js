@@ -1,7 +1,7 @@
 import { request } from "@/api/request";
 import { Toast } from "vant";
 
-// 说明：调用此接口，实现登录
+// 说明 : 调用此接口 , 实现登录
 export function login({ account, password, loginWay }) {
     // 手机号和密码登录
     if (loginWay == "phonePassword") {
@@ -41,7 +41,7 @@ export function login({ account, password, loginWay }) {
     }
 }
 
-// 说明：调用此接口，传入手机号码，可获取验证码
+// 说明 : 调用此接口 , 传入手机号码 , 可获取验证码
 export function getPhoneCaptcha(phoneNumber) {
     return request({
         url: "/captcha/sent?phone=" + phoneNumber,
@@ -49,7 +49,7 @@ export function getPhoneCaptcha(phoneNumber) {
     });
 }
 
-// 说明：调用此接口，传入手机号码和验证码，可校验验证码是否正确
+// 说明 : 调用此接口 , 传入手机号码和验证码 , 可校验验证码是否正确
 export function verifyPhoneCaptcha(phoneNumber, captcha) {
     return request({
         url: `/captcha/verify?phone=${phoneNumber}&captcha=${captcha}`,

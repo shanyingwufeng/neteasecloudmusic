@@ -11,10 +11,8 @@
         <RecommendPlayList />
         <!-- 新歌新碟数字专辑 -->
         <NewAlbumNewSong :data="newAlbumNewSong" />
-
         <!-- 排行榜 -->
         <TopList />
-
         <!-- 音乐日历 -->
         <MusicCalendar :data="musicCalendar" />
         <!-- 精选音乐视频 -->
@@ -87,7 +85,7 @@ export default {
         };
 
         onActivated(() => {
-            store.commit("bottom/setIsShow", true);
+            store.commit("bottom/setVisible", true);
             getHomePageInfo().then(async (res) => {
                 state.newAlbumNewSong = res.data.data.blocks[3];
                 state.musicCalendar = res.data.data.blocks[4];

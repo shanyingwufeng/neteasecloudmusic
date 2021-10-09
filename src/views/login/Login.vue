@@ -58,7 +58,7 @@ export default {
         const store = useStore();
 
         onMounted(() => {
-            store.commit("bottom/setIsShow", false);
+            store.commit("bottom/setVisible", false);
         });
         return { moreLogin };
     },

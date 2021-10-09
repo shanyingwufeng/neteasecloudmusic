@@ -1,6 +1,6 @@
+// 用户模块
 import { login } from "@/api/login/index.js";
 
-// 用户模块
 const state = () => ({
     user: {
         isLogin: false,

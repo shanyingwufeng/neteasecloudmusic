@@ -65,7 +65,7 @@ export default {
         // 搜索歌曲
         const search = async () => {
             store.commit("hiddenSearchContent");
-            store.commit("showLoading");
+            store.commit("setLoading", true);
 
             const result = await searchByKeyword(state.searchKeyword);
             console.log(result);
@@ -81,14 +81,14 @@ export default {
                 localStorage.searchHistory = JSON.stringify(
                     state.searchHistory
                 );
-                store.commit("hiddenLoading");
+                store.commit("setLoading", false);
             } else {
                 state.searchHistory.push(state.searchKeyword);
                 localStorage.setItem(
                     "searchHistory",
                     JSON.stringify(state.searchHistory)
                 );
-                store.commit("hiddenLoading");
+                store.commit("setLoading", false);
             }
 
             store.commit(

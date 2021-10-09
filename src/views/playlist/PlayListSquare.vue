@@ -1,22 +1,29 @@
 <!-- 歌单广场 -->
 <template>
     <div class="playListSquare">
-        <div class="top">
-            <span
-                class="iconfont icon-zuojiantou"
-                @click="$router.go(-1)"
-            ></span>
-            <span class="title">歌单广场</span>
-        </div>
+        <van-sticky>
+            <div class="top">
+                <span
+                    class="iconfont icon-zuojiantou"
+                    @click="$router.go(-1)"
+                ></span>
+                <span class="title">歌单广场</span>
+            </div>
+        </van-sticky>
         <div class="content">
-            <van-tabs v-model:active="active">
+            <van-tabs
+                v-model:active="active"
+                animated
+                swipeable
+                @click-tab="setPlayLists"
+            >
                 <van-tab
                     v-for="(item, index) in list"
                     :title="item.title"
                     :key="index"
-                    @click="setPlayLists(item.title)"
                 >
-                    <div class="playListDetail">
+                    <Loading v-if="loading" />
+                    <div class="playListDetail" v-if="!loading">
                         <router-link
                             class="playListItem"
                             v-for="(item, i) in item.playlists"
@@ -38,16 +45,18 @@
 </template>
 
 <script>
-import { getPlayLists } from "@/api/playlist/index.js";
-import { onMounted, reactive, toRefs } from "vue";
+import { getPlayLists, getHighQualityPlayList } from "@/api/playlist/index.js";
+import { onMounted, reactive, toRefs, computed } from "vue";
 import PlayCount from "@/components/PlayCount.vue";
+import Loading from "@/components/Loading.vue";
+import { useStore } from "vuex";
 
 export default {
     name: "PlayListSquare",
-    components: { PlayCount },
+    components: { PlayCount, Loading },
     setup() {
         const state = reactive({
-            active: 3,
+            active: 1,
             list: [
                 { title: "推荐", playlists: "" },
                 { title: "官方", playlists: "" },
@@ -60,30 +69,52 @@ export default {
             ],
         });
 
-        const setPlayLists = (title) => {
-            console.log(title);
+        const store = useStore();
+
+        const setPlayLists = async ({ title }) => {
+            store.commit("setLoading", true);
+            if (title === "精品") {
+                await getHighQualityPlayList(48).then((res) => {
+                    state.list[2].playlists = res.data.playlists;
+                    store.commit("setLoading", false);
+                });
+            } else {
+                await getPlayLists(title).then((res) => {
+                    const obj = state.list.filter(
+                        (item) => item.title == title
+                    );
+                    obj[0].playlists = res.data.playlists;
+                    store.commit("setLoading", false);
+                });
+            }
         };
 
-        onMounted(() => {
-            getPlayLists(state.list[3].title).then((res) => {
-                // console.log(res.data);
-                state.list[3].playlists = res.data.playlists;
+        onMounted(async () => {
+            store.commit("setLoading", true);
+            await getPlayLists(state.list[1].title).then((res) => {
+                state.list[1].playlists = res.data.playlists;
+                store.commit("setLoading", false);
             });
         });
 
-        return { ...toRefs(state), setPlayLists };
+        return {
+            ...toRefs(state),
+            setPlayLists,
+            loading: computed(() => store.state.loading),
+        };
     },
 };
 </script>
 
 <style lang='scss'>
 .playListSquare {
-    overflow: scroll;
-    padding: $padding;
+    padding-top: 0;
     padding-bottom: 40px;
     .top {
         display: flex;
         align-items: center;
+        padding: 10px $padding;
+        background-color: #fff;
         .iconfont {
             display: flex;
             margin-right: 12px;
@@ -94,8 +125,12 @@ export default {
         }
     }
     .content {
+        padding: 0 $padding;
         .van-tabs {
             .van-tabs__wrap {
+                position: fixed;
+                top: 56px;
+                z-index: 999;
                 .van-tabs__nav {
                     padding-left: 0;
                     padding-bottom: 0;
@@ -113,26 +148,32 @@ export default {
                 }
             }
             .van-tabs__content {
-                .playListDetail {
-                    display: flex;
-                    flex-wrap: wrap;
-                    justify-content: space-between;
-                    margin-top: 16px;
-                    .playListItem {
-                        position: relative;
-                        width: 30%;
+                padding-top: 40px;
+                .van-tab__pane {
+                    .loading {
+                        margin: 20px;
+                    }
+                    .playListDetail {
                         display: flex;
-                        flex-direction: column;
-                        margin-bottom: 20px;
-                        img {
-                            display: block;
-                            width: 104px;
-                            height: 104px;
-                            margin-bottom: 4px;
-                            border-radius: 8px;
-                        }
-                        .name {
-                            @include ellipsis2();
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        margin-top: 16px;
+                        .playListItem {
+                            position: relative;
+                            width: 30%;
+                            display: flex;
+                            flex-direction: column;
+                            margin-bottom: 20px;
+                            img {
+                                display: block;
+                                width: 104px;
+                                height: 104px;
+                                margin-bottom: 4px;
+                                border-radius: 8px;
+                            }
+                            .name {
+                                @include ellipsis2();
+                            }
                         }
                     }
                 }

@@ -27,9 +27,9 @@ const routes = [
     },
     {
         // 搜索页面
-        path: "/search",
-        name: "Search",
-        component: () => import("@/views/search/Search.vue"),
+        path: "/searchpage",
+        name: "SearchPage",
+        component: () => import("@/views/search/SearchPage.vue"),
         meta: {
             keepAlive: true,
             hiddenTabBar: true,
@@ -38,7 +38,7 @@ const routes = [
     },
     {
         // 搜索结果页面
-        path: "/searchresult",
+        path: "/search",
         name: "SearchResult",
         component: () => import("@/views/search/searchresult/SearchResult.vue"),
         meta: {

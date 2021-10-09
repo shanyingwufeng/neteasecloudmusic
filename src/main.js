@@ -23,6 +23,7 @@ import {
     SwipeItem,
     PullRefresh,
     Divider,
+    Sticky,
 } from "vant";
 
 // 使用swiper的compositon API
@@ -48,6 +49,7 @@ createApp(App)
     .use(SwipeItem)
     .use(PullRefresh)
     .use(Divider)
+    .use(Sticky)
     .use(Lazyload, {
         lazyComponent: true,
     })

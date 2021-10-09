@@ -30,7 +30,7 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import { onMounted, reactive, toRefs } from "vue";
+import { onUpdated, reactive, toRefs } from "vue";
 import { changeValue } from "@/utils/index.js";
 
 export default {
@@ -39,13 +39,15 @@ export default {
     props: ["data"],
     setup(props) {
         const state = reactive({
-            list: [],
+            list: "",
             moreText: "",
         });
 
-        onMounted(() => {
-            state.list = props.data.users;
-            state.moreText = props.data.moreText;
+        onUpdated(() => {
+            if (state.list == "") {
+                state.list = props.data.users;
+                state.moreText = props.data.moreText;
+            }
         });
 
         return { ...toRefs(state), changeValue };

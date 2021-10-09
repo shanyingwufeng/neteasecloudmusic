@@ -27,7 +27,7 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import { onMounted, reactive, toRefs } from "vue";
+import { onUpdated, reactive, toRefs } from "vue";
 import { changeValue } from "@/utils/index.js";
 
 export default {
@@ -40,7 +40,7 @@ export default {
             moreText: "",
         });
 
-        onMounted(() => {
+        onUpdated(() => {
             state.list =
                 props.data.artists.length > 5
                     ? props.data.artists.slice(0, 5)

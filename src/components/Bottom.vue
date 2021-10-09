@@ -91,7 +91,7 @@ export default {
         return {
             ...toRefs(state),
             play,
-            bottomShow: computed(() => store.state.bottom.isShow),
+            bottomShow: computed(() => store.state.bottom.visible),
             playState: computed(() => store.state.play.playState),
             playSong: computed(() => store.getters["play/getPlaySong"]),
         };

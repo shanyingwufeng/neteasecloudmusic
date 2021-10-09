@@ -48,8 +48,8 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import { computed, onMounted, reactive, toRefs } from "vue";
-import { useStore } from "vuex";
+import { onUpdated, reactive, toRefs } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
     name: "SearchSingle",
@@ -57,30 +57,32 @@ export default {
     props: ["data"],
     setup(props) {
         const state = reactive({
-            list: [],
+            list: "",
             moreText: "",
+            searchKeyword: "",
         });
 
-        const store = useStore();
+        const route = useRoute();
+        state.searchKeyword = route.query.keyword;
 
-        onMounted(() => {
-            state.list =
-                props.data.songs.length > 5
-                    ? props.data.songs.slice(0, 5)
-                    : props.data.songs;
-            state.moreText = props.data.moreText;
+        onUpdated(() => {
+            if (state.list === "") {
+                state.list =
+                    props.data.songs.length > 5
+                        ? props.data.songs.slice(0, 5)
+                        : props.data.songs;
+                state.moreText = props.data.moreText;
+            }
         });
 
-        return {
-            ...toRefs(state),
-            searchKeyword: computed(() => store.state.searchKeyword),
-        };
+        return { ...toRefs(state) };
     },
 };
 </script>
 
 <style scoped lang='scss'>
 .searchSingle {
+    margin-top: 20px;
     margin-bottom: 14px;
     background-color: $color-white-background;
     border-radius: 10px;

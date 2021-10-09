@@ -21,19 +21,21 @@
                 <span class="iconfont icon-youjiantou"></span>
             </div>
         </div> -->
-        <div class="top" v-if="playlist.length !== 0">
-            <div class="top-left">
-                <span class="iconfont icon-bofang"></span>
-                <span class="playAll">播放全部</span>
-                <span class="playListCount">
-                    ({{ playlist.trackIds.length }})
-                </span>
+        <van-sticky :offset-top="50">
+            <div class="top" v-if="playlist.length !== 0">
+                <div class="top-left">
+                    <span class="iconfont icon-bofang"></span>
+                    <span class="playAll">播放全部</span>
+                    <span class="playListCount">
+                        ({{ playlist.trackIds.length }})
+                    </span>
+                </div>
+                <div class="top-right">
+                    <span class="iconfont icon-xiazai1"></span>
+                    <span class="iconfont icon-xiazaiwancheng"></span>
+                </div>
             </div>
-            <div class="top-right">
-                <span class="iconfont icon-xiazai1"></span>
-                <span class="iconfont icon-xiazaiwancheng"></span>
-            </div>
-        </div>
+        </van-sticky>
         <div class="detail">
             <div
                 class="item"
@@ -54,11 +56,15 @@
                         </div>
                         <div class="bottom">
                             <div v-if="item.fee == 1">
-                                <span class="vip">VIP</span>
-                                <span class="sq">SQ</span>
+                                <span class="iconfont icon-vip3 vip"></span>
+                                <span
+                                    class="iconfont icon-wusunyinzhi sq"
+                                ></span>
                             </div>
                             <div v-if="item.fee == 8">
-                                <span class="sq">SQ</span>
+                                <span
+                                    class="iconfont icon-wusunyinzhi sq"
+                                ></span>
                             </div>
                             <div class="authorAndAl">
                                 <span>{{ item.ar[0].name }}</span>
@@ -91,6 +97,7 @@ export default {
         const state = reactive({
             idArr: [],
         });
+
         const router = useRouter();
 
         const play = (id) => {
@@ -108,7 +115,7 @@ export default {
 <style scoped lang='scss'>
 .playListSong {
     padding: 0 10px;
-    padding-top: 40px;
+    padding-top: 24px;
     padding-bottom: 54px;
     background-color: #fff;
     .ad {
@@ -142,7 +149,8 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 4px 0;
+        padding: 14px 0;
+        background-color: #fff;
         .top-left {
             display: flex;
             align-items: center;
@@ -165,7 +173,7 @@ export default {
         .top-right {
             padding-right: 4px;
             .iconfont {
-                font-size: 18px;
+                font-size: 16px;
             }
             .iconfont:first-child {
                 margin-right: 18px;
@@ -191,36 +199,33 @@ export default {
                     text-align: center;
                 }
                 .content {
+                    display: flex;
+                    flex-direction: column;
+                    width: 90%;
                     padding-right: 20px;
                     color: #333;
                     font-size: 14px;
                     .title {
                         @include ellipsis1();
-                        margin-bottom: 4px;
                     }
                     .bottom {
                         display: flex;
                         align-items: center;
                         color: #999;
                         font-size: 10px;
-                        .authorAndAl {
-                            @include ellipsis1();
-                        }
                         .vip {
+                            background-color: #333;
                             margin-right: 4px;
-                            padding: 0 0.4px;
-                            border: 1px solid rgb(255, 45, 45);
-                            border-radius: 4px;
-                            color: rgb(255, 45, 45);
-                            font-size: 8px;
+                            color: rgb(255, 187, 0);
+                            font-size: 16px;
                         }
                         .sq {
                             margin-right: 4px;
-                            padding: 0 0.4px;
-                            border: 1px solid red;
-                            border-radius: 4px;
                             color: red;
-                            font-size: 8px;
+                            font-size: 20px;
+                        }
+                        .authorAndAl {
+                            @include ellipsis1();
                         }
                     }
                 }
@@ -228,8 +233,9 @@ export default {
             .right {
                 display: flex;
                 .iconfont {
-                    margin-left: 6px;
-                    font-size: 18px;
+                    margin-left: 14px;
+                    color: rgb(161, 161, 161);
+                    font-size: 20px;
                 }
             }
         }

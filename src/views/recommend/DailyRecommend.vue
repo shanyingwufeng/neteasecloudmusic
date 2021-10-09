@@ -22,7 +22,8 @@
                 </div>
             </div>
         </div>
-        <div class="detail">
+        <Loading v-if="loading" />
+        <div class="detail" v-if="!loading">
             <div class="titleBar">
                 <div class="left">
                     <span class="iconfont icon-24gf-playCircle"></span>
@@ -87,13 +88,15 @@
 </template>
 
 <script>
-import { onMounted, reactive, toRefs } from "vue";
-import { getTopListDetail } from "@/api/index.js";
-import { getPlayListDetail } from "@/api/play/index.js";
+import Loading from "@/components/Loading.vue";
+import { computed, onMounted, reactive, toRefs } from "vue";
+import { getTopListDetail } from "@/api/playlist/index.js";
+import { getPlayListDetail } from "@/api/playlist/index.js";
+import { useStore } from "vuex";
 
 export default {
     name: "DailyRecommend",
-    components: {},
+    components: { Loading },
     setup() {
         const state = reactive({
             list: "",
@@ -102,10 +105,13 @@ export default {
             month: 0,
         });
 
+        const store = useStore();
+
         onMounted(async () => {
             const date = new Date();
             state.day = ("0" + date.getDate().toString()).slice(-2);
             state.month = ("0" + (date.getMonth() + 1).toString()).slice(-2);
+            store.commit("setLoading", true);
             await getTopListDetail().then(async (res) => {
                 let newArray = [];
                 for (let i in res.data.list) {
@@ -117,10 +123,14 @@ export default {
                     state.list = res.data.playlist.tracks.slice(0, 20);
                     state.cover = state.list[0].al.picUrl;
                 });
+                store.commit("setLoading", false);
             });
         });
 
-        return { ...toRefs(state) };
+        return {
+            ...toRefs(state),
+            loading: computed(() => store.state.loading),
+        };
     },
 };
 </script>
@@ -209,6 +219,9 @@ export default {
     //         font-size: 24px;
     //     }
     // }
+    .loading {
+        margin: 40px;
+    }
     .detail {
         padding: $padding;
         .titleBar {

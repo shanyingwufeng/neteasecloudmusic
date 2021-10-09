@@ -21,7 +21,7 @@
                     <SideBar />
                 </van-popup>
             </div>
-            <div class="right" @click="$router.push('/search')">
+            <div class="right" @click="$router.push('/searchpage')">
                 <span class="iconfont icon-sousuo"></span>
             </div>
         </div>
@@ -92,11 +92,10 @@ import RecommendForYou from "@/views/profile/RecommendForYou.vue";
 import { computed, onMounted, reactive, toRefs } from "vue";
 import { useStore } from "vuex";
 import {
-    getUserSubCount,
     getUserDetail,
     getUserLevel,
     getUserPlayList,
-} from "@/api/index.js";
+} from "@/api/user/index.js";
 
 export default {
     name: "Me",
@@ -141,22 +140,20 @@ export default {
         };
 
         onMounted(() => {
-            store.commit("bottom/setIsShow", true);
-            if (localStorage.getItem("userLoginInfo")) {
+            store.commit("bottom/setVisible", true);
+            if (localStorage.getItem("cookie")) {
                 store.commit(
                     "setUser",
                     JSON.parse(localStorage.getItem("userLoginInfo"))
                 );
-                getUserDetail(store.state.user.id).then((res) => {
-                    // console.log(res.data);
-                });
-                getUserLevel().then((res) => {
-                    // console.log(res.data);
-                });
+                // getUserDetail(store.state.user.id).then((res) => {
+                //     // console.log(res.data);
+                // });
+                // getUserLevel().then((res) => {
+                //     // console.log(res.data);
+                // });
                 getUserPlayList(store.state.user.id).then((res) => {
-                    // console.log(res.data);
                     state.playlist = res.data.playlist;
-                    // console.log(state.playlist);
                 });
             }
         });

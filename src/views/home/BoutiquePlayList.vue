@@ -23,11 +23,10 @@
 
 <script>
 import { reactive, toRefs, onMounted, onUpdated } from "vue";
-import { getHighQualityPlayList } from "@/api/home/index.js";
+import { getHighQualityPlayList } from "@/api/playlist/index.js";
 import { Swiper } from "swiper";
 import PlayCount from "@/components/PlayCount.vue";
 import TitleBar from "@/components/TitleBar.vue";
-import { useStore } from "vuex";
 
 export default {
     name: "BoutiquePlayList",

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { getTopList } from "@/api/index.js";
+import { getTopList } from "@/api/playlist/index.js";
 import { onMounted, reactive, toRefs } from "vue";
 import PlayCount from "@/components/PlayCount.vue";
 

@@ -33,9 +33,9 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import { onMounted, reactive, toRefs, computed } from "vue";
+import { reactive, toRefs, computed, onUpdated } from "vue";
 import { changeValue } from "@/utils/index.js";
-import {useStore} from "vuex";
+import { useStore } from "vuex";
 
 export default {
     name: "SearchAlbum",
@@ -49,7 +49,7 @@ export default {
 
         const store = useStore();
 
-        onMounted(() => {
+        onUpdated(() => {
             state.list =
                 props.data.albums.length > 5
                     ? props.data.albums.slice(0, 5)

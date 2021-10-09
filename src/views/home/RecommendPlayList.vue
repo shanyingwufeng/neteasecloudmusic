@@ -87,7 +87,7 @@ import { reactive, onMounted, onActivated, onDeactivated, toRefs } from "vue";
 import TitleBar from "@/components/TitleBar.vue";
 import PlayListSwiper from "@/components/PlayListSwiper.vue";
 import PlayCount from "@/components/PlayCount.vue";
-import { getRecommendPlayList } from "@/api/home/index.js";
+import { getRecommendPlayList } from "@/api/playlist/index.js";
 import { getRandomArrayValue } from "@/utils/index.js";
 import { Swiper, SwiperSlide } from "swiper/vue";
 

@@ -21,7 +21,8 @@ import PlayListSong from "@/views/playlist/PlayListSong.vue";
 import { reactive, onMounted, toRefs, computed } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-import { getSongDetail } from "@/api/play/index.js";
+import { getSongDetail } from "@/api/song/index.js";
+import { Toast } from "vant";
 
 export default {
     name: "PlayList",
@@ -56,17 +57,21 @@ export default {
             //         return x.id;
             //     })
             // );
-            await getSongDetail(
-                state.playlist.trackIds
-                    .map((x) => {
-                        return x.id;
-                    })
-                    .toString()
-            ).then((res) => {
-                state.songList = res.data.songs;
-                // store.commit("play/setSongList", state.songList);
-                store.commit("setLoading", false);
+            let idArray = state.playlist.trackIds.map((x) => {
+                return x.id;
             });
+            if (idArray.length > 800) {
+                idArray = idArray.slice(0, 720);
+            }
+            await getSongDetail(idArray.toString())
+                .then((res) => {
+                    state.songList = res.data.songs;
+                    // store.commit("play/setSongList", state.songList);
+                    store.commit("setLoading", false);
+                })
+                .catch(() => {
+                    store.commit("setLoading", false);
+                });
         });
 
         return {
@@ -80,7 +85,6 @@ export default {
 
 <style scoped lang='scss'>
 .playList {
-    overflow: scroll;
     height: 100vh;
     .loading {
         margin-top: 70px;

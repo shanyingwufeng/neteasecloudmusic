@@ -38,9 +38,9 @@ import TitleBar from "@/components/TitleBar.vue";
 import PlayListSwiper from "@/components/PlayListSwiper.vue";
 import { Swiper } from "swiper";
 import { onUpdated, onMounted, reactive, toRefs } from "vue";
-import { getTopListDetail } from "@/api/index.js";
+import { getTopListDetail } from "@/api/playlist/index.js";
 import { searchByKeyword } from "@/api/search/index.js";
-import { getSongDetail } from "@/api/play/index.js";
+import { getSongDetail } from "@/api/song/index.js";
 import { getRandomArrayValue } from "@/utils/index.js";
 import { useStore } from "vuex";
 

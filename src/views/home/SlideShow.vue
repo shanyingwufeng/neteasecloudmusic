@@ -64,6 +64,7 @@ export default {
 .slideShow {
     display: flex;
     padding: 0 $padding;
+    margin-top: 58px;
     background: linear-gradient(
         to bottom,
         rgb(240, 240, 240),

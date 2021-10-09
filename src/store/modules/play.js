@@ -1,12 +1,8 @@
-import {
-    getLyric,
-    getSongDetail,
-    getPlayListDetail,
-    getMusicComment,
-} from "@/api/play/index.js";
+// 播放模块
+import { getLyric, getSongDetail, getMusicComment } from "@/api/song/index.js";
+import { getPlayListDetail } from "@/api/playlist/index.js";
 import { Toast } from "vant";
 
-// 播放模块
 const state = () => ({
     // 播放状态
     playState: false,

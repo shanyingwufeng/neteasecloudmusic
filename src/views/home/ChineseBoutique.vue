@@ -73,17 +73,18 @@
 <script>
 import { onMounted, onUpdated, reactive, toRefs } from "vue";
 import { getTopPlayList } from "@/api/home/index.js";
-import { getPlayListDetail } from "@/api/index.js";
+import { getPlayListDetail } from "@/api/playlist/index.js";
 import { mapMutations } from "vuex";
 import { Swiper } from "swiper";
 
 export default {
     name: "ChineseBoutique",
     setup() {
-        let state = reactive({
+        const state = reactive({
             id: 0,
             songList: [],
         });
+
         onMounted(() => {
             getTopPlayList().then((res) => {
                 state.id = res.data.playlists[0].id;
@@ -92,11 +93,13 @@ export default {
                 });
             });
         });
+
         onUpdated(() => {
             new Swiper(".chinese-boutique-swiper", {
                 slidesPerView: 1,
             });
         });
+        
         return {
             ...toRefs(state),
             ...mapMutations(["setPlayCurrentIndex"]),
