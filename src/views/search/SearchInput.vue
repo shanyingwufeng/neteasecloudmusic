@@ -33,6 +33,7 @@ export default {
             detailSearchHot: [], // 热搜榜
             detailSearchMvHot: [], // mv榜
             enterSearchPageFromWhere: "",
+            path: "",
         });
 
         const store = useStore();
@@ -44,6 +45,8 @@ export default {
         const back = () => {
             if (state.searchKeyword) {
                 router.push("/searchpage");
+            } else if (state.path) {
+                router.push(state.path);
             } else {
                 router.push("/");
             }
@@ -84,6 +87,9 @@ export default {
         });
 
         onActivated(async () => {
+            if (route.params.path !== undefined) {
+                state.path = route.params.path;
+            }
             state.searchInput.focus();
             await getSearchDefault().then((res) => {
                 state.placeholder = res.data.data.showKeyword;

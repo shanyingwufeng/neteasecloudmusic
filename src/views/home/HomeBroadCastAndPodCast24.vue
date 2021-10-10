@@ -1,10 +1,15 @@
 <!-- 首页-广播电台和24小时播客 -->
 <template>
-    <div class="broadCastAndPodCast24 home-card">
+    <div class="homeBroadCastAndPodCast24 home-card">
         <van-tabs v-model:active="active">
             <van-tab title="广播电台">
                 <div class="list">
-                    <div class="swiper-container broadCast-swiper">
+                    <div
+                        class="
+                            swiper-container
+                            homeBroadCastAndPodCast24-swiper
+                        "
+                    >
                         <div class="swiper-wrapper">
                             <div
                                 class="swiper-slide"
@@ -23,7 +28,12 @@
             </van-tab>
             <van-tab title="24小时播客">
                 <div class="list">
-                    <div class="swiper-container podCast24-swiper">
+                    <div
+                        class="
+                            swiper-container
+                            homeBroadCastAndPodCast24-swiper
+                        "
+                    >
                         <div class="swiper-wrapper">
                             <div
                                 class="swiper-slide"
@@ -45,31 +55,29 @@
 </template>
 
 <script>
-import { onUpdated, ref } from "vue";
+import { onUpdated, ref, watch } from "vue";
 import { Swiper } from "swiper";
 
 export default {
-    name: "BroadCastAndPodCast24",
+    name: "HomeBroadCastAndPodCast24",
     props: ["data"],
     setup(props) {
         const broadCastList = ref();
         const podCast24List = ref();
         const active = ref(0);
 
+        watch(
+            () => props.data,
+            (newValue) => {
+                broadCastList.value = newValue.creatives[0].resources;
+                podCast24List.value = newValue.creatives[1].resources;
+            }
+        );
+
         onUpdated(() => {
-            broadCastList.value = props.data.creatives[0].resources;
-            podCast24List.value = props.data.creatives[1].resources;
-            new Swiper(".broadCast-swiper", {
+            new Swiper(".homeBroadCastAndPodCast24-swiper", {
                 slidesPerView: 3,
                 spaceBetween: 14,
-                observeParents: true,
-                observer: true,
-            });
-            new Swiper(".podCast24-swiper", {
-                slidesPerView: 3,
-                spaceBetween: 14,
-                observeParents: true,
-                observer: true,
             });
         });
 
@@ -79,7 +87,7 @@ export default {
 </script>
 
 <style lang='scss'>
-.broadCastAndPodCast24 {
+.homeBroadCastAndPodCast24 {
     padding-top: 8px;
     .van-tabs__nav {
         display: flex;

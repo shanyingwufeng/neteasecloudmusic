@@ -1,18 +1,18 @@
 <!-- 首页-雷达歌单 -->
 <template>
-    <div class="radar-playList home-card">
+    <div class="homeRadarPlayList home-card">
         <TitleBar titleBarName="雷达歌单" rightText="更多" />
         <PlayListSwiper :list="list" :point="0" />
     </div>
 </template>
 
 <script>
-import { reactive, onUpdated, toRefs } from "vue";
+import { reactive, watch, toRefs } from "vue";
 import TitleBar from "@/components/TitleBar.vue";
 import PlayListSwiper from "@/components/PlayListSwiper.vue";
 
 export default {
-    name: "RadarPlaylist",
+    name: "HomeRadarPlayList",
     components: { TitleBar, PlayListSwiper },
     props: ["data"],
     setup(props) {
@@ -21,9 +21,12 @@ export default {
             list: [],
         });
 
-        onUpdated(() => {
-            state.list = props.data.creatives;
-        });
+        watch(
+            () => props.data,
+            (newValue) => {
+                state.list = newValue.creatives;
+            }
+        );
 
         return { ...toRefs(state) };
     },

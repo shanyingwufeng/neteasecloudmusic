@@ -12,18 +12,14 @@
                         query: { id: item.creativeId },
                     }"
                 >
-                    <lazy-component>
-                        <img v-lazy="item.uiElement.image.imageUrl" />
-                        <span class="name">{{
-                            item.uiElement.mainTitle.title
-                        }}</span>
-                        <PlayCount
-                            :playCount="
-                                item.resources[0].resourceExtInfo.playCount
-                            "
-                            :point="point"
-                        />
-                    </lazy-component>
+                    <img v-lazy="item.uiElement.image.imageUrl" />
+                    <span class="name">{{
+                        item.uiElement.mainTitle.title
+                    }}</span>
+                    <PlayCount
+                        :playCount="item.resources[0].resourceExtInfo.playCount"
+                        :point="point"
+                    />
                 </router-link>
             </div>
         </div>

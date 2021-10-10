@@ -1,6 +1,6 @@
 <!-- 首页-中间导航 -->
 <template>
-    <div class="centerNav">
+    <div class="homeCenterNav">
         <div class="swiper-container center-nav-swiper">
             <div class="swiper-wrapper">
                 <div
@@ -25,7 +25,7 @@ import { Swiper } from "swiper";
 import { useRouter } from "vue-router";
 
 export default {
-    name: "CenterNav",
+    name: "HomeCenterNav",
     setup() {
         const list = [
             {
@@ -84,7 +84,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.centerNav {
+.homeCenterNav {
     background-color: $color-white-background;
     border-bottom: 1px solid rgb(240, 240, 240);
     .swiper-container {

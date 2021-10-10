@@ -1,8 +1,8 @@
-<!--数字专辑-->
+<!-- 新歌 -->
 <template>
-    <div class="digtalAlbum">
+    <div class="newSong">
         <div class="list">
-            <div class="swiper-container digtalAlbum-swiper">
+            <div class="swiper-container newSong-swiper">
                 <div class="swiper-wrapper">
                     <div
                         class="swiper-slide"
@@ -47,22 +47,26 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { ref, onUpdated, watch } from "vue";
 import { Swiper } from "swiper";
 
 export default {
-    name: "digtalAlbum",
-    props: ["digtalAlbum"],
+    name: "NewSong",
+    props: ["data"],
     setup(props) {
         const list = ref([]);
 
-        onMounted(() => {
-            list.value = props.digtalAlbum;
-            new Swiper(".digtalAlbum-swiper", {
+        watch(
+            () => props.data,
+            (newValue) => {
+                list.value = newValue;
+            }
+        );
+
+        onUpdated(() => {
+            new Swiper(".newSong-swiper", {
                 slidesPerView: 1,
                 spaceBetween: 14,
-                observeParents: true,
-                observer: true,
             });
         });
 
@@ -72,7 +76,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.digtalAlbum {
+.newSong {
     padding: $padding;
     padding-top: 8px;
     padding-right: 0;
@@ -84,6 +88,7 @@ export default {
             padding-right: 24px;
             .swiper-wrapper {
                 display: flex;
+                justify-content: space-between;
                 .swiper-slide {
                     position: relative;
                     display: flex;
@@ -107,7 +112,7 @@ export default {
                             flex-direction: column;
                             padding: 12px 0;
                             padding-right: 14px;
-                            border-bottom: 1px solid rgba(234, 234, 234, 0.5);
+                            border-bottom: 1px solid rgba(235, 234, 234, 0.5);
                             .top {
                                 display: flex;
                                 align-items: center;

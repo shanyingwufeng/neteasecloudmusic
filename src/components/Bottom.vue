@@ -1,6 +1,6 @@
 <!-- 底部播放控制和导航 -->
 <template>
-    <div class="bottom" v-if="bottomShow">
+    <div class="bottom" v-if="!$route.meta.hiddenBottom">
         <!-- 底部播放控制区 -->
         <div class="playControl" v-if="playSong.id">
             <router-link
@@ -45,7 +45,7 @@
                 <span class="iconfont icon-bofangliebiao more"></span>
             </div>
         </div>
-        <div class="tabBar" v-if="!$route.meta.hiddenTabBar">
+        <div class="tabBar" v-if="!$route.meta.hiddenBottomTabBar">
             <router-link class="item" to="/">
                 <span class="iconfont icon-home"></span>
                 <span class="title">发现</span>

@@ -1,6 +1,6 @@
 <!-- 首页-华语精品 -->
 <template>
-    <div class="chinese-boutique">
+    <div class="homeChineseBoutique">
         <div class="list-top">
             <div class="title">
                 <span>华语精品</span>
@@ -78,7 +78,7 @@ import { mapMutations } from "vuex";
 import { Swiper } from "swiper";
 
 export default {
-    name: "ChineseBoutique",
+    name: "HomeChineseBoutique",
     setup() {
         const state = reactive({
             id: 0,
@@ -99,7 +99,7 @@ export default {
                 slidesPerView: 1,
             });
         });
-        
+
         return {
             ...toRefs(state),
             ...mapMutations(["setPlayCurrentIndex"]),
@@ -109,7 +109,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.chinese-boutique {
+.homeChineseBoutique {
     margin-bottom: 10px;
     padding: 0 10px 20px 10px;
     background-color: #fff;

@@ -1,20 +1,29 @@
-<!-- 首页-精品歌单 -->
+<!-- 首页-精选音乐视频 -->
 <template>
-    <div class="boutique-playList home-card">
-        <TitleBar titleBarName="精品歌单" rightText="更多" />
+    <div class="homeBoutiqueMusicVideo home-card">
+        <TitleBar :titleBarName="titleBarName" rightText="换一批" />
         <div class="list home-card-swiper">
-            <div class="swiper-container boutique-playList-swiper">
+            <div class="swiper-container boutique-music-video-swiper">
                 <div class="swiper-wrapper">
-                    <router-link
+                    <div
                         class="swiper-slide"
                         v-for="(item, id) in list"
                         :key="id"
-                        :to="{ path: '/playlist', query: { id: item.id } }"
                     >
-                        <img v-lazy="item.coverImgUrl" />
-                        <span class="name">{{ item.name }}</span>
-                        <PlayCount :playCount="item.playCount" :point="1" />
-                    </router-link>
+                        <lazy-component>
+                            <img
+                                v-lazy="item.resource.mlogExtVO.song.coverUrl"
+                                v-if="item.resource.mlogExtVO.song"
+                            />
+                            <span class="name">{{
+                                item.resource.mlogBaseData.text
+                            }}</span>
+                            <PlayCount
+                                :playCount="item.resource.mlogExtVO.playCount"
+                                :point="0"
+                            />
+                        </lazy-component>
+                    </div>
                 </div>
             </div>
         </div>
@@ -22,29 +31,31 @@
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, onUpdated } from "vue";
-import { getHighQualityPlayList } from "@/api/playlist/index.js";
+import { reactive, watch, toRefs, onUpdated } from "vue";
 import { Swiper } from "swiper";
 import PlayCount from "@/components/PlayCount.vue";
 import TitleBar from "@/components/TitleBar.vue";
 
 export default {
-    name: "BoutiquePlayList",
+    name: "HomeBoutiqueMusicVideo",
     components: { PlayCount, TitleBar },
-    setup() {
+    props: ["data"],
+    setup(props) {
         const state = reactive({
             titleBarName: "",
             list: [],
         });
 
-        onMounted(() => {
-            getHighQualityPlayList().then((res) => {
-                state.list = res.data.playlists;
-            });
-        });
+        watch(
+            () => props.data,
+            (newValue) => {
+                state.titleBarName = newValue.uiElement.subTitle.title;
+                state.list = newValue.extInfo;
+            }
+        );
 
         onUpdated(() => {
-            new Swiper(".boutique-playList-swiper", {
+            new Swiper(".boutique-music-video-swiper", {
                 slidesPerView: 3,
                 spaceBetween: 14,
             });
@@ -56,7 +67,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.boutique-playList {
+.homeBoutiqueMusicVideo {
     .list {
         .swiper-container {
             padding-right: 24px;
@@ -64,8 +75,8 @@ export default {
                 .swiper-slide {
                     position: relative;
                     display: flex;
-                    flex-direction: column;
                     border-radius: 10px;
+                    flex-direction: column;
                     img {
                         width: 100%;
                         margin-bottom: 4px;

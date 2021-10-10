@@ -3,6 +3,7 @@ import $store from "@/store/index.js";
 
 const routes = [
     {
+        // 首页
         path: "/",
         name: "Home",
         component: () => import("@/views/home/Home.vue"),
@@ -15,21 +16,6 @@ const routes = [
         redirect: "/",
     },
     {
-        // 歌单
-        path: "/playlist",
-        name: "PlayList",
-        component: () => import("@/views/playlist/PlayList.vue"),
-        meta: {
-            hiddenTabBar: true,
-        },
-    },
-    {
-        // 播放页面
-        path: "/playpage",
-        name: "PlayPage",
-        component: () => import("@/components/PlayPage.vue"),
-    },
-    {
         // 搜索页面
         path: "/searchpage",
         name: "SearchPage",
@@ -37,7 +23,7 @@ const routes = [
         meta: {
             keepAlive: true,
             isBack: true,
-            hiddenTabBar: true,
+            hiddenBottomTabBar: true,
         },
     },
     {
@@ -46,7 +32,25 @@ const routes = [
         name: "SearchResult",
         component: () => import("@/views/search/searchresult/SearchResult.vue"),
         meta: {
-            hiddenTabBar: true,
+            hiddenBottomTabBar: true,
+        },
+    },
+    {
+        // 歌单
+        path: "/playlist",
+        name: "PlayList",
+        component: () => import("@/views/playlist/PlayList.vue"),
+        meta: {
+            hiddenBottomTabBar: true,
+        },
+    },
+    {
+        // 播放页面
+        path: "/playpage",
+        name: "PlayPage",
+        component: () => import("@/components/PlayPage.vue"),
+        meta: {
+            hiddenBottom: true,
         },
     },
     {
@@ -68,16 +72,25 @@ const routes = [
         path: "/login",
         name: "Login",
         component: () => import("@/views/login/Login.vue"),
+        meta: {
+            hiddenBottom: true,
+        },
     },
     {
         path: "/phonelogin",
         name: "PhoneLogin",
         component: () => import("@/views/login/PhoneLogin.vue"),
+        meta: {
+            hiddenBottom: true,
+        },
     },
     {
         path: "/emailLogin",
         name: "EmailLogin",
         component: () => import("@/views/login/EmailLogin.vue"),
+        meta: {
+            hiddenBottom: true,
+        },
     },
     {
         path: "/boke",
@@ -99,7 +112,7 @@ const routes = [
         name: "DailyRecommend",
         component: () => import("@/views/recommend/DailyRecommend.vue"),
         meta: {
-            hiddenTabBar: true,
+            hiddenBottomTabBar: true,
         },
     },
     {
@@ -107,7 +120,7 @@ const routes = [
         name: "PlayListSquare",
         component: () => import("@/views/playlist/PlayListSquare.vue"),
         meta: {
-            hiddenTabBar: true,
+            hiddenBottomTabBar: true,
         },
     },
 ];

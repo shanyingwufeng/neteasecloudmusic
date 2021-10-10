@@ -21,9 +21,12 @@
                     <SideBar />
                 </van-popup>
             </div>
-            <div class="right" @click="$router.push('/searchpage')">
+            <router-link
+                class="right"
+                :to="{ name: 'SearchPage', params: { path: urlPath } }"
+            >
                 <span class="iconfont icon-sousuo"></span>
-            </div>
+            </router-link>
         </div>
 
         <!-- 立即登录 -->
@@ -91,6 +94,7 @@ import CollectPlayList from "@/views/profile/CollectPlayList.vue";
 import RecommendForYou from "@/views/profile/RecommendForYou.vue";
 import { computed, onMounted, reactive, toRefs } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 import {
     getUserDetail,
     getUserLevel,
@@ -113,7 +117,11 @@ export default {
             create: true,
             collect: false,
             playlist: [],
+            urlPath: "",
         });
+
+        const route = useRoute();
+        state.urlPath = route.path;
 
         const createClick = () => {
             state.create = true;
@@ -171,13 +179,13 @@ export default {
 
 <style scoped lang='scss'>
 .me {
-    padding: 0 $padding;
+    padding: 20px $padding;
     background-color: #f5f5f5;
     .topBar {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 20px 0 16px 0;
+        margin-bottom: 20px;
         .left {
             .van-cell {
                 padding: 0;
@@ -187,7 +195,7 @@ export default {
         }
         .right {
             .iconfont {
-                font-size: 20px;
+                font-size: 18px;
             }
         }
     }

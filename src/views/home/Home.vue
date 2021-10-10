@@ -2,50 +2,50 @@
 <template>
     <div class="home" :style="{ paddingBottom: pb() }">
         <!-- 顶部栏 -->
-        <TopBar />
+        <HomeTopBar />
         <div class="content">
             <!-- 轮播图 -->
-            <SlideShow />
+            <HomeSlideShow />
             <!-- 中间导航  -->
-            <CenterNav />
+            <HomeCenterNav />
             <!-- 推荐歌单 -->
-            <RecommendPlayList />
+            <HomeRecommendPlayList />
             <!-- 新歌新碟数字专辑 -->
-            <NewAlbumNewSong :data="newAlbumNewSong" />
+            <HomeNewSongAndNewAlbum :data="newSongAndnewAlbum" />
             <!-- 排行榜 -->
-            <TopList />
+            <HomeTopList />
             <!-- 音乐日历 -->
-            <MusicCalendar :data="musicCalendar" />
+            <HomeMusicCalendar :data="musicCalendar" />
             <!-- 精选音乐视频 -->
-            <BoutiqueMusicVideo :data="musicVideo" />
+            <HomeBoutiqueMusicVideo :data="musicVideo" />
             <!-- 雷达歌单 -->
-            <RadarPlaylist :data="radarPlayList" />
+            <HomeRadarPlaylist :data="radarPlayList" />
             <!-- 专属场景歌单 -->
-            <OffcialPlayList :data="offcialPlayList" />
+            <HomeOffcialPlayList :data="offcialPlayList" />
             <!-- 广播电台和24小时播客 -->
-            <BroadCastAndPodCast24 :data="broadCastAndPodCast24" />
+            <HomeBroadCastAndPodCast24 :data="broadCastAndPodCast24" />
             <!-- 视频合辑 -->
-            <VideoCollection :data="videoCollection" />
+            <HomeVideoCollection :data="videoCollection" />
             <!-- 精品歌单 -->
-            <BoutiquePlayList />
+            <HomeBoutiquePlayList />
         </div>
     </div>
 </template>
 
 <script>
-import TopBar from "@/views/home/TopBar.vue";
-import SlideShow from "@/views/home/SlideShow.vue";
-import CenterNav from "@/views/home/CenterNav.vue";
-import RecommendPlayList from "@/views/home/RecommendPlayList.vue";
-import NewAlbumNewSong from "@/views/home/albumandsong/NewAlbumNewSong.vue";
-import TopList from "@/views/home/TopList.vue";
-import MusicCalendar from "@/views/home/MusicCalendar.vue";
-import BoutiqueMusicVideo from "@/views/home/BoutiqueMusicVideo.vue";
-import RadarPlaylist from "@/views/home/RadarPlaylist.vue";
-import OffcialPlayList from "@/views/home/OffcialPlayList.vue";
-import BroadCastAndPodCast24 from "@/views/home/BroadCastAndPodCast24.vue";
-import VideoCollection from "@/views/home/VideoCollection.vue";
-import BoutiquePlayList from "@/views/home/BoutiquePlayList.vue";
+import HomeTopBar from "@/views/home/HomeTopBar.vue";
+import HomeSlideShow from "@/views/home/HomeSlideShow.vue";
+import HomeCenterNav from "@/views/home/HomeCenterNav.vue";
+import HomeRecommendPlayList from "@/views/home/HomeRecommendPlayList.vue";
+import HomeNewSongAndNewAlbum from "@/views/home/homenewsongandnewalbum/HomeNewSongAndNewAlbum.vue";
+import HomeTopList from "@/views/home/HomeTopList.vue";
+import HomeMusicCalendar from "@/views/home/HomeMusicCalendar.vue";
+import HomeBoutiqueMusicVideo from "@/views/home/HomeBoutiqueMusicVideo.vue";
+import HomeRadarPlaylist from "@/views/home/HomeRadarPlaylist.vue";
+import HomeOffcialPlayList from "@/views/home/HomeOffcialPlayList.vue";
+import HomeBroadCastAndPodCast24 from "@/views/home/HomeBroadCastAndPodCast24.vue";
+import HomeVideoCollection from "@/views/home/HomeVideoCollection.vue";
+import HomeBoutiquePlayList from "@/views/home/HomeBoutiquePlayList.vue";
 import { useStore } from "vuex";
 import { onActivated, reactive, toRefs } from "vue";
 import { getHomePageInfo } from "@/api/home/index.js";
@@ -53,24 +53,24 @@ import { getHomePageInfo } from "@/api/home/index.js";
 export default {
     name: "Home",
     components: {
-        TopBar,
-        SlideShow,
-        CenterNav,
-        RecommendPlayList,
-        NewAlbumNewSong,
-        TopList,
-        MusicCalendar,
-        BoutiqueMusicVideo,
-        RadarPlaylist,
-        OffcialPlayList,
-        BroadCastAndPodCast24,
-        VideoCollection,
-        BoutiquePlayList,
+        HomeTopBar,
+        HomeSlideShow,
+        HomeCenterNav,
+        HomeRecommendPlayList,
+        HomeNewSongAndNewAlbum,
+        HomeTopList,
+        HomeMusicCalendar,
+        HomeBoutiqueMusicVideo,
+        HomeRadarPlaylist,
+        HomeOffcialPlayList,
+        HomeBroadCastAndPodCast24,
+        HomeVideoCollection,
+        HomeBoutiquePlayList,
     },
 
     setup() {
         const state = reactive({
-            newAlbumNewSong: "", // 新歌新碟数字专辑
+            newSongAndnewAlbum: "", // 新歌新碟数字专辑
             musicCalendar: "", // 音乐日历
             musicVideo: "", // 精选音乐视频
             radarPlayList: "", // 雷达歌单
@@ -89,7 +89,7 @@ export default {
         onActivated(() => {
             store.commit("bottom/setVisible", true);
             getHomePageInfo().then((res) => {
-                state.newAlbumNewSong = res.data.data.blocks[3];
+                state.newSongAndnewAlbum = res.data.data.blocks[3];
                 state.musicCalendar = res.data.data.blocks[4];
                 state.musicVideo = res.data.data.blocks[5];
                 state.radarPlayList = res.data.data.blocks[6];

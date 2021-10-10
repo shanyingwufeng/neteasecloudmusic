@@ -5,7 +5,7 @@
         <div class="list">
             <router-link
                 class="item"
-                v-for="(item, id) in list.length > 5 ? list.slice(0, 5) : list"
+                v-for="(item, id) in list"
                 :key="id"
                 :to="{
                     path: '/playpage',
@@ -48,7 +48,7 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import { computed, onUpdated, reactive, toRefs } from "vue";
+import { computed, onUpdated, reactive, toRefs, watch } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -63,14 +63,16 @@ export default {
 
         const store = useStore();
 
-        onUpdated(() => {
-            state.list = props.data.songs;
-            // state.list =
-            //     props.data.songs.length > 5
-            //         ? props.data.songs.slice(0, 5)
-            //         : props.data.songs;
-            state.moreText = props.data.moreText;
-        });
+        watch(
+            () => props.data,
+            (newValue) => {
+                console.log(newValue);
+                state.list = newValue.songs;
+                state.moreText = newValue.moreText;
+            }
+        );
+
+        onUpdated(() => {});
 
         return {
             ...toRefs(state),

@@ -1,69 +1,62 @@
 <!-- 首页-新歌/新碟/数字专辑 -->
 <template>
-    <div class="album-song">
+    <div class="homeNewSongAndNewAlbum">
         <van-tabs v-model:active="active">
             <van-tab title="新歌">
-                <NewSong :newSong="newSong" />
+                <NewSong :data="newSong" />
             </van-tab>
             <van-tab title="新碟">
-                <NewAlbum :newAlbum="newAlbum" />
+                <NewAlbum :data="newAlbum" />
             </van-tab>
             <van-tab title="数字专辑">
-                <DigtalAlbum :digtalAlbum="digtalAlbum" />
+                <DigtalAlbum :data="digtalAlbum" />
             </van-tab>
         </van-tabs>
     </div>
 </template>
 
 <script>
-import { onUpdated, watch, ref } from "vue";
+import { reactive, watch, toRefs } from "vue";
 import NewSong from "./NewSong.vue";
 import NewAlbum from "./NewAlbum.vue";
 import DigtalAlbum from "./DigtalAlbum.vue";
 
 export default {
-    name: "AlbumAndSong",
-    components: {
-        NewSong,
-        NewAlbum,
-        DigtalAlbum,
-    },
+    name: "HomeNewSongAndNewAlbum",
+    components: { NewSong, NewAlbum, DigtalAlbum },
     props: ["data"],
     setup(props) {
-        const newAlbumNewSong = ref([]);
-        const newSong = ref([]);
-        const newAlbum = ref([]);
-        const digtalAlbum = ref([]);
-        const active = ref(0);
-
-        watch(newAlbumNewSong, () => {
-            newSong.value = newAlbumNewSong.value.filter(
-                (item) => item.creativeType === "NEW_SONG_HOMEPAGE"
-            );
-            newAlbum.value = newAlbumNewSong.value.filter(
-                (item) => item.creativeType === "NEW_ALBUM_HOMEPAGE"
-            );
-            digtalAlbum.value = newAlbumNewSong.value.filter(
-                (item) => item.creativeType === "DIGITAL_ALBUM_HOMEPAGE"
-            );
+        const state = reactive({
+            newSongAndNewAlbum: [],
+            newSong: [],
+            newAlbum: [],
+            digtalAlbum: [],
+            active: 0,
         });
 
-        onUpdated(() => {
-            newAlbumNewSong.value = props.data.creatives;
-        });
-        return {
-            newAlbumNewSong,
-            newSong,
-            newAlbum,
-            digtalAlbum,
-            active,
-        };
+        watch(
+            () => props.data,
+            (newValue) => {
+                state.newSongAndNewAlbum = newValue.creatives;
+                state.newSong = state.newSongAndNewAlbum.filter(
+                    (item) => item.creativeType === "NEW_SONG_HOMEPAGE"
+                );
+                state.newAlbum = state.newSongAndNewAlbum.filter(
+                    (item) => item.creativeType === "NEW_ALBUM_HOMEPAGE"
+                );
+                state.digtalAlbum = state.newSongAndNewAlbum.filter(
+                    (item) => item.creativeType === "DIGITAL_ALBUM_HOMEPAGE"
+                );
+            }
+        );
+
+        return { ...toRefs(state) };
     },
 };
 </script>
 
 <style lang='scss'>
-.album-song {
+.homeNewSongAndNewAlbum {
     margin-bottom: 10px;
     padding-bottom: 2px;
     .van-tabs__nav {

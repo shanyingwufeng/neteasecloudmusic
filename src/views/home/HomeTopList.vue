@@ -1,8 +1,8 @@
 <!-- 首页-排行榜 -->
 <template>
-    <div class="topList home-card">
+    <div class="homeTopList home-card">
         <TitleBar titleBarName="排行榜" rightText="更多" />
-        <div class="swiper-container top-list-swiper home-card-swiper">
+        <div class="swiper-container topList-swiper home-card-swiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item, id) in list" :key="id">
                     <div class="top">
@@ -45,7 +45,7 @@ import { getRandomArrayValue } from "@/utils/index.js";
 import { useStore } from "vuex";
 
 export default {
-    name: "TopList",
+    name: "HomeTopList",
     components: { TitleBar, PlayListSwiper },
     setup() {
         const state = reactive({
@@ -100,7 +100,7 @@ export default {
         });
 
         onUpdated(() => {
-            new Swiper(".top-list-swiper", {
+            new Swiper(".topList-swiper", {
                 slidesPerView: 1,
                 spaceBetween: 14,
                 observeParents: true,
@@ -119,7 +119,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.topList {
+.homeTopList {
     .swiper-container {
         padding-right: 40px;
         .swiper-wrapper {

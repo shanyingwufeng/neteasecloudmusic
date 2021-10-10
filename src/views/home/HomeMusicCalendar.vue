@@ -1,6 +1,6 @@
 <!-- 首页-音乐日历 -->
 <template>
-    <div class="musicCalendar home-card">
+    <div class="homeMusicCalendar home-card">
         <TitleBar titleBarName="音乐日历" rightText="更多" />
         <Ad adLeft="领取你的今日好运" adRight="查看运势解读" />
         <div class="detail">
@@ -37,7 +37,7 @@ import TitleBar from "@/components/TitleBar.vue";
 import Ad from "@/components/Ad.vue";
 
 export default {
-    name: "MusicCalendar",
+    name: "HomeMusicCalendar",
     components: { TitleBar, Ad },
     props: ["data"],
     setup(props) {
@@ -70,7 +70,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.musicCalendar {
+.homeMusicCalendar {
     .detail {
         padding: $padding;
         .list {

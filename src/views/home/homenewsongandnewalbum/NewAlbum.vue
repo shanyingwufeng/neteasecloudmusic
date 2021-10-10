@@ -47,22 +47,20 @@
 </template>
 
 <script>
-import { onMounted, ref, watch, onUpdated } from "vue";
+import { onMounted, ref } from "vue";
 import { Swiper } from "swiper";
 
 export default {
     name: "NewAlbum",
-    props: ["newAlbum"],
+    props: ["data"],
     setup(props) {
         const list = ref([]);
 
         onMounted(() => {
-            list.value = props.newAlbum;
+            list.value = props.data;
             new Swiper(".newAlbum-swiper", {
                 slidesPerView: 1,
                 spaceBetween: 14,
-                observeParents: true,
-                observer: true,
             });
         });
 

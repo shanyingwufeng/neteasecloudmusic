@@ -1,9 +1,9 @@
 <!-- 首页-推荐歌单 -->
 <template>
-    <div class="recommend-playList home-card">
+    <div class="homeRecommendPlayList home-card">
         <TitleBar titleBarName="推荐歌单" rightText="更多" />
         <div class="playList-swiper home-card-swiper">
-            <swiper :slidesPerView="slidesPerView" :spaceBetween="spaceBetween">
+            <swiper :slidesPerView="3" :spaceBetween="14">
                 <swiper-slide v-for="(item, id) in list2" :key="id">
                     <router-link
                         :to="{
@@ -16,7 +16,6 @@
                                 <van-swipe
                                     style="height: 140px"
                                     vertical
-                                    loop
                                     :duration="700"
                                     :autoplay="4000"
                                     :show-indicators="false"
@@ -42,32 +41,6 @@
                                         ></router-link>
                                     </van-swipe-item>
                                 </van-swipe>
-                                <!-- <swiper
-                                    :autoplay="autoplay"
-                                    :loop="loop"
-                                    :speed="speed"
-                                    :direction="direction"
-                                >
-                                    <swiper-slide
-                                        v-for="(list1Item, id) in list1"
-                                        :key="id"
-                                    >
-                                        <router-link
-                                            :to="{
-                                                path: '/playlist',
-                                                query: { id: list1Item.id },
-                                            }"
-                                        >
-                                            <img v-lazy="list1Item.picUrl" />
-                                            <span class="name">{{
-                                                list1Item.name
-                                            }}</span>
-                                            <span
-                                                class="iconfont icon-wuxian"
-                                            ></span
-                                        ></router-link>
-                                    </swiper-slide>
-                                </swiper> -->
                             </div>
                         </div>
                         <div v-else>
@@ -85,42 +58,19 @@
 <script>
 import { reactive, onMounted, onActivated, onDeactivated, toRefs } from "vue";
 import TitleBar from "@/components/TitleBar.vue";
-import PlayListSwiper from "@/components/PlayListSwiper.vue";
 import PlayCount from "@/components/PlayCount.vue";
 import { getRecommendPlayList } from "@/api/playlist/index.js";
 import { getRandomArrayValue } from "@/utils/index.js";
 import { Swiper, SwiperSlide } from "swiper/vue";
 
 export default {
-    name: "RecommendPlayList",
-    components: {
-        TitleBar,
-        PlayListSwiper,
-        PlayCount,
-        Swiper,
-        SwiperSlide,
-    },
+    name: "HomeRecommendPlayList",
+    components: { TitleBar, PlayCount, Swiper, SwiperSlide },
     setup() {
         const state = reactive({
             list1: [],
             list2: [],
             isSwiperKeep: false,
-        });
-
-        // swiper相关配置属性放在swiper_options这个变量里
-        const swiper_options = reactive({
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-            loop: true,
-            speed: 800,
-            direction: "vertical",
-            observeParents: true,
-            observer: true,
-            slidesPerView: 3,
-            spaceBetween: 14,
-            parallax: true,
         });
 
         onMounted(() => {
@@ -139,16 +89,13 @@ export default {
             state.isSwiperKeep = false;
         });
 
-        return {
-            ...toRefs(state),
-            ...toRefs(swiper_options),
-        };
+        return { ...toRefs(state) };
     },
 };
 </script>
 
 <style scoped lang='scss'>
-.recommend-playList {
+.homeRecommendPlayList {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     .playList-swiper {
@@ -181,20 +128,6 @@ export default {
                             font-size: 28px;
                         }
                     }
-                    // .firstImage {
-                    //     overflow: hidden;
-                    //     .swiper-container {
-                    //         height: 160px;
-                    //         padding-right: 0;
-                    //         .icon-wuxian {
-                    //             position: absolute;
-                    //             top: 0;
-                    //             right: 4px;
-                    //             color: #fff;
-                    //             font-size: 22px;
-                    //         }
-                    //     }
-                    // }
                 }
             }
         }

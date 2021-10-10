@@ -1,8 +1,8 @@
-<!-- 新歌 -->
+<!--数字专辑-->
 <template>
-    <div class="newSong">
+    <div class="digtalAlbum">
         <div class="list">
-            <div class="swiper-container newSong-swiper">
+            <div class="swiper-container digtalAlbum-swiper">
                 <div class="swiper-wrapper">
                     <div
                         class="swiper-slide"
@@ -47,18 +47,18 @@
 </template>
 
 <script>
-import { onUpdated, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { Swiper } from "swiper";
 
 export default {
-    name: "NewSong",
-    props: ["newSong"],
+    name: "digtalAlbum",
+    props: ["data"],
     setup(props) {
         const list = ref([]);
 
-        onUpdated(() => {
-            list.value = props.newSong;
-            new Swiper(".newSong-swiper", {
+        onMounted(() => {
+            list.value = props.data;
+            new Swiper(".digtalAlbum-swiper", {
                 slidesPerView: 1,
                 spaceBetween: 14,
             });
@@ -70,7 +70,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.newSong {
+.digtalAlbum {
     padding: $padding;
     padding-top: 8px;
     padding-right: 0;
@@ -82,7 +82,6 @@ export default {
             padding-right: 24px;
             .swiper-wrapper {
                 display: flex;
-                justify-content: space-between;
                 .swiper-slide {
                     position: relative;
                     display: flex;
@@ -106,7 +105,7 @@ export default {
                             flex-direction: column;
                             padding: 12px 0;
                             padding-right: 14px;
-                            border-bottom: 1px solid rgba(235, 234, 234, 0.5);
+                            border-bottom: 1px solid rgba(234, 234, 234, 0.5);
                             .top {
                                 display: flex;
                                 align-items: center;

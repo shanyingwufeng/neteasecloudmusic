@@ -1,6 +1,6 @@
 <!-- 首页-顶部栏 -->
 <template>
-    <div class="topBar" :class="{ scroll: scroll }">
+    <div class="homeTopBar" :class="{ scroll: scroll }">
         <div class="left">
             <span
                 @click="showSideBar"
@@ -21,10 +21,15 @@
                 <SideBar />
             </van-popup>
         </div>
-        <router-link class="center" :class="{ scroll: scroll }" to="/searchpage">
+        <router-link
+            class="center"
+            :class="{ scroll: scroll }"
+            :to="{ name: 'SearchPage', params: {path: urlPath} }"
+        >
             <span class="iconfont icon-sousuo1"></span>
+            <!-- 搜索热词-关键词 -->
             <div class="searchKeyword">
-                <swiper
+                <!-- <swiper
                     :autoplay="autoplay"
                     :loop="loop"
                     :speed="speed"
@@ -36,7 +41,18 @@
                     <swiper-slide v-for="(item, id) in searchKeyword" :key="id">
                         <span class="text">{{ item.first }}</span>
                     </swiper-slide>
-                </swiper>
+                </swiper> -->
+                <van-swipe
+                    style="height: 50px"
+                    vertical
+                    :autoplay="5000"
+                    :duration="1000"
+                    :show-indicators="false"
+                >
+                    <van-swipe-item v-for="item in searchKeyword" :key="item">
+                        <span class="text">{{ item.first }}</span>
+                    </van-swipe-item>
+                </van-swipe>
             </div>
         </router-link>
         <div class="right">
@@ -47,45 +63,30 @@
 
 <script>
 import SideBar from "@/views/home/SideBar.vue";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { toRefs, reactive, onActivated, onDeactivated, onMounted } from "vue";
 import { getSearchHot } from "@/api/search/index";
+import { reactive, onMounted, onActivated, toRefs } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
-    name: "TopBar",
-    components: {
-        SideBar,
-        Swiper,
-        SwiperSlide,
-    },
+    name: "HomeTopBar",
+    components: { SideBar },
     setup() {
         const state = reactive({
-            sideBarShow: false,
-            searchKeyword: [],
-            isSwiperKeep: false,
             scroll: false,
+            searchKeyword: [],
+            sideBarShow: false,
+            urlPath: "",
         });
+
+        const route = useRoute();
+        state.urlPath = route.path;
 
         const showSideBar = () => {
             state.sideBarShow = true;
         };
 
-        // swiper相关配置属性放在swiper_options这个变量里
-        const swiper_options = reactive({
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-            },
-            loop: true,
-            speed: 1400,
-            direction: "vertical",
-            observeParents: true,
-            observer: true,
-        });
-
         const windowScroll = () => {
             // 滚动条距离页面顶部的距离
-            // 以下写法原生兼容
             let scrollTop =
                 window.pageYOffset ||
                 document.documentElement.scrollTop ||
@@ -102,7 +103,6 @@ export default {
         });
 
         onActivated(() => {
-            state.isSwiperKeep = true;
             getSearchHot()
                 .then((res) => {
                     state.searchKeyword = res.data.result.hots;
@@ -112,17 +112,13 @@ export default {
                 });
         });
 
-        onDeactivated(() => {
-            state.isSwiperKeep = false;
-        });
-
-        return { ...toRefs(state), showSideBar, ...toRefs(swiper_options) };
+        return { ...toRefs(state), showSideBar };
     },
 };
 </script>
 
 <style scoped lang='scss'>
-.topBar {
+.homeTopBar {
     position: fixed;
     top: 0;
     display: flex;
@@ -166,12 +162,12 @@ export default {
             height: 30px;
             line-height: 30px;
             .text {
-                color: rgb(148, 148, 148);
+                color: rgb(145, 145, 145);
                 font-size: 14px;
             }
-            .swiper-container {
-                height: 40px;
-            }
+            // .swiper-container {
+            //     height: 40px;
+            // }
         }
     }
 

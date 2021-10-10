@@ -1,19 +1,18 @@
-<!-- 首页-视频合辑 -->
+<!-- 首页-专属场景歌单 -->
 <template>
-    <div class="videoCollection home-card">
+    <div class="homeOffcialPlayList home-card">
         <TitleBar :titleBarName="titleBarName" rightText="更多" />
         <PlayListSwiper :list="list" :point="0" />
     </div>
 </template>
 
 <script>
+import { reactive, watch, toRefs } from "vue";
 import TitleBar from "@/components/TitleBar.vue";
 import PlayListSwiper from "@/components/PlayListSwiper.vue";
-import { reactive, onUpdated, toRefs } from "vue";
-import { useStore } from "vuex";
 
 export default {
-    name: "VideoCollection",
+    name: "HomeOffcialPlayList",
     components: { TitleBar, PlayListSwiper },
     props: ["data"],
     setup(props) {
@@ -22,10 +21,13 @@ export default {
             list: [],
         });
 
-        onUpdated(() => {
-            state.titleBarName = props.data.uiElement.subTitle.title;
-            state.list = props.data.creatives;
-        });
+        watch(
+            () => props.data,
+            (newValue) => {
+                state.titleBarName = newValue.uiElement.subTitle.title;
+                state.list = newValue.creatives;
+            }
+        );
 
         return { ...toRefs(state) };
     },

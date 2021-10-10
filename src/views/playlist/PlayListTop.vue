@@ -114,9 +114,9 @@
 
 <script>
 import PlayCount from "@/components/PlayCount.vue";
-import $store from "@/store/index.js";
 import { changeValue } from "@/utils/index.js";
 import { onMounted, onUpdated, reactive, toRefs } from "vue";
+import { useStore } from 'vuex';
 
 export default {
     name: "PlayListTop",
@@ -128,10 +128,12 @@ export default {
             scroll: false,
         });
 
+        const store = useStore();
+
         // 显示歌单封面
         const showPlayListCover = () => {
             let { coverImgUrl, name, description, tags } = props.playlist;
-            $store.commit("setPlayListCover", {
+            store.commit("setPlayListCover", {
                 coverImgUrl,
                 name,
                 description,

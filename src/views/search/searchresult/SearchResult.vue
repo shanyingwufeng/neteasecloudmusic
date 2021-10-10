@@ -7,17 +7,24 @@
         <Loading v-if="loading" />
         <div class="content" v-show="!loading">
             <!-- 单曲 -->
-            <SearchSingle :data="searchResult.song" />
+            <SearchSingle :data="searchResult.song ? searchResult.song : ''" />
             <!-- 歌单 -->
-            <SearchPlayList :data="searchResult.playList" />
+            <SearchPlayList
+                :data="searchResult.playList ? searchResult.playList : ''"
+            />
             <!-- 艺人 -->
-            <SearchArtist :data="searchResult.artist" />
+            <SearchArtist
+                :data="searchResult.artist ? searchResult.artist : ''"
+            />
             <!-- 专辑 -->
-            <SearchAlbum :data="searchResult.album" />
+            <SearchAlbum :data="searchResult.album ? searchResult.album : ''" />
             <!-- 相关搜索 -->
-            <SearchSimQuery :data="searchResult.sim_query" @search="search" />
+            <SearchSimQuery
+                :data="searchResult.sim_query ? searchResult.sim_query : ''"
+                @search="search"
+            />
             <!-- 用户 -->
-            <SearchUser :data="searchResult.user" />
+            <SearchUser :data="searchResult.user ? searchResult.user : ''" />
         </div>
     </div>
 </template>
@@ -31,9 +38,9 @@ import SearchArtist from "./SearchArtist.vue";
 import SearchAlbum from "./SearchAlbum.vue";
 import SearchSimQuery from "./SearchSimQuery.vue";
 import SearchUser from "./SearchUser.vue";
-import { toRefs, reactive, onMounted, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
+import { toRefs, reactive, onMounted, computed, watch } from "vue";
 
 export default {
     name: "SearchResult",
@@ -52,7 +59,6 @@ export default {
             searchHistory: [],
             searchKeyword: "",
         });
-
         const store = useStore();
         const route = useRoute();
         const router = useRouter();
