@@ -131,7 +131,7 @@ export default {
     width: 100%;
     height: 58px;
     padding: $padding;
-    background-color: rgb(240, 240, 240);
+    background-color: #f0f0f0;
     z-index: 999;
     &.scroll {
         padding-bottom: 8px;

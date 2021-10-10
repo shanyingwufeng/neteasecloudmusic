@@ -5,7 +5,7 @@
         <div class="list">
             <router-link
                 class="item"
-                v-for="(item, id) in list"
+                v-for="(item, id) in list.length > 5 ? list.slice(0, 5) : list"
                 :key="id"
                 :to="{
                     path: '/playpage',
@@ -48,8 +48,8 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import { onUpdated, reactive, toRefs } from "vue";
-import { useRoute } from "vue-router";
+import { computed, onUpdated, reactive, toRefs } from "vue";
+import { useStore } from "vuex";
 
 export default {
     name: "SearchSingle",
@@ -59,23 +59,23 @@ export default {
         const state = reactive({
             list: "",
             moreText: "",
-            searchKeyword: "",
         });
 
-        const route = useRoute();
-        state.searchKeyword = route.query.keyword;
+        const store = useStore();
 
         onUpdated(() => {
-            if (state.list === "") {
-                state.list =
-                    props.data.songs.length > 5
-                        ? props.data.songs.slice(0, 5)
-                        : props.data.songs;
-                state.moreText = props.data.moreText;
-            }
+            state.list = props.data.songs;
+            // state.list =
+            //     props.data.songs.length > 5
+            //         ? props.data.songs.slice(0, 5)
+            //         : props.data.songs;
+            state.moreText = props.data.moreText;
         });
 
-        return { ...toRefs(state) };
+        return {
+            ...toRefs(state),
+            searchKeyword: computed(() => store.state.search.searchKeyword),
+        };
     },
 };
 </script>

@@ -1,12 +1,10 @@
 <!-- 搜索界面 -->
 <template>
     <div class="searchPage">
-        <!-- 顶部输入框 -->
+        <!-- 输入框 -->
         <SearchInput @search="search" />
-
         <!-- 加载动画 -->
         <Loading v-if="loading" />
-
         <!-- 搜索页面内容区 -->
         <div class="content" v-show="!loading">
             <!-- 搜索历史 -->
@@ -51,6 +49,8 @@ export default {
     beforeRouteEnter(to, from, next) {
         if (from.name == "Home") {
             to.meta.isBack = false;
+        } else if (from.name == "SearchResult") {
+            to.meta.isBack = false;
         }
         next();
     },
@@ -69,7 +69,7 @@ export default {
         const router = useRouter();
 
         // 搜索歌曲
-        const search = async (searchKeyword) => {
+        const search = (searchKeyword) => {
             router.push({
                 path: "/search",
                 query: { keyword: searchKeyword },

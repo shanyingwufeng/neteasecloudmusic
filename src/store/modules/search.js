@@ -1,11 +1,10 @@
 // 搜索模块
-import { login } from "@/api/login/index.js";
+import { searchByKeyword } from "@/api/search/index.js";
 
 const state = () => ({
     searchKeyword: "", // 搜索关键词
+    searchResult: "", // 搜索结果
     searchHistory: [], // 搜索历史
-    isSearchHistoryShow: false, // 是否显示搜索历史
-    searchResult: false, // 搜索结果
 });
 
 // 相当于计算属性
@@ -17,43 +16,55 @@ const mutations = {
         state.searchKeyword = value;
     },
 
-    showSearchResult(state) {
-        state.searchResult = true;
-    },
-
-    hiddenSearchResult(state) {
-        state.searchResult = false;
-    },
-
-    showSearchHistory(state) {
-        state.isSearchHistoryShow = true;
-    },
-
-    hiddenSearchHistory(state) {
-        state.isSearchHistoryShow = false;
+    setSearchResult(state, value) {
+        state.searchResult = value;
     },
 
     setSearchHistory(state, value) {
         state.searchHistory = value;
-        state.isSearchHistoryShow = true;
     },
 };
 
 // 所有异步逻辑封装在 action 里面
 const actions = {
-    // 登录（手机密码登录、手机验证码登录、邮箱登录）
-    async login({ commit, state }, payload) {
-        const result = await login(payload);
+    async getSearchResult({ commit, state }, payload) {
+        commit("setSearchKeyword", payload);
+        commit("setLoading", true, { root: true });
+        const result = await searchByKeyword(1018, payload);
         if (result.data.code == 200) {
-            localStorage.cookie = encodeURIComponent(result.data.cookie);
-            state.user.isLogin = true;
-            state.user.id = result.data.profile.userId;
-            state.user.nickName = result.data.profile.nickname;
-            state.user.picUrl = result.data.profile.avatarUrl;
-            state.user.userDetail = result.data.profile;
-            localStorage.userLoginInfo = JSON.stringify(state.user);
+            commit("setSearchResult", result.data.result);
+            if (localStorage.getItem("searchHistory")) {
+                state.searchHistory = JSON.parse(
+                    localStorage.getItem("searchHistory")
+                );
+                if (state.searchHistory.includes(state.searchKeyword)) {
+                    const index = state.searchHistory.indexOf(
+                        state.searchKeyword
+                    );
+                    state.searchHistory.splice(index, 1);
+                }
+                state.searchHistory.reverse();
+                state.searchHistory.push(state.searchKeyword);
+                state.searchHistory.reverse();
+                localStorage.searchHistory = JSON.stringify(
+                    state.searchHistory
+                );
+            } else {
+                state.searchHistory = [];
+                state.searchHistory.push(state.searchKeyword);
+                localStorage.setItem(
+                    "searchHistory",
+                    JSON.stringify(state.searchHistory)
+                );
+            }
+
+            commit(
+                "setSearchHistory",
+                JSON.parse(localStorage.getItem("searchHistory"))
+            );
+            commit("setLoading", false, { root: true });
         }
-        return result;
+        return result.data.result;
     },
 };
 

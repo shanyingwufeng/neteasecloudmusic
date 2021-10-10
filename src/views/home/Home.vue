@@ -3,30 +3,32 @@
     <div class="home" :style="{ paddingBottom: pb() }">
         <!-- 顶部栏 -->
         <TopBar />
-        <!-- 轮播图 -->
-        <SlideShow />
-        <!-- 中间导航  -->
-        <CenterNav />
-        <!-- 推荐歌单 -->
-        <RecommendPlayList />
-        <!-- 新歌新碟数字专辑 -->
-        <NewAlbumNewSong :data="newAlbumNewSong" />
-        <!-- 排行榜 -->
-        <TopList />
-        <!-- 音乐日历 -->
-        <MusicCalendar :data="musicCalendar" />
-        <!-- 精选音乐视频 -->
-        <BoutiqueMusicVideo :data="musicVideo" />
-        <!-- 雷达歌单 -->
-        <RadarPlaylist :data="radarPlayList" />
-        <!-- 专属场景歌单 -->
-        <OffcialPlayList :data="offcialPlayList" />
-        <!-- 广播电台和24小时播客 -->
-        <BroadCastAndPodCast24 :data="broadCastAndPodCast24" />
-        <!-- 视频合辑 -->
-        <VideoCollection :data="videoCollection" />
-        <!-- 精品歌单 -->
-        <BoutiquePlayList />
+        <div class="content">
+            <!-- 轮播图 -->
+            <SlideShow />
+            <!-- 中间导航  -->
+            <CenterNav />
+            <!-- 推荐歌单 -->
+            <RecommendPlayList />
+            <!-- 新歌新碟数字专辑 -->
+            <NewAlbumNewSong :data="newAlbumNewSong" />
+            <!-- 排行榜 -->
+            <TopList />
+            <!-- 音乐日历 -->
+            <MusicCalendar :data="musicCalendar" />
+            <!-- 精选音乐视频 -->
+            <BoutiqueMusicVideo :data="musicVideo" />
+            <!-- 雷达歌单 -->
+            <RadarPlaylist :data="radarPlayList" />
+            <!-- 专属场景歌单 -->
+            <OffcialPlayList :data="offcialPlayList" />
+            <!-- 广播电台和24小时播客 -->
+            <BroadCastAndPodCast24 :data="broadCastAndPodCast24" />
+            <!-- 视频合辑 -->
+            <VideoCollection :data="videoCollection" />
+            <!-- 精品歌单 -->
+            <BoutiquePlayList />
+        </div>
     </div>
 </template>
 
@@ -45,7 +47,7 @@ import BroadCastAndPodCast24 from "@/views/home/BroadCastAndPodCast24.vue";
 import VideoCollection from "@/views/home/VideoCollection.vue";
 import BoutiquePlayList from "@/views/home/BoutiquePlayList.vue";
 import { useStore } from "vuex";
-import { onActivated, onDeactivated, reactive, toRefs } from "vue";
+import { onActivated, reactive, toRefs } from "vue";
 import { getHomePageInfo } from "@/api/home/index.js";
 
 export default {
@@ -68,7 +70,7 @@ export default {
 
     setup() {
         const state = reactive({
-            newAlbumNewSong: [], // 新歌新碟数字专辑
+            newAlbumNewSong: "", // 新歌新碟数字专辑
             musicCalendar: "", // 音乐日历
             musicVideo: "", // 精选音乐视频
             radarPlayList: "", // 雷达歌单
@@ -86,7 +88,7 @@ export default {
 
         onActivated(() => {
             store.commit("bottom/setVisible", true);
-            getHomePageInfo().then(async (res) => {
+            getHomePageInfo().then((res) => {
                 state.newAlbumNewSong = res.data.data.blocks[3];
                 state.musicCalendar = res.data.data.blocks[4];
                 state.musicVideo = res.data.data.blocks[5];
@@ -94,11 +96,14 @@ export default {
                 state.offcialPlayList = res.data.data.blocks[7];
                 state.broadCastAndPodCast24 = res.data.data.blocks[9];
                 state.videoCollection = res.data.data.blocks[10];
-                // console.log(res.data.data.blocks[2]);
+                // console.log(res.data.data.blocks[0]);
             });
         });
 
-        return { ...toRefs(state), pb };
+        return {
+            ...toRefs(state),
+            pb,
+        };
     },
 };
 </script>

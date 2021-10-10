@@ -31,6 +31,7 @@ export default {
         Loading,
         PlayListSong,
     },
+
     setup() {
         const state = reactive({
             playlist: "",

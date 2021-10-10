@@ -1,8 +1,7 @@
 // 底部播放控制和导航
 
 const state = () => ({
-    // 显示状态（默认显示）
-    visible: true,
+    visible: true, // 显示状态（默认显示）
 });
 
 // 相当于计算属性

@@ -1,7 +1,7 @@
 <!-- 搜索-热搜榜 -->
 <template>
     <div class="hotSearchList">
-        <van-tabs v-model:active="active" class="hotSearch">
+        <van-tabs v-model:active="active" class="hotSearch" animated swipeable>
             <van-tab title="热搜榜">
                 <div class="list">
                     <div
@@ -139,6 +139,7 @@ export default {
             }
         }
         .van-tabs__content {
+            border-radius: 8px;
             .list {
                 position: relative;
                 display: flex;
@@ -161,6 +162,7 @@ export default {
                         width: 100%;
                         padding: 8px 0;
                         .id {
+                            width: 24px;
                             color: grey;
                             font-size: 14px;
                             &.hot {
@@ -169,9 +171,9 @@ export default {
                         }
                         .searchWord {
                             @include ellipsis1();
+                            margin-right: 6px;
                             color: #444;
                             font-size: 14px;
-                            margin: 0 6px 0 10px;
                         }
                         .iconUrl {
                             height: 10px;

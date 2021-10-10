@@ -45,36 +45,39 @@
                 <span class="iconfont icon-bofangliebiao more"></span>
             </div>
         </div>
-        <!-- 底部导航栏 -->
         <div class="tabBar" v-if="!$route.meta.hiddenTabBar">
-            <router-link
-                class="tab-bar-item"
-                v-for="(item, index) in tabBarData"
-                :key="index"
-                :to="item.path"
-            >
-                <span class="iconfont" :class="item.className"></span>
-                <span class="title">{{ item.title }}</span>
+            <router-link class="item" to="/">
+                <span class="iconfont icon-home"></span>
+                <span class="title">发现</span>
+            </router-link>
+            <router-link class="item" to="/boke">
+                <span class="iconfont icon-a-ziyuan8"></span>
+                <span class="title">播客</span>
+            </router-link>
+            <router-link class="item" to="/me">
+                <span class="iconfont icon-wode-copy"></span>
+                <span class="title">我的</span>
+            </router-link>
+            <router-link class="item" to="/k">
+                <span class="iconfont icon-Kgeriji"></span>
+                <span class="title">k歌</span>
+            </router-link>
+            <router-link class="item" to="/friends">
+                <span class="iconfont icon-pengyou"></span>
+                <span class="title">云村</span>
             </router-link>
         </div>
     </div>
 </template>
 
 <script>
-import { reactive, toRefs, computed, onMounted } from "vue";
+import { reactive, toRefs, computed } from "vue";
 import { useStore } from "vuex";
 
 export default {
     name: "Bottom",
     setup() {
         const state = reactive({
-            tabBarData: [
-                { className: "icon-home", title: "发现", path: "/" },
-                { className: "icon-a-ziyuan8", title: "播客", path: "/boke" },
-                { className: "icon-wode-copy", title: "我的", path: "/me" },
-                { className: "icon-Kgeriji", title: "k歌", path: "/k" },
-                { className: "icon-pengyou", title: "云村", path: "/friends" },
-            ],
             play: true,
         });
 
@@ -115,12 +118,12 @@ export default {
     left: 0;
     width: 100%;
     line-height: 1.2;
-    background-color: $color-white-background;
-    z-index: 99;
+    background-color: #fff;
+    z-index: 999;
     .playControl {
         position: relative;
         padding: 12px 14px;
-        background-color: $color-white-background;
+        background-color: #fff;
         border-top: 1px solid rgba(210, 210, 210, 0.2);
         border-bottom: 1px solid rgba(210, 210, 210, 0.2);
         .left {
@@ -185,8 +188,8 @@ export default {
         justify-content: space-around;
         align-items: center;
         padding: 6px 0 4px 0;
-        background-color: $color-white-background;
-        .tab-bar-item {
+        background-color: #fff;
+        .item {
             display: flex;
             flex-direction: column;
             align-items: center;

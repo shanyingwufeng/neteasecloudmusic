@@ -5,8 +5,8 @@
         <div class="list">
             <span
                 class="item"
-                v-for="(item, index) in list"
-                :key="index"
+                v-for="(item, id) in list"
+                :key="id"
                 @click="search(item.keyword)"
                 >{{ item.keyword }}</span
             >
@@ -22,20 +22,17 @@ export default {
     name: "SearchSimQuery",
     components: { TitleBar },
     props: ["data"],
-    emits: ["search"],
     setup(props, { emit }) {
         const state = reactive({
             list: "",
         });
 
-        const search = (searchWord) => {
-            emit("search", searchWord);
+        const search = (searchKeyword) => {
+            emit("search", searchKeyword);
         };
 
         onUpdated(() => {
-            if (state.list == "") {
-                state.list = props.data.sim_querys;
-            }
+            state.list = props.data.sim_querys;
         });
 
         return {

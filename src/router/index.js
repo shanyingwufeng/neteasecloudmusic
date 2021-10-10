@@ -11,6 +11,10 @@ const routes = [
         },
     },
     {
+        path: "/home",
+        redirect: "/",
+    },
+    {
         // 歌单
         path: "/playlist",
         name: "PlayList",
@@ -32,8 +36,8 @@ const routes = [
         component: () => import("@/views/search/SearchPage.vue"),
         meta: {
             keepAlive: true,
-            hiddenTabBar: true,
             isBack: true,
+            hiddenTabBar: true,
         },
     },
     {
@@ -57,12 +61,6 @@ const routes = [
         //     } else {
         //         next("/login");
         //     }
-        // },
-        // beforeEnter: (to, from, next) => {
-        //     // 让页面回到顶部
-        //     document.documentElement.scrollTop = 0;
-        //     // 调用 next()，一定要调用 next 方法，否则钩子就不会被销毁
-        //     next();
         // },
     },
     {

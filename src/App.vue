@@ -7,7 +7,9 @@
                 :key="$route.path"
             />
         </keep-alive>
-        <component :is="Component" v-if="!$route.meta.keepAlive" />
+        <transition name="fade">
+            <component :is="Component" v-if="!$route.meta.keepAlive" />
+        </transition>
     </router-view>
     <Bottom />
     <Audio />
@@ -25,7 +27,7 @@ export default {
 
 <style lang="scss">
 #app {
-    height: 100%;
+    height: 100vh;
     font-size: 12px;
     .van-popup.logout-close {
         .top {

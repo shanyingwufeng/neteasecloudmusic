@@ -3,7 +3,11 @@
     <div class="searchUser">
         <TitleBar titleBarName="用户" />
         <div class="list">
-            <div class="item" v-for="(item, id) in list" :key="id">
+            <div
+                class="item"
+                v-for="(item, id) in list"
+                :key="id"
+            >
                 <div class="left">
                     <img v-lazy="item.avatarUrl" />
                     <div class="content">
@@ -44,10 +48,8 @@ export default {
         });
 
         onUpdated(() => {
-            if (state.list == "") {
-                state.list = props.data.users;
-                state.moreText = props.data.moreText;
-            }
+            state.list = props.data.users;
+            state.moreText = props.data.moreText;
         });
 
         return { ...toRefs(state), changeValue };

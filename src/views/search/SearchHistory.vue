@@ -1,11 +1,11 @@
 <!-- 搜索页-搜索历史 -->
 <template>
-    <div class="searchHistory" v-if="$store.getters.isSearchHistoryShow">
+    <div class="searchHistory" v-if="searchHistory.length">
         <span class="left">历史</span>
         <div class="searchHistoryList center">
             <span
                 class="item"
-                v-for="(item, id) in $store.getters.searchHistory"
+                v-for="(item, id) in searchHistory"
                 :key="id"
                 @click="search(item)"
             >
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { onMounted } from "vue";
+import { computed, onActivated } from "vue";
 import { useStore } from "vuex";
 import { Dialog } from "vant";
 
@@ -38,17 +38,17 @@ export default {
                 message: "确定清除全部历史记录？",
             })
                 .then(() => {
-                    store.commit("hiddenSearchHistory");
                     localStorage.removeItem("searchHistory");
+                    store.commit("search/setSearchHistory", []);
                 })
                 .catch(() => {});
         };
 
-        onMounted(() => {
+        onActivated(() => {
             if (localStorage.getItem("searchHistory")) {
                 store.state.isSearchHistoryShow = true;
                 store.commit(
-                    "setSearchHistory",
+                    "search/setSearchHistory",
                     JSON.parse(localStorage.getItem("searchHistory"))
                 );
             } else {
@@ -59,6 +59,7 @@ export default {
         return {
             deleteSearchHistory,
             search,
+            searchHistory: computed(() => store.state.search.searchHistory),
         };
     },
 };

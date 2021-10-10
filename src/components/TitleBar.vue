@@ -9,7 +9,7 @@
             </div>
             <div v-else-if="rightText == '播放'" class="item item2">
                 <span class="text">{{ rightText }}</span>
-                <span class="iconfont icon-bofang3"></span>
+                <span class="iconfont icon-bofang4"></span>
             </div>
             <div v-else-if="rightText == '换一批'" class="item item3">
                 <span class="iconfont icon-shuaxin"></span>

@@ -51,7 +51,7 @@ export default {
     props: ["data"],
     setup(props) {
         const state = reactive({
-            list: [],
+            list: "",
             moreText: "",
         });
 

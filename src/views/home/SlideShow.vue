@@ -65,12 +65,7 @@ export default {
     display: flex;
     padding: 0 $padding;
     margin-top: 58px;
-    background: linear-gradient(
-        to bottom,
-        rgb(240, 240, 240),
-        rgb(248, 248, 248),
-        $color-white-background
-    );
+    background: linear-gradient(to bottom, #f0f0f0, #f5f5f5, #fff);
     .swiper-container {
         position: relative;
         border-radius: 8px;
@@ -103,7 +98,7 @@ export default {
                 opacity: 0.2;
             }
             .swiper-pagination-bullet-active {
-                background-color: $color-white-background;
+                background-color: #fff;
                 opacity: 1;
             }
         }
