@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onUpdated, ref, watch } from "vue";
 import { Swiper } from "swiper";
 
 export default {
@@ -56,8 +56,14 @@ export default {
     setup(props) {
         const list = ref([]);
 
-        onMounted(() => {
-            list.value = props.data;
+        watch(
+            () => props.data,
+            (newValue) => {
+                list.value = newValue;
+            }
+        );
+
+        onUpdated(() => {
             new Swiper(".newAlbum-swiper", {
                 slidesPerView: 1,
                 spaceBetween: 14,

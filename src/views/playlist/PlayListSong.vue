@@ -21,13 +21,14 @@
                 <span class="iconfont icon-youjiantou"></span>
             </div>
         </div> -->
-        <van-sticky :offset-top="50">
-            <div class="top" v-if="playlist.length !== 0">
+
+        <van-sticky :offset-top="54">
+            <div class="top" v-if="playList.length !== 0">
                 <div class="top-left">
                     <span class="iconfont icon-bofang"></span>
                     <span class="playAll">播放全部</span>
                     <span class="playListCount">
-                        ({{ playlist.trackIds.length }})
+                        ({{ playList.trackIds.length }})
                     </span>
                 </div>
                 <div class="top-right">
@@ -36,10 +37,11 @@
                 </div>
             </div>
         </van-sticky>
+
         <div class="detail">
             <div
                 class="item"
-                v-for="(item, i) in songList"
+                v-for="(item, i) in list"
                 :key="i"
                 @click="play(item.id)"
             >
@@ -83,38 +85,50 @@
                 </div>
             </div>
         </div>
+
+        <van-loading v-if="playListLoading">正在加载...</van-loading>
     </div>
 </template>
 
 <script>
 import { useRouter } from "vue-router";
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, watch, computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
     name: "PlayListSong",
-    props: ["playlist", "songList"],
-    setup() {
+    props: ["playList", "songList"],
+    setup(props) {
         const state = reactive({
-            idArr: [],
+            list: [],
         });
 
+        const store = useStore();
         const router = useRouter();
 
         const play = (id) => {
             router.push(`/playpage?id=${id}`);
         };
 
+        watch(
+            () => props.songList,
+            (newValue) => {
+                state.list = newValue;
+            }
+        );
+
         return {
             ...toRefs(state),
             play,
+            playListLoading: computed(() => store.state.playListLoading),
         };
     },
 };
 </script>
 
-<style scoped lang='scss'>
+<style lang='scss'>
 .playListSong {
-    padding: 0 10px;
+    overflow: hidden;
     padding-top: 24px;
     padding-bottom: 54px;
     background-color: #fff;
@@ -149,7 +163,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 14px 0;
+        padding: 10px $padding;
         background-color: #fff;
         .top-left {
             display: flex;
@@ -180,7 +194,14 @@ export default {
             }
         }
     }
+    .van-sticky.van-sticky--fixed {
+        .top {
+            border-bottom: 1px solid rgba(210, 210, 210, 0.3);
+        }
+    }
     .detail {
+        margin-bottom: 10px;
+        padding: 0 10px;
         .item {
             display: flex;
             align-items: center;
@@ -199,13 +220,16 @@ export default {
                     text-align: center;
                 }
                 .content {
+                    overflow: hidden;
                     display: flex;
                     flex-direction: column;
-                    width: 90%;
+                    width: 80%;
                     padding-right: 20px;
                     color: #333;
                     font-size: 14px;
                     .title {
+                        display: flex;
+                        width: 200px;
                         @include ellipsis1();
                     }
                     .bottom {
@@ -238,6 +262,12 @@ export default {
                     font-size: 20px;
                 }
             }
+        }
+    }
+
+    .van-loading {
+        text-align: center;
+        .van-loading__spinner {
         }
     }
 }

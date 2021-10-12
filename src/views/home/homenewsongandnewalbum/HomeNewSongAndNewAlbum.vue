@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { reactive, watch, toRefs } from "vue";
+import { reactive, watch, toRefs, onUpdated } from "vue";
 import NewSong from "./NewSong.vue";
 import NewAlbum from "./NewAlbum.vue";
 import DigtalAlbum from "./DigtalAlbum.vue";
@@ -38,17 +38,20 @@ export default {
             () => props.data,
             (newValue) => {
                 state.newSongAndNewAlbum = newValue.creatives;
-                state.newSong = state.newSongAndNewAlbum.filter(
-                    (item) => item.creativeType === "NEW_SONG_HOMEPAGE"
-                );
-                state.newAlbum = state.newSongAndNewAlbum.filter(
-                    (item) => item.creativeType === "NEW_ALBUM_HOMEPAGE"
-                );
-                state.digtalAlbum = state.newSongAndNewAlbum.filter(
-                    (item) => item.creativeType === "DIGITAL_ALBUM_HOMEPAGE"
-                );
             }
         );
+
+        onUpdated(() => {
+            state.newSong = state.newSongAndNewAlbum.filter(
+                (item) => item.creativeType === "NEW_SONG_HOMEPAGE"
+            );
+            state.newAlbum = state.newSongAndNewAlbum.filter(
+                (item) => item.creativeType === "NEW_ALBUM_HOMEPAGE"
+            );
+            state.digtalAlbum = state.newSongAndNewAlbum.filter(
+                (item) => item.creativeType === "DIGITAL_ALBUM_HOMEPAGE"
+            );
+        });
 
         return { ...toRefs(state) };
     },

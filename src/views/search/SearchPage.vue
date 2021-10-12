@@ -10,13 +10,13 @@
             <!-- 搜索历史 -->
             <SearchHistory @search="search" />
             <!-- 热搜榜 -->
-            <HotSearchList
+            <SearchHotList
                 :data="detailSearchHot"
                 :mvData="detailSearchMvHot"
                 @search="search"
             />
             <!-- 音乐专区 -->
-            <MusicZone />
+            <SearchMusicZone />
         </div>
     </div>
 </template>
@@ -24,8 +24,8 @@
 <script>
 import SearchInput from "./SearchInput.vue";
 import SearchHistory from "./SearchHistory.vue";
-import HotSearchList from "./HotSearchList.vue";
-import MusicZone from "./MusicZone.vue";
+import SearchHotList from "./SearchHotList.vue";
+import SearchMusicZone from "./SearchMusicZone.vue";
 import Loading from "@/components/Loading.vue";
 import {
     getDetailSearchHot,
@@ -41,8 +41,8 @@ export default {
     components: {
         SearchInput,
         SearchHistory,
-        HotSearchList,
-        MusicZone,
+        SearchHotList,
+        SearchMusicZone,
         Loading,
     },
 

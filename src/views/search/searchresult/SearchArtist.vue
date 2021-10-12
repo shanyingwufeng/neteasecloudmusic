@@ -27,7 +27,7 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import { onUpdated, reactive, toRefs } from "vue";
+import { watch, reactive, toRefs } from "vue";
 import { changeValue } from "@/utils/index.js";
 
 export default {
@@ -40,13 +40,13 @@ export default {
             moreText: "",
         });
 
-        onUpdated(() => {
-            state.list =
-                props.data.artists.length > 5
-                    ? props.data.artists.slice(0, 5)
-                    : props.data.artists;
-            state.moreText = props.data.moreText;
-        });
+        watch(
+            () => props.data,
+            (newValue) => {
+                state.list = newValue.artists;
+                state.moreText = newValue.moreText;
+            }
+        );
 
         return { ...toRefs(state), changeValue };
     },

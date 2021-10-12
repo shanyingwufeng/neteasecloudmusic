@@ -24,6 +24,8 @@ import {
     PullRefresh,
     Divider,
     Sticky,
+    Progress,
+    CountDown,
 } from "vant";
 
 // 使用swiper的compositon API
@@ -50,6 +52,8 @@ createApp(App)
     .use(PullRefresh)
     .use(Divider)
     .use(Sticky)
+    .use(Progress)
+    .use(CountDown)
     .use(Lazyload, {
         lazyComponent: true,
     })

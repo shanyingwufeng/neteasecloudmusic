@@ -51,19 +51,21 @@
                 <span class="title">发现</span>
             </router-link>
             <router-link class="item" to="/boke">
-                <span class="iconfont icon-a-ziyuan8"></span>
+                <span class="iconfont icon-wangluobokeneironghezuo"></span>
                 <span class="title">播客</span>
             </router-link>
             <router-link class="item" to="/me">
-                <span class="iconfont icon-wode-copy"></span>
+                <span class="iconfont icon-yinle1"></span>
                 <span class="title">我的</span>
             </router-link>
-            <router-link class="item" to="/k">
-                <span class="iconfont icon-Kgeriji"></span>
-                <span class="title">k歌</span>
-            </router-link>
             <router-link class="item" to="/friends">
-                <span class="iconfont icon-pengyou"></span>
+                <span
+                    class="iconfont icon-dilanxianxingiconyihuifu_huabanfuben"
+                ></span>
+                <span class="title">关注</span>
+            </router-link>
+            <router-link class="item" to="/k">
+                <span class="iconfont icon-cunzhuangshenbao"></span>
                 <span class="title">云村</span>
             </router-link>
         </div>
@@ -114,15 +116,16 @@ export default {
 
 .bottom {
     position: fixed;
+    right: 0;
     bottom: 0;
     left: 0;
-    width: 100%;
-    line-height: 1.2;
     background-color: #fff;
-    z-index: 999;
+    z-index: 99;
     .playControl {
         position: relative;
-        padding: 12px 14px;
+        height: 44px;
+        line-height: 44px;
+        padding: 0 $padding;
         background-color: #fff;
         border-top: 1px solid rgba(210, 210, 210, 0.2);
         border-bottom: 1px solid rgba(210, 210, 210, 0.2);
@@ -135,16 +138,15 @@ export default {
                 top: -7px;
                 left: 14px;
                 .cd {
-                    width: 44px;
-                    height: 44px;
+                    width: 48px;
+                    height: 48px;
                 }
                 .songImg {
                     position: absolute;
                     top: 8px;
                     left: 8px;
-                    width: 28px;
-                    height: 28px;
-                    margin-right: 8px;
+                    width: 32px;
+                    height: 32px;
                     border-radius: 50%;
                 }
                 .songImgRoute {
@@ -155,10 +157,10 @@ export default {
                 }
             }
             .songAndAuthor {
-                margin-left: 54px;
+                margin-left: 58px;
                 @include ellipsis1();
                 .title {
-                    font-size: 14px;
+                    font-size: 16px;
                 }
                 .author {
                     color: grey;
@@ -173,7 +175,6 @@ export default {
             top: 0;
             right: 10px;
             height: 100%;
-            z-index: 999;
             .bofang {
                 font-size: 14px;
             }
@@ -185,26 +186,33 @@ export default {
     }
     .tabBar {
         display: flex;
-        justify-content: space-around;
         align-items: center;
-        padding: 6px 0 4px 0;
+        height: 56px;
         background-color: #fff;
+        box-shadow: 0 3px 14px 2px rgb(0 0 0 / 12%);
         .item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0 14px;
+            flex: 1;
+            text-align: center;
             .iconfont {
+                display: block;
                 margin-bottom: 2px;
-                font-size: 20px;
-            }
-            .title {
-                margin-top: 2px;
-                font-size: 8px;
+                margin-left: 1px;
+                font-size: 24px;
             }
         }
         .router-link-active {
-            color: #d63b2b;
+            .iconfont {
+                &::before {
+                    padding: 4px;
+                    background-color: red;
+                    border-radius: 50%;
+                    color: #fff;
+                    font-size: 20px;
+                }
+            }
+            .title {
+                color: red;
+            }
         }
     }
 }

@@ -48,7 +48,7 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import { computed, onUpdated, reactive, toRefs, watch } from "vue";
+import { computed, reactive, toRefs, watch } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -57,7 +57,7 @@ export default {
     props: ["data"],
     setup(props) {
         const state = reactive({
-            list: "",
+            list: [],
             moreText: "",
         });
 
@@ -66,13 +66,10 @@ export default {
         watch(
             () => props.data,
             (newValue) => {
-                console.log(newValue);
                 state.list = newValue.songs;
                 state.moreText = newValue.moreText;
             }
         );
-
-        onUpdated(() => {});
 
         return {
             ...toRefs(state),
@@ -84,7 +81,6 @@ export default {
 
 <style scoped lang='scss'>
 .searchSingle {
-    margin-top: 20px;
     margin-bottom: 14px;
     background-color: $color-white-background;
     border-radius: 10px;

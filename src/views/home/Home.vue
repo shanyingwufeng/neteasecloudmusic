@@ -1,8 +1,12 @@
 <!-- 首页 -->
 <template>
-    <div class="home" :style="{ paddingBottom: pb() }">
+    <div
+        class="home"
+        :style="{ paddingBottom: playSong.id ? '100px' : '60px' }"
+    >
         <!-- 顶部栏 -->
         <HomeTopBar />
+        <!-- 内容区 -->
         <div class="content">
             <!-- 轮播图 -->
             <HomeSlideShow />
@@ -47,7 +51,7 @@ import HomeBroadCastAndPodCast24 from "@/views/home/HomeBroadCastAndPodCast24.vu
 import HomeVideoCollection from "@/views/home/HomeVideoCollection.vue";
 import HomeBoutiquePlayList from "@/views/home/HomeBoutiquePlayList.vue";
 import { useStore } from "vuex";
-import { onActivated, reactive, toRefs } from "vue";
+import { computed, onMounted, reactive, toRefs } from "vue";
 import { getHomePageInfo } from "@/api/home/index.js";
 
 export default {
@@ -81,12 +85,7 @@ export default {
 
         const store = useStore();
 
-        // padding-bottom 根据有没有本地存储的音乐而变化
-        const pb = () => {
-            return store.state.play.playSong.id ? "100px" : "50px";
-        };
-
-        onActivated(() => {
+        onMounted(() => {
             store.commit("bottom/setVisible", true);
             getHomePageInfo().then((res) => {
                 state.newSongAndnewAlbum = res.data.data.blocks[3];
@@ -102,7 +101,7 @@ export default {
 
         return {
             ...toRefs(state),
-            pb,
+            playSong: computed(() => store.state.play.playSong),
         };
     },
 };

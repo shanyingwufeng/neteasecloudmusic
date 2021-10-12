@@ -7,9 +7,7 @@
                 :key="$route.path"
             />
         </keep-alive>
-        <transition name="fade">
-            <component :is="Component" v-if="!$route.meta.keepAlive" />
-        </transition>
+        <component :is="Component" v-if="!$route.meta.keepAlive" />
     </router-view>
     <Bottom />
     <Audio />
@@ -28,7 +26,14 @@ export default {
 <style lang="scss">
 #app {
     height: 100vh;
+    line-height: 1.2;
     font-size: 12px;
+    user-select: none;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont,
+        "Helvetica Neue", Helvetica, Segoe UI, Arial, Roboto, "PingFang SC",
+        "miui", "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+
     .van-popup.logout-close {
         .top {
             display: flex;

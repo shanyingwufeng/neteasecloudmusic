@@ -2,7 +2,7 @@
 <template>
     <div class="searchHistory" v-if="searchHistory.length">
         <span class="left">历史</span>
-        <div class="searchHistoryList center">
+        <div class="list">
             <span
                 class="item"
                 v-for="(item, id) in searchHistory"
@@ -71,11 +71,10 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
     .left {
         font-size: 12px;
     }
-    .center {
+    .list {
         overflow-x: auto;
         white-space: nowrap;
         display: -webkit-box;
@@ -85,8 +84,8 @@ export default {
         left: 0;
         transform: translateY(-50%);
         width: 82%;
-        height: 30px;
-        line-height: 30px;
+        height: 32px;
+        line-height: 32px;
         margin-left: 34px;
         .item {
             margin-right: 10px;

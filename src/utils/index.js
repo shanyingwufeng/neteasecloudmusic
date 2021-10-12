@@ -51,3 +51,12 @@ export function getLyricList(lyric) {
         return arr;
     }
 }
+
+// 将数组分割成每n个为一组
+export function spArr(arr, n) {
+    let newArr = [];
+    for (let i = 0; i < arr.length; i += n) {
+        newArr.push(arr.slice(i, i + n));
+    }
+    return newArr;
+}

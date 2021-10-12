@@ -42,7 +42,7 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import { onUpdated, reactive, toRefs } from "vue";
+import { watch, reactive, toRefs } from "vue";
 import { changeValue } from "@/utils/index.js";
 
 export default {
@@ -51,17 +51,17 @@ export default {
     props: ["data"],
     setup(props) {
         const state = reactive({
-            list: "",
+            list: [],
             moreText: "",
         });
 
-        onUpdated(() => {
-            state.list =
-                props.data.playLists.length > 5
-                    ? props.data.playLists.slice(0, 5)
-                    : props.data.playLists;
-            state.moreText = props.data.moreText;
-        });
+        watch(
+            () => props.data,
+            (newValue) => {
+                state.list = newValue.playLists;
+                state.moreText = newValue.moreText;
+            }
+        );
 
         return { ...toRefs(state), changeValue };
     },

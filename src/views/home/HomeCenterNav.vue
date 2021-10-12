@@ -33,7 +33,7 @@ export default {
                 className: "icon-meirituijian1",
                 title: "每日推荐",
                 date: true,
-                path: "/dailyrecommend",
+                path: "/recommendeddaily",
             },
             { id: 2, className: "icon-sirenfm-copy-copy", title: "私人FM" },
             {

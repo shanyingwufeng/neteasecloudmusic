@@ -31,8 +31,10 @@ const actions = {
         commit("setSearchKeyword", payload);
         commit("setLoading", true, { root: true });
         const result = await searchByKeyword(1018, payload);
-        if (result.data.code == 200) {
+        console.log(result);
+        if (JSON.stringify(result.data.result) !== "{}") {
             commit("setSearchResult", result.data.result);
+
             if (localStorage.getItem("searchHistory")) {
                 state.searchHistory = JSON.parse(
                     localStorage.getItem("searchHistory")
@@ -62,9 +64,10 @@ const actions = {
                 "setSearchHistory",
                 JSON.parse(localStorage.getItem("searchHistory"))
             );
-            commit("setLoading", false, { root: true });
+        } else {
+            commit("setSearchResult", {});
         }
-        return result.data.result;
+        commit("setLoading", false, { root: true });
     },
 };
 

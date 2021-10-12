@@ -24,26 +24,12 @@
         <router-link
             class="center"
             :class="{ scroll: scroll }"
-            :to="{ name: 'SearchPage', params: {path: urlPath} }"
+            :to="{ name: 'SearchPage', params: { path: urlPath } }"
         >
             <span class="iconfont icon-sousuo1"></span>
             <!-- 搜索热词-关键词 -->
             <div class="searchKeyword">
-                <!-- <swiper
-                    :autoplay="autoplay"
-                    :loop="loop"
-                    :speed="speed"
-                    :direction="direction"
-                    :observeParents="observeParents"
-                    :observer="observer"
-                    v-if="isSwiperKeep"
-                >
-                    <swiper-slide v-for="(item, id) in searchKeyword" :key="id">
-                        <span class="text">{{ item.first }}</span>
-                    </swiper-slide>
-                </swiper> -->
                 <van-swipe
-                    style="height: 50px"
                     vertical
                     :autoplay="5000"
                     :duration="1000"
@@ -62,7 +48,7 @@
 </template>
 
 <script>
-import SideBar from "@/views/home/SideBar.vue";
+import SideBar from "@/components/SideBar.vue";
 import { getSearchHot } from "@/api/search/index";
 import { reactive, onMounted, onActivated, toRefs } from "vue";
 import { useRoute } from "vue-router";
@@ -161,13 +147,13 @@ export default {
             overflow: hidden;
             height: 30px;
             line-height: 30px;
-            .text {
-                color: rgb(145, 145, 145);
-                font-size: 14px;
+            .van-swipe {
+                height: 40px;
+                .text {
+                    color: rgb(145, 145, 145);
+                    font-size: 14px;
+                }
             }
-            // .swiper-container {
-            //     height: 40px;
-            // }
         }
     }
 

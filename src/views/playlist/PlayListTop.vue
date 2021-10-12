@@ -31,10 +31,7 @@
                 }}</span>
             </div>
             <div class="right">
-                <span
-                    class="iconfont icon-sousuo"
-                    @click="$router.push('/searchpage')"
-                ></span>
+                <span class="iconfont icon-sousuo" @click="searchPage()"></span>
                 <span class="iconfont icon-gengduo"></span>
             </div>
         </div>
@@ -115,8 +112,10 @@
 <script>
 import PlayCount from "@/components/PlayCount.vue";
 import { changeValue } from "@/utils/index.js";
-import { onMounted, onUpdated, reactive, toRefs } from "vue";
-import { useStore } from 'vuex';
+import { onMounted, onUpdated, reactive, toRefs, watch } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 export default {
     name: "PlayListTop",
@@ -126,9 +125,20 @@ export default {
         const state = reactive({
             author: "",
             scroll: false,
+            playListId: 0,
         });
 
         const store = useStore();
+        const router = useRouter();
+        const route = useRoute();
+
+        state.playListId = route.query.id;
+
+        const searchPage = () => {
+            router.push({
+                name: "SearchPage",
+            });
+        };
 
         // 显示歌单封面
         const showPlayListCover = () => {
@@ -144,7 +154,6 @@ export default {
 
         const windowScroll = () => {
             // 滚动条距离页面顶部的距离
-            // 以下写法原生兼容
             let scrollTop =
                 window.pageYOffset ||
                 document.documentElement.scrollTop ||
@@ -156,17 +165,21 @@ export default {
             }
         };
 
+        watch(
+            () => props.playlist,
+            (newValue) => {
+                state.author = newValue.creator;
+            }
+        );
+
         onMounted(() => {
             window.addEventListener("scroll", windowScroll);
-        });
-
-        onUpdated(() => {
-            state.author = props.playlist.creator;
         });
 
         return {
             ...toRefs(state),
             changeValue,
+            searchPage,
             showPlayListCover,
         };
     },
@@ -177,6 +190,7 @@ export default {
 .playListTop {
     position: relative;
     padding: $padding;
+    padding-top: 20px;
     .bg-box {
         overflow: hidden;
         position: fixed;
@@ -206,20 +220,18 @@ export default {
     }
     .topBar {
         overflow: hidden;
-        position: fixed;
-        top: 0;
-        left: 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        height: 54px;
-        padding: $padding;
-        padding-bottom: 0;
         color: #fff;
         z-index: 999;
-        transition: background-color 0.8s ease-in;
+        // transition: all 0.6s linear;
         &.scroll {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 54px;
             padding: 6px $padding;
         }
         .img {
@@ -242,7 +254,7 @@ export default {
         .left {
             display: flex;
             align-items: center;
-            width: 80%;
+            flex-wrap: nowrap;
             font-size: 16px;
             .iconfont {
                 margin-right: 12px;
@@ -258,7 +270,9 @@ export default {
                 display: none;
                 &.scroll {
                     display: block;
+                    width: 230px;
                     font-size: 14px;
+                    @include ellipsis1();
                 }
             }
         }
@@ -278,16 +292,16 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        margin-top: 20px;
         .top {
             display: flex;
-            margin: 40px 0 50px 0;
+            margin: 24px 0 50px 0;
             .top-left {
                 position: relative;
                 display: flex;
                 align-items: center;
                 margin-right: 12px;
                 img {
+                    display: block;
                     width: 120px;
                     border-radius: 8px;
                 }

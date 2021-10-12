@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { onUpdated, reactive, toRefs } from "vue";
+import { watch, reactive, toRefs } from "vue";
 import TitleBar from "@/components/TitleBar.vue";
 
 export default {
@@ -24,21 +24,21 @@ export default {
     props: ["data"],
     setup(props, { emit }) {
         const state = reactive({
-            list: "",
+            list: [],
         });
 
         const search = (searchKeyword) => {
             emit("search", searchKeyword);
         };
 
-        onUpdated(() => {
-            state.list = props.data.sim_querys;
-        });
+        watch(
+            () => props.data,
+            (newValue) => {
+                state.list = newValue.sim_querys;
+            }
+        );
 
-        return {
-            ...toRefs(state),
-            search,
-        };
+        return { ...toRefs(state), search };
     },
 };
 </script>

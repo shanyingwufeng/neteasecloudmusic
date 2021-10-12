@@ -33,7 +33,7 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import { reactive, toRefs, computed, onUpdated } from "vue";
+import { reactive, toRefs, computed, watch } from "vue";
 import { changeValue } from "@/utils/index.js";
 import { useStore } from "vuex";
 
@@ -49,13 +49,13 @@ export default {
 
         const store = useStore();
 
-        onUpdated(() => {
-            state.list =
-                props.data.albums.length > 5
-                    ? props.data.albums.slice(0, 5)
-                    : props.data.albums;
-            state.moreText = props.data.moreText;
-        });
+        watch(
+            () => props.data,
+            (newValue) => {
+                state.list = newValue.albums;
+                state.moreText = newValue.moreText;
+            }
+        );
 
         return {
             ...toRefs(state),

@@ -108,9 +108,9 @@ const routes = [
         component: () => import("@/views/cloudvillage/CloudVillage.vue"),
     },
     {
-        path: "/dailyrecommend", // 每日推荐
-        name: "DailyRecommend",
-        component: () => import("@/views/recommend/DailyRecommend.vue"),
+        path: "/recommendeddaily", // 每日推荐
+        name: "RecommendedDaily",
+        component: () => import("@/views/recommend/RecommendedDaily.vue"),
         meta: {
             hiddenBottomTabBar: true,
         },

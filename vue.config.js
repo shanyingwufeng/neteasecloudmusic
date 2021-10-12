@@ -15,7 +15,6 @@ module.exports = {
 
     // // 跨域
     // devServer: {
-    //     open: true, // 自动启动浏览器
     //     host: "0.0.0.0",
     //     port: 8080,
     //     https: false,
@@ -23,7 +22,7 @@ module.exports = {
     //     proxy: {
     //         // 配置跨域
     //         "/api": {
-    //             target: "https://cloudmusicapi.shanyingwufeng.com", // 打包后接口地址
+    //             target: "https://lianghj.top:3000", // 打包后接口地址
     //             ws: true,
     //             // 允许跨域
     //             changOrigin: true,
@@ -33,6 +32,5 @@ module.exports = {
     //             },
     //         },
     //     },
-    //     before: (app) => {},
     // },
 };

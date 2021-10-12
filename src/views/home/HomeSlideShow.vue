@@ -14,10 +14,10 @@
 
         <van-swipe
             class="homeSwipe"
-            :autoplay="6000"
+            :autoplay="8000"
+            :touchable="true"
+            :lazy-render="true"
             indicator-color="#fff"
-            lazy-render
-            :touchable="false"
         >
             <van-swipe-item v-for="item in list" :key="item">
                 <a :href="item.url">

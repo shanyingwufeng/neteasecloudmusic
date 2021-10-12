@@ -1,6 +1,6 @@
 <!-- 个人中心 -->
 <template>
-    <div class="me" :style="{ paddingBottom: pb() }">
+    <div class="me" :style="{ paddingBottom: playSong.id ? '130px' : '80px' }">
         <!-- 顶部 -->
         <div class="topBar">
             <div class="left">
@@ -28,7 +28,6 @@
                 <span class="iconfont icon-sousuo"></span>
             </router-link>
         </div>
-
         <!-- 立即登录 -->
         <div class="logo">
             <router-link class="user" to="/login">
@@ -49,13 +48,10 @@
                 <span class="iconfont icon-youjiantou"></span>
             </router-link>
         </div>
-
         <!-- 中间导航 -->
         <CenterNav />
-
         <!-- 我喜欢的音乐 -->
         <MyLoveMusic :data="playlist[0]" />
-
         <!-- 创建和收藏歌单 -->
         <div class="createAndCollectPlayList">
             <div class="title">
@@ -73,20 +69,17 @@
                 >
             </div>
         </div>
-
         <!-- 创建歌单 -->
         <CreatePlayList :list="playlist" />
-
         <!-- 收藏 -->
         <CollectPlayList />
-
         <!-- 为你推荐 -->
         <RecommendForYou />
     </div>
 </template>
 
 <script>
-import SideBar from "@/views/home/SideBar.vue";
+import SideBar from "@/components/SideBar.vue";
 import CenterNav from "@/views/profile/CenterNav.vue";
 import MyLoveMusic from "@/views/profile/MyLoveMusic.vue";
 import CreatePlayList from "@/views/profile/CreatePlayList.vue";
@@ -138,14 +131,6 @@ export default {
         };
 
         const store = useStore();
-        const paddingBottom = computed(() => {
-            return store.state.play.playSong.id ? "140px" : "80px";
-        });
-
-        // padding-bottom根据有没有本地存储的音乐而变化
-        const pb = () => {
-            return paddingBottom.value;
-        };
 
         onMounted(() => {
             store.commit("bottom/setVisible", true);
@@ -171,7 +156,7 @@ export default {
             showSideBar,
             createClick,
             collectClick,
-            pb,
+            playSong: computed(() => store.state.play.playSong),
         };
     },
 };

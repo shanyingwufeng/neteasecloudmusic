@@ -18,10 +18,9 @@
 </template>
 
 <script>
-import { toRefs, reactive, onMounted, watch, onActivated } from "vue";
+import { toRefs, reactive, watch, onActivated } from "vue";
 import { getSearchDefault } from "@/api/search/index.js";
 import { useRoute, useRouter } from "vue-router";
-import { useStore } from "vuex";
 
 export default {
     name: "SearchInput",
@@ -36,12 +35,12 @@ export default {
             path: "",
         });
 
-        const store = useStore();
         const route = useRoute();
         const router = useRouter();
 
         state.searchKeyword = route.query.keyword;
 
+        // 返回操作
         const back = () => {
             if (state.searchKeyword) {
                 router.push("/searchpage");
@@ -79,13 +78,6 @@ export default {
             }
         );
 
-        onMounted(async () => {
-            await getSearchDefault().then((res) => {
-                state.searchInput.focus();
-                state.placeholder = res.data.data.showKeyword;
-            });
-        });
-
         onActivated(async () => {
             if (route.params.path !== undefined) {
                 state.path = route.params.path;
@@ -96,12 +88,7 @@ export default {
             });
         });
 
-        return {
-            ...toRefs(state),
-            back,
-            fork,
-            search,
-        };
+        return { ...toRefs(state), back, fork, search };
     },
 };
 </script>
@@ -111,6 +98,7 @@ export default {
     position: relative;
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
     .back {
         display: flex;
         margin-right: 10px;

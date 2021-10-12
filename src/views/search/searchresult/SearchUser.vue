@@ -3,11 +3,7 @@
     <div class="searchUser">
         <TitleBar titleBarName="用户" />
         <div class="list">
-            <div
-                class="item"
-                v-for="(item, id) in list"
-                :key="id"
-            >
+            <div class="item" v-for="(item, id) in list" :key="id">
                 <div class="left">
                     <img v-lazy="item.avatarUrl" />
                     <div class="content">
@@ -34,7 +30,7 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import { onUpdated, reactive, toRefs } from "vue";
+import { watch, reactive, toRefs } from "vue";
 import { changeValue } from "@/utils/index.js";
 
 export default {
@@ -43,14 +39,17 @@ export default {
     props: ["data"],
     setup(props) {
         const state = reactive({
-            list: "",
+            list: [],
             moreText: "",
         });
 
-        onUpdated(() => {
-            state.list = props.data.users;
-            state.moreText = props.data.moreText;
-        });
+        watch(
+            () => props.data,
+            (newValue) => {
+                state.list = newValue.users;
+                state.moreText = newValue.moreText;
+            }
+        );
 
         return { ...toRefs(state), changeValue };
     },
