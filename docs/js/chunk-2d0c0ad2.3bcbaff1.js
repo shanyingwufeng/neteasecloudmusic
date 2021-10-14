@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0c0ad2"],{4396:function(a,e,c){"use strict";c.r(e);var n=c("7a23"),t=Object(n["V"])("data-v-243ae3ea");Object(n["D"])("data-v-243ae3ea");var d={class:""};Object(n["B"])();var o=t((function(a,e,c,t,o,s){return Object(n["A"])(),Object(n["g"])("div",d,"Cloud-Village")})),s={name:"",components:{}},r=c("d959"),u=c.n(r);const b=u()(s,[["render",o],["__scopeId","data-v-243ae3ea"]]);e["default"]=b}}]);
+//# sourceMappingURL=chunk-2d0c0ad2.3bcbaff1.js.map
