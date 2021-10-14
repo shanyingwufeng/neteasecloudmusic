@@ -45,6 +45,7 @@
                 <span class="iconfont icon-bofangliebiao more"></span>
             </div>
         </div>
+        <!-- 底部导航 -->
         <div class="tabBar" v-if="!$route.meta.hiddenBottomTabBar">
             <router-link class="item" to="/">
                 <span class="iconfont icon-home"></span>
@@ -96,8 +97,8 @@ export default {
         return {
             ...toRefs(state),
             play,
-            bottomShow: computed(() => store.state.bottom.visible),
             playState: computed(() => store.state.play.playState),
+            bottomShow: computed(() => store.state.bottom.visible),
             playSong: computed(() => store.getters["play/getPlaySong"]),
         };
     },

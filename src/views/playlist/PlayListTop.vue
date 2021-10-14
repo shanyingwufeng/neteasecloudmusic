@@ -112,10 +112,9 @@
 <script>
 import PlayCount from "@/components/PlayCount.vue";
 import { changeValue } from "@/utils/index.js";
-import { onMounted, onUpdated, reactive, toRefs, watch } from "vue";
+import { onMounted, reactive, toRefs, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { useRoute } from "vue-router";
 
 export default {
     name: "PlayListTop",
@@ -125,14 +124,10 @@ export default {
         const state = reactive({
             author: "",
             scroll: false,
-            playListId: 0,
         });
 
         const store = useStore();
         const router = useRouter();
-        const route = useRoute();
-
-        state.playListId = route.query.id;
 
         const searchPage = () => {
             router.push({
@@ -154,7 +149,7 @@ export default {
 
         const windowScroll = () => {
             // 滚动条距离页面顶部的距离
-            let scrollTop =
+            var scrollTop =
                 window.pageYOffset ||
                 document.documentElement.scrollTop ||
                 document.body.scrollTop;
@@ -165,16 +160,16 @@ export default {
             }
         };
 
+        onMounted(() => {
+            window.addEventListener("scroll", windowScroll);
+        });
+
         watch(
             () => props.playlist,
             (newValue) => {
                 state.author = newValue.creator;
             }
         );
-
-        onMounted(() => {
-            window.addEventListener("scroll", windowScroll);
-        });
 
         return {
             ...toRefs(state),

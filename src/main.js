@@ -26,6 +26,8 @@ import {
     Sticky,
     Progress,
     CountDown,
+    Skeleton,
+    List,
 } from "vant";
 
 // 使用swiper的compositon API
@@ -54,6 +56,8 @@ createApp(App)
     .use(Sticky)
     .use(Progress)
     .use(CountDown)
+    .use(Skeleton)
+    .use(List)
     .use(Lazyload, {
         lazyComponent: true,
     })

@@ -85,7 +85,7 @@ export default {
     border-bottom-right-radius: 10px;
     .list {
         .swiper-container {
-            padding-right: 24px;
+            padding-right: 28px;
             .swiper-wrapper {
                 display: flex;
                 justify-content: space-between;
@@ -100,8 +100,8 @@ export default {
                             flex: 1;
                             img {
                                 display: block;
-                                width: 50px;
-                                height: 50px;
+                                width: 54px;
+                                height: 54px;
                                 margin-right: 10px;
                                 border-radius: 10px;
                             }
@@ -110,7 +110,7 @@ export default {
                             flex: 8;
                             display: flex;
                             flex-direction: column;
-                            padding: 12px 0;
+                            padding: 16px 0;
                             padding-right: 14px;
                             border-bottom: 1px solid rgba(235, 234, 234, 0.5);
                             .top {

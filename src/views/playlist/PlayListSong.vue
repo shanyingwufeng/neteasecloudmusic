@@ -1,6 +1,9 @@
 <!-- 歌单歌曲 -->
 <template>
-    <div class="playListSong">
+    <div
+        class="playListSong"
+        :style="{ paddingBottom: playSong.id ? '54px' : '12px' }"
+    >
         <!-- <div class="ad" v-if="!$store.state.user.isLogin">
             <div class="left">
                 <span class="iconfont icon-xiaohongshuicon"></span>
@@ -41,7 +44,7 @@
         <div class="detail">
             <div
                 class="item"
-                v-for="(item, i) in list"
+                v-for="(item, i) in songList"
                 :key="i"
                 @click="play(item.id)"
             >
@@ -91,36 +94,110 @@
 </template>
 
 <script>
+import {
+    reactive,
+    toRefs,
+    watch,
+    computed,
+    onMounted,
+    onUpdated,
+    onUnmounted,
+} from "vue";
 import { useRouter } from "vue-router";
-import { reactive, toRefs, watch, computed } from "vue";
 import { useStore } from "vuex";
+import { getSongDetail } from "@/api/song/index.js";
+import { spArr } from "@/utils/index.js";
 
 export default {
     name: "PlayListSong",
-    props: ["playList", "songList"],
+    props: ["playList"],
     setup(props) {
         const state = reactive({
-            list: [],
+            playList: "",
+            songList: [], // 歌单所有歌曲列表
+            ids: [], // 歌单所有歌曲id
+            idArry: [], // 歌单所有歌曲的id以20为一组组成新的数组
+            page: 0, // 当前是第几页，默认是第一页
+            isRefreshBool: true, // 是否刷新标志
         });
 
         const store = useStore();
         const router = useRouter();
 
+        // 滚动处理
+        const handleScroll = () => {
+            var scrollTop = document.documentElement.scrollTop;
+            var clientHeight = document.documentElement.clientHeight;
+            var scrollHeight = document.body.scrollHeight;
+            if (scrollTop + clientHeight === scrollHeight) {
+                refresh();
+                state.isRefreshBool = false;
+            }
+        };
+
+        // 加载更多更趋信息
+        const refresh = async () => {
+            if (state.idArry.length > 1) {
+                store.commit("setPlayListLoading", true);
+                state.page = state.page + 1;
+                if (state.page < state.idArry.length) {
+                    await getSongList(state.idArry[state.page]);
+                    state.isRefreshBool = true;
+                }
+                store.commit("setPlayListLoading", false);
+            }
+        };
+
         const play = (id) => {
             router.push(`/playpage?id=${id}`);
         };
 
+        // 获取歌曲列表
+        const getSongList = async (arry) => {
+            await getSongDetail(arry.toString())
+                .then((res) => {
+                    if (state.songList.length === 0) {
+                        state.songList = res.data.songs;
+                    } else {
+                        state.songList = state.songList.concat(res.data.songs);
+                    }
+                })
+                .catch(() => {
+                    store.commit("setLoading", false);
+                });
+            store.commit("setLoading", false);
+        };
+
+        onMounted(() => {
+            store.commit("setLoading", true);
+            window.addEventListener("scroll", handleScroll, true);
+        });
+
         watch(
-            () => props.songList,
+            () => props.playList,
             (newValue) => {
-                state.list = newValue;
+                state.playList = newValue;
+                state.ids = newValue.trackIds.map((x) => {
+                    return x.id;
+                });
+                if (state.ids.length <= 20) {
+                    getSongList(state.ids);
+                } else {
+                    state.idArry = spArr(state.ids, 20);
+                    getSongList(state.idArry[state.page]);
+                }
             }
         );
+
+        onUnmounted(() => {
+            window.removeEventListener("scroll", handleScroll, true);
+        });
 
         return {
             ...toRefs(state),
             play,
             playListLoading: computed(() => store.state.playListLoading),
+            playSong: computed(() => store.state.play.playSong),
         };
     },
 };
@@ -128,9 +205,7 @@ export default {
 
 <style lang='scss'>
 .playListSong {
-    overflow: hidden;
-    padding-top: 24px;
-    padding-bottom: 54px;
+    padding: 24px 0 50px 0;
     background-color: #fff;
     .ad {
         display: flex;
@@ -223,13 +298,14 @@ export default {
                     overflow: hidden;
                     display: flex;
                     flex-direction: column;
-                    width: 80%;
+                    width: 88%;
                     padding-right: 20px;
                     color: #333;
                     font-size: 14px;
                     .title {
                         display: flex;
                         width: 200px;
+                        margin-bottom: 2px;
                         @include ellipsis1();
                     }
                     .bottom {
@@ -264,11 +340,8 @@ export default {
             }
         }
     }
-
     .van-loading {
         text-align: center;
-        .van-loading__spinner {
-        }
     }
 }
 </style>

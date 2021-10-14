@@ -14,14 +14,14 @@
 
         <van-swipe
             class="homeSwipe"
-            :autoplay="8000"
+            :autoplay="10000"
             :touchable="true"
             :lazy-render="true"
             indicator-color="#fff"
         >
             <van-swipe-item v-for="item in list" :key="item">
                 <a :href="item.url">
-                    <img :src="item.pic" />
+                    <img v-lazy="item.pic" />
                 </a>
             </van-swipe-item>
         </van-swipe>
@@ -117,14 +117,15 @@ export default {
     // }
 
     .homeSwipe {
-        border-radius: 8px;
+        border-radius: 10px;
         .van-swipe-item {
             a {
                 display: block;
                 img {
                     display: block;
-                    width: 100%;
-                    border-radius: 8px;
+                    width: 347px;
+                    height: 135px;
+                    border-radius: 10px;
                 }
             }
         }

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { ref, onUpdated } from "vue";
+import { ref, onUpdated, watch } from "vue";
 import { Swiper } from "swiper";
 import PlayCount from "@/components/PlayCount.vue";
 
@@ -55,8 +55,14 @@ export default {
     setup(props) {
         const list = ref([]);
 
+        watch(
+            () => props.list,
+            (newValue) => {
+                list.value = newValue;
+            }
+        );
+
         onUpdated(() => {
-            list.value = props.list;
             new Swiper(".swiper", {
                 slidesPerView: props.slidesPerView,
                 spaceBetween: props.spaceBetween,
@@ -81,7 +87,8 @@ export default {
                 flex-direction: column;
                 border-radius: 10px;
                 img {
-                    width: 100%;
+                    width: 103px;
+                    height: 103px;
                     margin-bottom: 4px;
                     border-radius: 10px;
                 }

@@ -110,7 +110,10 @@ const routes = [
     {
         path: "/recommendeddaily", // 每日推荐
         name: "RecommendedDaily",
-        component: () => import("@/views/recommend/RecommendedDaily.vue"),
+        component: () =>
+            import(
+                "@/views/home/homecenternav/HomeCenterNavRecommendedDaily.vue"
+            ),
         meta: {
             hiddenBottomTabBar: true,
         },
@@ -118,7 +121,10 @@ const routes = [
     {
         path: "/playlistsquare", // 歌单广场
         name: "PlayListSquare",
-        component: () => import("@/views/playlist/PlayListSquare.vue"),
+        component: () =>
+            import(
+                "@/views/home/homecenternav/HomeCenterNavPlayListSquare.vue"
+            ),
         meta: {
             hiddenBottomTabBar: true,
         },

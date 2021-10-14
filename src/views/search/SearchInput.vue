@@ -103,7 +103,7 @@ export default {
         display: flex;
         margin-right: 10px;
         color: rgb(68, 68, 68);
-        font-size: 22px;
+        font-size: 24px;
     }
     input {
         width: 100%;
@@ -118,7 +118,7 @@ export default {
     .fork {
         display: flex;
         position: absolute;
-        top: 8px;
+        top: 4px;
         right: 6px;
         font-size: 14px;
     }

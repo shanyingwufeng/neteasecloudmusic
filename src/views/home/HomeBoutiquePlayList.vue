@@ -67,7 +67,8 @@ export default {
                     flex-direction: column;
                     border-radius: 10px;
                     img {
-                        width: 100%;
+                        width: 103px;
+                        height: 103px;
                         margin-bottom: 4px;
                         border-radius: 10px;
                     }

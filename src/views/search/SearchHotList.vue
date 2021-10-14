@@ -14,14 +14,16 @@
                             <span class="id" :class="{ hot: id < 3 }">{{
                                 id + 1
                             }}</span>
-                            <span class="searchWord">{{
-                                item.searchWord
-                            }}</span>
-                            <img
-                                class="iconUrl"
-                                v-if="item.iconUrl"
-                                v-lazy="item.iconUrl"
-                            />
+                            <div class="right">
+                                <span class="searchWord">{{
+                                    item.searchWord
+                                }}</span>
+                                <img
+                                    class="iconUrl"
+                                    v-if="item.iconUrl"
+                                    v-lazy="item.iconUrl"
+                                />
+                            </div>
                         </div>
                     </div>
                     <div class="more" @click="action" v-if="moreShow">
@@ -41,12 +43,14 @@
                             <span class="id" :class="{ hot: id < 3 }">{{
                                 id + 1
                             }}</span>
-                            <span class="searchWord">{{ item.name }}</span>
-                            <img
-                                class="iconUrl"
-                                v-if="item.iconUrl"
-                                v-lazy="item.iconUrl"
-                            />
+                            <div class="right">
+                                <span class="searchWord">{{ item.name }}</span>
+                                <img
+                                    class="iconUrl"
+                                    v-if="item.iconUrl"
+                                    v-lazy="item.iconUrl"
+                                />
+                            </div>
                         </div>
                     </div>
                     <div class="more" @click="action" v-if="moreShow">
@@ -150,21 +154,28 @@ export default {
                         width: 100%;
                         padding: 8px 0;
                         .id {
-                            width: 24px;
+                            width: 18%;
                             color: grey;
-                            font-size: 14px;
+                            font-size: 16px;
                             &.hot {
                                 color: red;
                             }
                         }
-                        .searchWord {
-                            @include ellipsis1();
-                            margin-right: 6px;
-                            color: #444;
-                            font-size: 14px;
-                        }
-                        .iconUrl {
-                            height: 10px;
+                        .right {
+                            display: flex;
+                            align-items: center;
+                            width: 80%;
+                            .searchWord {
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                margin-right: 6px;
+                                color: #444;
+                                font-size: 16px;
+                            }
+                            .iconUrl {
+                                height: 10px;
+                            }
                         }
                     }
                 }

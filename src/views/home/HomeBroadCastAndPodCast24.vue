@@ -133,8 +133,8 @@ export default {
             padding-left: var(--padding);
             padding-bottom: var(--padding);
             .swiper-container {
-                padding-left: 5px;
-                padding-right: 30px;
+                padding-left: 10px;
+                padding-right: 34px;
                 .swiper-wrapper {
                     display: flex;
                     justify-content: space-between;

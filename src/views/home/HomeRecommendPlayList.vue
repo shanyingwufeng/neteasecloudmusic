@@ -111,7 +111,8 @@ export default {
                     border-radius: 12px;
                     img {
                         display: block;
-                        width: 100%;
+                        width: 103px;
+                        height: 103px;
                         margin-bottom: 4px;
                         border-radius: 10px;
                     }
