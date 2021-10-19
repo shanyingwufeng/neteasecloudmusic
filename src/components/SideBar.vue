@@ -3,13 +3,12 @@
     <div class="side-bar">
         <router-link class="side-bar-top" to="/login">
             <div class="user">
-                <span class="iconfont icon-user"></span>
+                <span class="iconfont icon-user" v-if="!user.picUrl"></span>
+                <img :src="user.picUrl" class="img" v-if="user.picUrl" />
                 <span class="username">{{
-                    $store.state.user.nickName
-                        ? $store.state.user.nickName
-                        : "立即登录"
+                    user.nickName ? user.nickName : "立即登录"
                 }}</span>
-                <span class="iconfont icon-youjiantou"></span>
+                <span class="iconfont icon-youjiantou2"></span>
             </div>
             <span class="qrcode iconfont icon-richscan_icon"></span>
         </router-link>
@@ -35,9 +34,9 @@
                 </div>
                 <span class="right">会员中心</span>
             </div>
-            <div class="bottom">
+            <div class="vip-page-bottom">
                 <span>立享特惠，黑胶首月仅0.01元！</span>
-                <img src="@/assets/logo.png" class="logo" />
+                <img src="@/assets/logo.png" class="bottom-logo" />
             </div>
         </div>
         <van-cell-group inset>
@@ -70,7 +69,7 @@
         </van-cell-group>
         <van-cell-group inset class="close">
             <van-cell
-                v-if="$store.state.user.isLogin"
+                v-if="user.id"
                 title="退出登录/关闭"
                 center
                 @click="showPopup"
@@ -97,9 +96,10 @@
 </template>
 
 <script>
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { logout } from "@/api/login/index.js";
+import { useStore } from "vuex";
 
 export default {
     name: "SideBar",
@@ -108,7 +108,7 @@ export default {
         SwiperSlide,
     },
     setup() {
-        let messages = ref([
+        const messages = ref([
             { text: "开团享6折，邀好友赠送天数" },
             { text: "加入黑胶，彰显与众不同" },
             { text: "支付宝专享，黑胶0.01元起" },
@@ -117,6 +117,8 @@ export default {
         ]);
 
         const show = ref(false);
+
+        const store = useStore();
 
         const logoutAccount = () => {
             logout().then((res) => {
@@ -142,7 +144,14 @@ export default {
             speed: 400,
         });
 
-        return { swiper_options, messages, show, logoutAccount, showPopup };
+        return {
+            swiper_options,
+            messages,
+            show,
+            logoutAccount,
+            showPopup,
+            user: computed(() => store.state.user.user),
+        };
     },
 };
 </script>
@@ -160,13 +169,21 @@ export default {
             .icon-user {
                 margin-right: 8px;
                 color: red;
-                font-size: 20px;
+                font-size: 30px;
+            }
+            img {
+                display: block;
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+                border-radius: 50%;
             }
             .username {
                 font-size: 14px;
             }
-            .icon-youjiantou {
-                font-size: 12px;
+            .icon-youjiantou2 {
+                display: flex;
+                font-size: 16px;
             }
         }
         .qrcode {
@@ -211,15 +228,17 @@ export default {
                 font-size: 12px;
             }
         }
-        .bottom {
+        .vip-page-bottom {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 20px;
             margin-top: 8px;
             color: #8a8076;
             font-size: 12px;
-            .logo {
-                width: 6%;
+            .bottom-logo {
+                width: 14px;
+                height: 14px;
             }
         }
     }

@@ -1,7 +1,13 @@
 <!-- 首页-专属场景歌单 -->
 <template>
-    <div class="homeOffcialPlayList home-card">
-        <TitleBar :titleBarName="titleBarName" rightText="更多" />
+    <div class="homeOffcialPlaylist home-card">
+        <TitleBar>
+            <template v-slot:left>专属场景歌单</template>
+            <template v-slot:right>
+                <span class="text">更多</span>
+                <van-icon name="arrow" />
+            </template>
+        </TitleBar>
         <PlayListSwiper :list="list" :point="0" />
     </div>
 </template>
@@ -12,7 +18,7 @@ import TitleBar from "@/components/TitleBar.vue";
 import PlayListSwiper from "@/components/PlayListSwiper.vue";
 
 export default {
-    name: "HomeOffcialPlayList",
+    name: "HomeOffcialPlaylist",
     components: { TitleBar, PlayListSwiper },
     props: ["data"],
     setup(props) {

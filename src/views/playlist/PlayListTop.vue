@@ -48,7 +48,7 @@
                             :class="{ hasDescription: !playlist.description }"
                             >{{ playlist.name }}</span
                         >
-                        <div class="author">
+                        <div class="author" v-if="author">
                             <img class="header" v-lazy="author.avatarUrl" />
                             <span class="nickname">{{ author.nickname }}</span>
                             <div>
@@ -196,13 +196,14 @@ export default {
         background: #fff;
         z-index: -1;
         .bg {
+            overflow: hidden;
             width: 100%;
             height: 34%;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             transform: scale(1.2);
-            filter: blur(30px) contrast(0.5) brightness(0.5);
+            filter: blur(10px) contrast(0.5) brightness(0.5);
         }
         .bg::after {
             content: "";
@@ -219,10 +220,12 @@ export default {
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        height: 26px;
         color: #fff;
+        transition: height 0.3s ease-out;
         z-index: 999;
-        // transition: all 0.6s linear;
         &.scroll {
+            overflow: hidden;
             position: fixed;
             top: 0;
             left: 0;
@@ -289,7 +292,7 @@ export default {
         justify-content: space-between;
         .top {
             display: flex;
-            margin: 24px 0 50px 0;
+            margin: 24px 0 34px 0;
             .top-left {
                 position: relative;
                 display: flex;

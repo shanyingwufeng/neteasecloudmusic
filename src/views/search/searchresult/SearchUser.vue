@@ -1,7 +1,13 @@
 <!-- 搜索用户-->
 <template>
     <div class="searchUser">
-        <TitleBar titleBarName="用户" />
+        <TitleBar>
+            <template v-slot:left>
+                <div class="left">
+                    <span class="titleName">用户</span>
+                </div>
+            </template>
+        </TitleBar>
         <div class="list">
             <div class="item" v-for="(item, id) in list" :key="id">
                 <div class="left">

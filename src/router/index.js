@@ -1,4 +1,8 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {
+    createRouter,
+    createWebHistory,
+    createWebHashHistory,
+} from "vue-router";
 import $store from "@/store/index.js";
 
 const routes = [
@@ -6,7 +10,7 @@ const routes = [
         // 首页
         path: "/",
         name: "Home",
-        component: () => import("@/views/home/Home.vue"),
+        component: () => import("@/views/home"),
         meta: {
             keepAlive: true,
         },
@@ -19,7 +23,7 @@ const routes = [
         // 搜索页面
         path: "/searchpage",
         name: "SearchPage",
-        component: () => import("@/views/search/SearchPage.vue"),
+        component: () => import("@/views/search"),
         meta: {
             keepAlive: true,
             isBack: true,
@@ -29,8 +33,8 @@ const routes = [
     {
         // 搜索结果页面
         path: "/search",
-        name: "SearchResult",
-        component: () => import("@/views/search/searchresult/SearchResult.vue"),
+        name: "Search",
+        component: () => import("@/views/search/searchresult"),
         meta: {
             hiddenBottomTabBar: true,
         },
@@ -39,7 +43,16 @@ const routes = [
         // 歌单
         path: "/playlist",
         name: "PlayList",
-        component: () => import("@/views/playlist/PlayList.vue"),
+        component: () => import("@/views/playlist"),
+        meta: {
+            hiddenBottomTabBar: true,
+        },
+    },
+    {
+        // 专辑
+        path: "/album",
+        name: "Album",
+        component: () => import("@/views/album"),
         meta: {
             hiddenBottomTabBar: true,
         },
@@ -48,7 +61,7 @@ const routes = [
         // 播放页面
         path: "/playpage",
         name: "PlayPage",
-        component: () => import("@/components/PlayPage.vue"),
+        component: () => import("@/components/playpage"),
         meta: {
             hiddenBottom: true,
         },
@@ -57,7 +70,7 @@ const routes = [
         // 个人中心
         path: "/me",
         name: "Me",
-        component: () => import("@/views/profile/Me.vue"),
+        component: () => import("@/views/profile"),
         // 路由守卫
         // beforeEnter: (to, from, next) => {
         //     if ($store.state.user.isLogin) {
@@ -71,7 +84,7 @@ const routes = [
         // 登录页面
         path: "/login",
         name: "Login",
-        component: () => import("@/views/login/Login.vue"),
+        component: () => import("@/views/login"),
         meta: {
             hiddenBottom: true,
         },
@@ -93,38 +106,34 @@ const routes = [
         },
     },
     {
-        path: "/boke",
-        name: "Boke.vue",
-        component: () => import("@/views/podcast/BoKe.vue"),
+        path: "/podcast",
+        name: "Podcast",
+        component: () => import("@/views/podcast"),
     },
     {
-        path: "/k",
-        name: "K",
-        component: () => import("@/views/ktv/K.vue"),
+        path: "/follow",
+        name: "Follow",
+        component: () => import("@/views/follow"),
     },
     {
-        path: "/friends",
-        name: "Friends",
-        component: () => import("@/views/cloudvillage/CloudVillage.vue"),
+        path: "/village",
+        name: "Village",
+        component: () => import("@/views/village"),
     },
     {
-        path: "/recommendeddaily", // 每日推荐
+        path: "/recommendeddaily", // 首页中间导航每日推荐
         name: "RecommendedDaily",
         component: () =>
-            import(
-                "@/views/home/homecenternav/HomeCenterNavRecommendedDaily.vue"
-            ),
+            import("@/views/home/centernav/HomeCenterNavRecommendedDaily.vue"),
         meta: {
             hiddenBottomTabBar: true,
         },
     },
     {
-        path: "/playlistsquare", // 歌单广场
+        path: "/playlistsquare", // 首页中间导航歌单广场
         name: "PlayListSquare",
         component: () =>
-            import(
-                "@/views/home/homecenternav/HomeCenterNavPlayListSquare.vue"
-            ),
+            import("@/views/home/centernav/HomeCenterNavPlaylist.vue"),
         meta: {
             hiddenBottomTabBar: true,
         },
@@ -133,6 +142,7 @@ const routes = [
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
+    // history: createWebHashHistory(),
     routes,
 
     // scrollBehavior(to, from, savedPosition) {

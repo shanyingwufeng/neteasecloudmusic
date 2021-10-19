@@ -17,9 +17,9 @@ export function getPlayListDetail(id) {
 }
 
 // 说明 : 调用此接口 , 可获取网友精选碟歌单，通过标签获取所有歌单
-export function getPlayLists(title) {
+export function getPlayLists(title, updateTime) {
     return request({
-        url: `/top/playlist?limit=48&cat=${title}`,
+        url: `/top/playlist?limit=50&cat=${title}&before=${updateTime}`,
     });
 }
 

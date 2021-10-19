@@ -6,6 +6,7 @@ import "amfe-flexible";
 import "@/assets/scss/index.scss";
 
 import {
+    Tag,
     Toast,
     Tabbar,
     TabbarItem,
@@ -28,6 +29,7 @@ import {
     CountDown,
     Skeleton,
     List,
+    Icon,
 } from "vant";
 
 // 使用swiper的compositon API
@@ -37,6 +39,7 @@ import "swiper/components/pagination/pagination.scss";
 SwiperCore.use([Autoplay, Pagination]);
 
 createApp(App)
+    .use(Tag)
     .use(Toast)
     .use(Tabbar)
     .use(TabbarItem)
@@ -58,6 +61,7 @@ createApp(App)
     .use(CountDown)
     .use(Skeleton)
     .use(List)
+    .use(Icon)
     .use(Lazyload, {
         lazyComponent: true,
     })

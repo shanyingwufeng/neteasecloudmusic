@@ -1,8 +1,14 @@
 <!-- 首页-视频合辑 -->
 <template>
     <div class="homeVideoCollection home-card">
-        <TitleBar :titleBarName="titleBarName" rightText="更多" />
-        <PlayListSwiper :list="list" :point="0" />
+        <TitleBar>
+            <template v-slot:left>视频合辑</template>
+            <template v-slot:right>
+                <span class="text">更多</span>
+                <van-icon name="arrow" />
+            </template>
+        </TitleBar>
+        <PlayListSwiper :list="list" :point="0" :titleBarName="titleBarName" />
     </div>
 </template>
 

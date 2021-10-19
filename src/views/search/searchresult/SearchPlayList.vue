@@ -1,7 +1,13 @@
 <!-- 搜索歌单-->
 <template>
     <div class="searchPlayList">
-        <TitleBar titleBarName="歌单" />
+        <TitleBar>
+            <template v-slot:left>
+                <div class="left">
+                    <span class="titleName">歌单</span>
+                </div>
+            </template>
+        </TitleBar>
         <div class="list">
             <router-link
                 class="item"
@@ -21,7 +27,7 @@
                         <span class="trackCount">
                             {{ item.trackCount }}首，by
                         </span>
-                        <span class="nickname">
+                        <span class="nickname" v-if="item.creator">
                             {{ item.creator.nickname }}，</span
                         >
                         <span class="playCount"

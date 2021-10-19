@@ -1,7 +1,13 @@
 <!-- 相关搜索 -->
 <template>
     <div class="searchSimQuery">
-        <TitleBar titleBarName="相关搜索" />
+        <TitleBar>
+            <template v-slot:left>
+                <div class="left">
+                    <span class="titleName">相关搜索</span>
+                </div>
+            </template>
+        </TitleBar>
         <div class="list">
             <span
                 class="item"

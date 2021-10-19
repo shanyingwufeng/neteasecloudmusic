@@ -17,6 +17,7 @@ const mutations = {
     // 设置首页数据
     setHomeData(state, value) {
         state.homeData = value;
+        // console.log(value);
     },
 
     setHomePageRefresh(state, value) {

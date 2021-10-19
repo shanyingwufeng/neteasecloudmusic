@@ -1,7 +1,13 @@
 <!-- 首页-音乐日历 -->
 <template>
     <div class="homeMusicCalendar home-card">
-        <TitleBar titleBarName="音乐日历" rightText="更多" />
+        <TitleBar>
+            <template v-slot:left>音乐日历</template>
+            <template v-slot:right>
+                <span class="text">更多</span>
+                <van-icon name="arrow" />
+            </template>
+        </TitleBar>
         <Ad adLeft="领取你的今日好运" adRight="查看运势解读" />
         <div class="detail">
             <div

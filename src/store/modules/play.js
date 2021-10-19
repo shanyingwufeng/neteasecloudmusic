@@ -1,6 +1,7 @@
 // 播放模块
 import { getLyric, getSongDetail, getMusicComment } from "@/api/song/index.js";
 import { getPlayListDetail } from "@/api/playlist/index.js";
+import { getAlbum } from "@/api/album/index.js";
 import { Toast } from "vant";
 
 const state = () => ({
@@ -21,6 +22,9 @@ const state = () => ({
 
     // 播放歌单
     playList: "",
+
+    // 专辑
+    album: "",
 
     // 歌单歌曲列表
     songList: "",
@@ -86,6 +90,11 @@ const mutations = {
         state.playList = payload;
     },
 
+    // 设置专辑
+    setAlbum(state, payload) {
+        state.album = payload;
+    },
+
     // 设置歌单歌曲列表
     setSongList(state, value) {
         state.songList = value;
@@ -113,6 +122,19 @@ const actions = {
             commit(
                 "setSongIds",
                 res.data.playlist.trackIds.map((x) => {
+                    return x.id;
+                })
+            );
+        });
+    },
+
+    // 获取专辑详情
+    async setAlbum({ commit }, id) {
+        await getAlbum(id).then((res) => {
+            commit("setAlbum", res.data.album);
+            commit(
+                "setSongIds",
+                res.data.songs.map((x) => {
                     return x.id;
                 })
             );

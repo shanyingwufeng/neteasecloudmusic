@@ -1,7 +1,13 @@
 <!-- 搜索艺人-->
 <template>
     <div class="searchArtist">
-        <TitleBar titleBarName="艺人" />
+        <TitleBar>
+            <template v-slot:left>
+                <div class="left">
+                    <span class="titleName">艺人</span>
+                </div>
+            </template>
+        </TitleBar>
         <div class="list">
             <div class="item" v-for="(item, id) in list" :key="id">
                 <div class="left">

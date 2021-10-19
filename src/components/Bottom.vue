@@ -51,7 +51,7 @@
                 <span class="iconfont icon-home"></span>
                 <span class="title">发现</span>
             </router-link>
-            <router-link class="item" to="/boke">
+            <router-link class="item" to="/podcast">
                 <span class="iconfont icon-wangluobokeneironghezuo"></span>
                 <span class="title">播客</span>
             </router-link>
@@ -59,13 +59,13 @@
                 <span class="iconfont icon-yinle1"></span>
                 <span class="title">我的</span>
             </router-link>
-            <router-link class="item" to="/friends">
+            <router-link class="item" to="/follow">
                 <span
                     class="iconfont icon-dilanxianxingiconyihuifu_huabanfuben"
                 ></span>
                 <span class="title">关注</span>
             </router-link>
-            <router-link class="item" to="/k">
+            <router-link class="item" to="/village">
                 <span class="iconfont icon-cunzhuangshenbao"></span>
                 <span class="title">云村</span>
             </router-link>
@@ -161,11 +161,11 @@ export default {
                 margin-left: 58px;
                 @include ellipsis1();
                 .title {
-                    font-size: 16px;
+                    font-size: 14px;
                 }
                 .author {
                     color: grey;
-                    font-size: 12px;
+                    font-size: 10px;
                 }
             }
         }

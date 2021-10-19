@@ -1,3 +1,11 @@
+// @media screen and (min-width: 767px) {
+//     html,
+//     body {
+//         width: 450px;
+//         font-size: 76.7px !important;
+//     }
+// }
+
 html,
 body {
     height: 100%;
@@ -15,6 +23,7 @@ a {
 }
 
 .home-card {
+    overflow: hidden;
     margin-bottom: 10px;
     background-color: #fff;
     border-radius: 10px;

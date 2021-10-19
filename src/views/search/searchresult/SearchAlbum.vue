@@ -1,7 +1,13 @@
 <!-- 搜索专辑-->
 <template>
     <div class="searchAlbum">
-        <TitleBar titleBarName="专辑" />
+        <TitleBar>
+            <template v-slot:left>
+                <div class="left">
+                    <span class="titleName">专辑</span>
+                </div>
+            </template>
+        </TitleBar>
         <div class="list">
             <div class="item" v-for="(item, id) in list" :key="id">
                 <div class="left">

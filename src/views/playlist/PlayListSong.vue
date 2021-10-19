@@ -94,15 +94,7 @@
 </template>
 
 <script>
-import {
-    reactive,
-    toRefs,
-    watch,
-    computed,
-    onMounted,
-    onUpdated,
-    onUnmounted,
-} from "vue";
+import { reactive, toRefs, watch, computed, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { getSongDetail } from "@/api/song/index.js";
@@ -124,14 +116,43 @@ export default {
         const store = useStore();
         const router = useRouter();
 
+        watch(
+            () => props.playList,
+            (newValue) => {
+                state.playList = newValue;
+                state.ids = newValue.trackIds.map((x) => {
+                    return x.id;
+                });
+                if (state.ids.length <= 20) {
+                    getSongList(state.ids);
+                } else {
+                    state.idArry = spArr(state.ids, 20);
+                    getSongList(state.idArry[state.page]);
+                }
+                window.addEventListener("scroll", handleScroll, true);
+            }
+        );
+
+        onMounted(() => {
+            store.commit("setLoading", true);
+        });
+
+        onUnmounted(() => {
+            window.removeEventListener("scroll", handleScroll, true);
+        });
+
         // 滚动处理
         const handleScroll = () => {
             var scrollTop = document.documentElement.scrollTop;
             var clientHeight = document.documentElement.clientHeight;
             var scrollHeight = document.body.scrollHeight;
-            if (scrollTop + clientHeight === scrollHeight) {
-                refresh();
+            // console.log(scrollTop + "-" + clientHeight + "-" + scrollHeight);
+            if (
+                scrollTop + clientHeight >= scrollHeight - 100 &&
+                state.isRefreshBool === true
+            ) {
                 state.isRefreshBool = false;
+                refresh();
             }
         };
 
@@ -146,10 +167,6 @@ export default {
                 }
                 store.commit("setPlayListLoading", false);
             }
-        };
-
-        const play = (id) => {
-            router.push(`/playpage?id=${id}`);
         };
 
         // 获取歌曲列表
@@ -168,30 +185,9 @@ export default {
             store.commit("setLoading", false);
         };
 
-        onMounted(() => {
-            store.commit("setLoading", true);
-            window.addEventListener("scroll", handleScroll, true);
-        });
-
-        watch(
-            () => props.playList,
-            (newValue) => {
-                state.playList = newValue;
-                state.ids = newValue.trackIds.map((x) => {
-                    return x.id;
-                });
-                if (state.ids.length <= 20) {
-                    getSongList(state.ids);
-                } else {
-                    state.idArry = spArr(state.ids, 20);
-                    getSongList(state.idArry[state.page]);
-                }
-            }
-        );
-
-        onUnmounted(() => {
-            window.removeEventListener("scroll", handleScroll, true);
-        });
+        const play = (id) => {
+            router.push(`/playpage?id=${id}`);
+        };
 
         return {
             ...toRefs(state),
@@ -238,13 +234,16 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px $padding;
+        height: 44px;
+        line-height: 44px;
+        padding: 0 $padding;
         background-color: #fff;
         .top-left {
             display: flex;
             align-items: center;
             .iconfont {
                 display: block;
+                margin-top: 2px;
                 margin-right: 14px;
                 color: red;
                 font-size: 22px;
@@ -341,6 +340,8 @@ export default {
         }
     }
     .van-loading {
+        padding-top: 30px;
+        padding-bottom: 40px;
         text-align: center;
     }
 }

@@ -1,7 +1,13 @@
 <!-- 首页-精品歌单 -->
 <template>
-    <div class="homeBoutiquePlayList home-card">
-        <TitleBar titleBarName="精品歌单" rightText="更多" />
+    <div class="homeBoutiquePlaylist home-card">
+        <TitleBar>
+            <template v-slot:left>精品歌单</template>
+            <template v-slot:right>
+                <span class="text">更多</span>
+                <van-icon name="arrow" />
+            </template>
+        </TitleBar>
         <div class="list home-card-swiper">
             <div class="swiper-container boutique-playList-swiper">
                 <div class="swiper-wrapper">
@@ -11,9 +17,11 @@
                         :key="id"
                         :to="{ path: '/playlist', query: { id: item.id } }"
                     >
-                        <img v-lazy="item.coverImgUrl" />
-                        <span class="name">{{ item.name }}</span>
-                        <PlayCount :playCount="item.playCount" :point="1" />
+                        <lazy-component>
+                            <img v-lazy="item.coverImgUrl" />
+                            <span class="name">{{ item.name }}</span>
+                            <PlayCount :playCount="item.playCount" :point="1" />
+                        </lazy-component>
                     </router-link>
                 </div>
             </div>
@@ -29,7 +37,7 @@ import PlayCount from "@/components/PlayCount.vue";
 import TitleBar from "@/components/TitleBar.vue";
 
 export default {
-    name: "HomeBoutiquePlayList",
+    name: "HomeBoutiquePlaylist",
     components: { PlayCount, TitleBar },
     setup() {
         const state = reactive({
@@ -56,7 +64,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.homeBoutiquePlayList {
+.homeBoutiquePlaylist {
     .list {
         .swiper-container {
             padding-right: 24px;

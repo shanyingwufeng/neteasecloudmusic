@@ -8,6 +8,9 @@
             />
         </keep-alive>
         <component :is="Component" v-if="!$route.meta.keepAlive" />
+        <!-- <transition name="slide">
+            <component :is="Component" v-if="!$route.meta.keepAlive" />
+        </transition> -->
     </router-view>
     <Bottom />
     <Audio />
@@ -57,5 +60,37 @@ export default {
             }
         }
     }
+}
+
+// component wrapper
+.wrapper {
+    width: 100%;
+    min-height: 100vh;
+}
+
+// slide styles!
+.slide-enter-active,
+.slide-leave-active {
+    transition: all 0.4s ease-out;
+}
+
+.slide-enter-to {
+    position: absolute;
+    right: 0;
+}
+
+.slide-enter-from {
+    position: absolute;
+    right: -100%;
+}
+
+.slide-leave-to {
+    position: absolute;
+    left: -100%;
+}
+
+.slide-leave-from {
+    position: absolute;
+    left: 0;
 }
 </style>

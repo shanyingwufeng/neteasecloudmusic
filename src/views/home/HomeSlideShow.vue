@@ -1,131 +1,103 @@
 <!-- 首页-轮播图 -->
 <template>
     <div class="homeSlideShow">
-        <!-- <div class="swiper-container slideShow-swiper" v-if="isSwiperKeep">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for="(item, id) in list" :key="id">
-                    <a :href="item.url">
-                        <img :src="item.pic" />
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-pagination"></div>
-        </div> -->
-
         <van-swipe
             class="homeSwipe"
-            :autoplay="10000"
+            indicator-color="#fff"
+            :autoplay="6000"
             :touchable="true"
             :lazy-render="true"
-            indicator-color="#fff"
         >
-            <van-swipe-item v-for="item in list" :key="item">
-                <a :href="item.url">
-                    <img v-lazy="item.pic" />
-                </a>
+            <van-swipe-item
+                v-for="item in list"
+                :key="item"
+                @click="onClick(item)"
+            >
+                <img v-lazy="item.pic" />
+                <span class="typeTitle" :class="item.titleColor">{{
+                    item.typeTitle
+                }}</span>
             </van-swipe-item>
         </van-swipe>
     </div>
 </template>
 
 <script>
-import { reactive, onActivated, onDeactivated, toRefs } from "vue";
+import { ref, onActivated } from "vue";
 import { getHomePageBanner } from "@/api/home/index.js";
-// import { Swiper } from "swiper";
+import { useRouter } from "vue-router";
 
 export default {
     name: "HomeSlideShow",
     setup() {
-        const state = reactive({
-            list: [{ pic: require("@/assets/slideshow/home-swiper.jpg") }],
-            // isSwiperKeep: true,
-        });
+        const list = ref([
+            { pic: require("@/assets/slideshow/home-swiper.jpg") },
+        ]);
+
+        const router = useRouter();
 
         onActivated(() => {
-            // state.isSwiperKeep = true;
             getHomePageBanner().then((res) => {
-                state.list = res.data.banners;
-                // new Swiper(".slideShow-swiper", {
-                //     autoplay: {
-                //         delay: 6000,
-                //         disableOnInteraction: false,
-                //     },
-                //     loop: true,
-                //     speed: 400,
-                //     observeParents: true,
-                //     observer: true,
-                //     pagination: {
-                //         el: ".swiper-pagination",
-                //         clickable: true,
-                //     },
-                // });
+                list.value = res.data.banners;
             });
         });
 
-        // onDeactivated(() => {
-        //     state.isSwiperKeep = false;
-        // });
+        const onClick = (item) => {
+            if (item.url) {
+                window.location.href = item.url;
+            } else {
+                if (item.targetType === "新歌首发") {
+                    router.push(`/playpage?id=${item.targetId}`);
+                } else if (item.typeTitle === "新碟首发") {
+                    router.push({
+                        path: "/album",
+                        query: { id: item.targetId },
+                    });
+                }
+            }
+        };
 
-        return { ...toRefs(state) };
+        return { list, onClick };
     },
 };
 </script>
 
 <style lang='scss'>
 .homeSlideShow {
-    margin-top: 58px;
     padding: 0 $padding;
-    background: linear-gradient(to bottom, #f0f0f0, #f3f3f3, #fff);
-    // .swiper-container {
-    //     position: relative;
-    //     border-radius: 8px;
-    //     .swiper-wrapper {
-    //         .swiper-slide {
-    //             a {
-    //                 display: block;
-    //                 img {
-    //                     display: block;
-    //                     width: 100%;
-    //                     border-radius: 8px;
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     .swiper-pagination {
-    //         position: absolute;
-    //         bottom: 4px;
-    //         left: 50%;
-    //         transform: translateX(-50%);
-    //         width: 100%;
-    //         text-align: center;
-    //         transition: 300ms opacity;
-    //         z-index: 10;
-    //         .swiper-pagination-bullet {
-    //             display: inline-block;
-    //             width: 8px;
-    //             height: 4px;
-    //             margin: 0 4px;
-    //             background-color: rgb(0, 0, 0);
-    //             border-radius: 4px;
-    //             opacity: 0.2;
-    //         }
-    //         .swiper-pagination-bullet-active {
-    //             background-color: #fff;
-    //             opacity: 1;
-    //         }
-    //     }
-    // }
-
+    background: linear-gradient(
+        to bottom,
+        #e3e6eb,
+        #eaeded,
+        #eef0ef,
+        #f9fafb,
+        #fff
+    );
     .homeSwipe {
         border-radius: 10px;
         .van-swipe-item {
-            a {
+            overflow: hidden;
+            position: relative;
+            img {
                 display: block;
-                img {
-                    display: block;
-                    width: 347px;
-                    height: 135px;
-                    border-radius: 10px;
+                width: 347px;
+                height: 135px;
+                border-radius: 10px;
+            }
+            .typeTitle {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                padding: 4px 6px 3px 6px;
+                background: transparent;
+                color: #fff;
+                border-top-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+                &.red {
+                    background-color: rgba($color: red, $alpha: 0.9);
+                }
+                &.blue {
+                    background-color: rgba($color: #0784e4, $alpha: 0.9);
                 }
             }
         }
@@ -133,9 +105,9 @@ export default {
             bottom: 6px;
             .van-swipe__indicator {
                 width: 8px;
-                height: 4px;
-                margin: 0 4px;
-                background-color: #000;
+                height: 2px;
+                margin: 0 2px;
+                background-color: rgba($color: #8b8b8b, $alpha: 0.8);
                 border-radius: 4px;
             }
         }

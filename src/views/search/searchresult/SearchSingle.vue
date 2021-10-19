@@ -1,7 +1,19 @@
 <!-- 搜索单曲 -->
 <template>
     <div class="searchSingle">
-        <TitleBar titleBarName="单曲" rightText="播放" />
+        <TitleBar>
+            <template v-slot:left>
+                <div class="left">
+                    <span class="titleName">单曲</span>
+                </div>
+            </template>
+            <template v-slot:right>
+                <div class="right">
+                    <span class="iconfont icon-bofangqi-bofang"></span>
+                    <span class="text">播放</span>
+                </div>
+            </template>
+        </TitleBar>
         <div class="list">
             <router-link
                 class="item"
@@ -82,10 +94,17 @@ export default {
 <style scoped lang='scss'>
 .searchSingle {
     margin-bottom: 14px;
-    background-color: $color-white-background;
+    background-color: #fff;
     border-radius: 10px;
     .titleBar {
-        font-size: 16px;
+        .right {
+            .iconfont {
+                font-size: 14px;
+            }
+            .text {
+                margin-right: 6px;
+            }
+        }
     }
     .list {
         padding: 0 $padding;
@@ -101,8 +120,8 @@ export default {
                 width: 74%;
                 .title {
                     @include ellipsis1();
-                    margin-bottom: 4px;
-                    font-size: 16px;
+                    margin-bottom: 6px;
+                    font-size: 14px;
                 }
                 .bottom {
                     @include ellipsis1();

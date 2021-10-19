@@ -1,7 +1,13 @@
 <!-- 首页-推荐歌单 -->
 <template>
-    <div class="homeRecommendPlayList home-card">
-        <TitleBar titleBarName="推荐歌单" rightText="更多" />
+    <div class="homeRecommendPlaylist home-card">
+        <TitleBar>
+            <template v-slot:left>推荐歌单</template>
+            <template v-slot:right>
+                <span class="text">更多</span>
+                <van-icon name="arrow" />
+            </template>
+        </TitleBar>
         <div class="playList-swiper home-card-swiper">
             <swiper :slidesPerView="3" :spaceBetween="14">
                 <swiper-slide v-for="(item, id) in list2" :key="id">
@@ -14,11 +20,12 @@
                         <div v-if="id === 0">
                             <div class="firstImage" v-if="isSwiperKeep">
                                 <van-swipe
-                                    style="height: 140px"
                                     vertical
                                     :duration="700"
                                     :autoplay="4000"
                                     :show-indicators="false"
+                                    :lazy-render="true"
+                                    :touchable="false"
                                 >
                                     <van-swipe-item
                                         v-for="(list1Item, id) in list1"
@@ -44,9 +51,14 @@
                             </div>
                         </div>
                         <div v-else>
-                            <img v-lazy="item.picUrl" />
-                            <span class="name">{{ item.name }}</span>
-                            <PlayCount :playCount="item.playCount" :point="1" />
+                            <lazy-component>
+                                <img v-lazy="item.picUrl" />
+                                <span class="name">{{ item.name }}</span>
+                                <PlayCount
+                                    :playCount="item.playCount"
+                                    :point="0"
+                                />
+                            </lazy-component>
                         </div>
                     </router-link>
                 </swiper-slide>
@@ -64,10 +76,11 @@ import { getRandomArrayValue } from "@/utils/index.js";
 import { Swiper, SwiperSlide } from "swiper/vue";
 
 export default {
-    name: "HomeRecommendPlayList",
+    name: "HomeRecommendPlaylist",
     components: { TitleBar, PlayCount, Swiper, SwiperSlide },
     setup() {
         const state = reactive({
+            list: [],
             list1: [],
             list2: [],
             isSwiperKeep: false,
@@ -95,15 +108,13 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.homeRecommendPlayList {
+.homeRecommendPlaylist {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     .playList-swiper {
         .swiper-container {
-            height: 140px;
             padding-right: 24px;
             .swiper-wrapper {
-                overflow: hidden;
                 .swiper-slide {
                     position: relative;
                     display: flex;
@@ -120,13 +131,15 @@ export default {
                         @include ellipsis2();
                     }
                     .firstImage {
-                        overflow: hidden;
                         .icon-wuxian {
                             position: absolute;
                             top: -8px;
                             right: 2px;
                             color: #fff;
-                            font-size: 28px;
+                            font-size: 26px;
+                        }
+                        .van-swipe {
+                            height: 139px;
                         }
                     }
                 }

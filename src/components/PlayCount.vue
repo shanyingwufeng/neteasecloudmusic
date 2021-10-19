@@ -28,17 +28,12 @@ export default {
     position: absolute;
     top: 5px;
     right: 5px;
-    padding: 1px 4px;
-    background-color: rgba(73, 73, 73, 0.7);
+    padding: 0 6px;
+    background-color: rgba(73, 73, 73, 0.5);
     border-radius: 8px;
     color: #fff;
-    opacity: 0.8;
     .iconfont {
-        margin-right: 2px;
-        font-size: 8px;
-    }
-    .number {
-        font-size: 8px;
+        font-size: 10px;
     }
 }
 </style>
