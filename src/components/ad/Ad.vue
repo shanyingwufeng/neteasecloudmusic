@@ -12,27 +12,9 @@
 </template>
 
 <script>
-import { ref, onMounted, onUpdated } from "vue";
-
 export default {
     name: "Ad",
     props: ["adLeft", "adRight"],
-    setup(props) {
-        const adLeft = ref();
-        const adRight = ref();
-
-        onMounted(() => {
-            adLeft.value = props.adLeft;
-            adRight.value = props.adRight;
-        });
-
-        onUpdated(() => {
-            adLeft.value = props.adLeft;
-            adRight.value = props.adRight;
-        });
-
-        return { adLeft, adRight };
-    },
 };
 </script>
 

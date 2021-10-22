@@ -1,12 +1,16 @@
-<!--  -->
+<!--关注-->
 <template>
-    <div class>关注</div>
+    <div class="follow">
+        <WaitingDevelopment data="关注页面" />
+    </div>
 </template>
 
 <script>
+import WaitingDevelopment from "@/components/WaitingDevelopment.vue";
+
 export default {
-    name: "",
-    components: {},
+    name: "Follow",
+    components: { WaitingDevelopment },
 };
 </script>
 

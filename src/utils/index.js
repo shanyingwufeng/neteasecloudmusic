@@ -60,3 +60,18 @@ export function spArr(arr, n) {
     }
     return newArr;
 }
+
+// app在点击手机返回按钮的时候默认返回上级,在一级页面单独处理让用户在点击的时候做提示
+export function phoneOperate(isTopPage) {
+    let that = this;
+    isTopPage = isTopPage || false;
+    if (isTopPage) {
+        that.$confirm("是否要退出app", "操作提示")
+            .then(() => plus.runtime.quit())
+            .catch(() => {
+                return;
+            });
+    } else {
+        that.$router.go(-1);
+    }
+}

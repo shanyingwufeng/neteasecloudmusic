@@ -15,7 +15,6 @@
 <script>
 export default {
     name: "TitleBar",
-    components: {},
 };
 </script>
 
@@ -27,14 +26,14 @@ export default {
     padding: $padding;
     .left {
         .titleName {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
         }
     }
     .right {
         display: flex;
         align-items: center;
-        padding: 1px 4px 1px 8px;
+        padding: 2px 4px 1px 8px;
         border: 1px solid #eaeaea;
         border-radius: 14px;
         .iconfont {

@@ -27,7 +27,7 @@
                 <!-- 歌曲图片 -->
                 <img
                     ref="songImg"
-                    v-lazy="playSong.imgUrl"
+                    :src="playSong.imgUrl"
                     class="songImg"
                     :class="{
                         songImgRoute: play,
@@ -322,11 +322,15 @@ export default {
             // console.log(state.playLyric.offsetHeight);
             let p = document.querySelector("p.active");
             if (p !== null) {
-                let offsetTop = p.offsetTop;
+                let o = p.offsetTop;
                 let h = state.playLyric.offsetHeight;
-                // console.log(offsetTop + "--" + h);
-                if (offsetTop > h) {
-                    state.playLyric.scrollTop = offsetTop;
+                // console.log(o + "-" + h / 2);
+                if (o > h / 2) {
+                    // state.playLyric.scrollTop = o - h / 2;
+                    state.playLyric.scrollTo({
+                        top: o - h / 2,
+                        behavior: "smooth",
+                    });
                 }
             }
         });
@@ -388,6 +392,7 @@ export default {
             width: 80%;
             .songName {
                 @include ellipsis1();
+                margin-bottom: 4px;
                 padding: 0 20px;
                 font-size: 14px;
             }
@@ -411,7 +416,7 @@ export default {
             text-align: center;
             .controlLever {
                 position: absolute;
-                top: 4px;
+                top: -10px;
                 left: 46%;
                 width: 90px;
                 transform-origin: 8px 0;
@@ -423,16 +428,16 @@ export default {
             }
             .cd {
                 position: absolute;
-                top: 92px;
+                top: 74px;
                 left: 50%;
                 transform: translateX(-50%);
                 width: 280px;
             }
             .songImg {
                 position: absolute;
-                top: 142px;
+                top: 125px;
                 left: 26%;
-                width: 179px;
+                width: 180px;
                 border-radius: 50%;
                 transition: all 0.5s linear;
                 &.youyi {
@@ -461,13 +466,14 @@ export default {
                 height: 100%;
                 transition: all 0.8s linear;
                 .item {
-                    color: #fff;
+                    color: rgb(189, 189, 189);
                     line-height: 2;
                     text-align: center;
                     &.active {
-                        color: rgb(221, 14, 14);
+                        color: #fff;
+                        font-weight: 700;
                         transform: scale(1.3);
-                        transition: all 1.5s linear;
+                        transition: all 1s linear;
                     }
                 }
             }

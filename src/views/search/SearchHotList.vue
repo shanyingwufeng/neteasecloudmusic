@@ -6,7 +6,7 @@
                 <div class="list">
                     <div
                         class="item"
-                        v-for="(item, id) in list"
+                        v-for="(item, id) in data"
                         :key="id"
                         @click="search(item.searchWord)"
                     >
@@ -30,7 +30,7 @@
                         <span class="name">展开更多热搜</span>
                         <span class="iconfont icon-jiantou9"></span>
                     </div>
-                    <div class="more" @click="action" v-if="!moreShow">
+                    <div class="more" @click="action" v-else>
                         <span class="name">隐藏更多热搜</span>
                         <span class="iconfont icon--up"></span>
                     </div>
@@ -38,7 +38,7 @@
             </van-tab>
             <van-tab title="视频榜">
                 <div class="list">
-                    <div class="item" v-for="(item, id) in mvList" :key="id">
+                    <div class="item" v-for="(item, id) in mvData" :key="id">
                         <div v-if="id < showId" class="content">
                             <span class="id" :class="{ hot: id < 3 }">{{
                                 id + 1
@@ -57,7 +57,7 @@
                         <span class="name">展开更多热搜</span>
                         <span class="iconfont icon-jiantou9"></span>
                     </div>
-                    <div class="more" @click="action" v-if="!moreShow">
+                    <div class="more" @click="action" v-else>
                         <span class="name">隐藏更多热搜</span>
                         <span class="iconfont icon--up"></span>
                     </div>
@@ -68,15 +68,24 @@
 </template>
 
 <script>
-import { reactive, toRefs, watch } from "vue";
+import { reactive, toRefs } from "vue";
 
 export default {
     name: "SearchHotList",
-    props: ["data", "mvData"],
+    props: {
+        data: {
+            type: Array,
+            requaired: true,
+            default: [],
+        },
+        mvData: {
+            type: Array,
+            requaired: true,
+            default: [],
+        },
+    },
     setup(props, { emit }) {
         const state = reactive({
-            list: [],
-            mvList: [],
             showId: 10,
             moreShow: true,
             active: 0,
@@ -88,17 +97,12 @@ export default {
 
         const action = () => {
             if (state.moreShow == true) {
-                state.showId = state.list.length;
+                state.showId = props.data.length;
             } else {
                 state.showId = 10;
             }
             state.moreShow = !state.moreShow;
         };
-
-        watch(props, (newProps) => {
-            state.list = newProps.data;
-            state.mvList = newProps.mvData;
-        });
 
         return { ...toRefs(state), action, search };
     },

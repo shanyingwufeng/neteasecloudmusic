@@ -47,7 +47,8 @@ export default {
     },
     methods: {
         focus() {
-            this.$refs.input.focus();
+            let inputBox = this.$refs.input;
+            inputBox.focus();
             var len = this.code.length;
             // 如果已经输满，点击则聚焦在最后一个字符
             if (len == 6) {

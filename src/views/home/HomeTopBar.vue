@@ -14,7 +14,6 @@
                     :to="{ name: 'SearchPage', params: { path: urlPath } }"
                 >
                     <span class="iconfont icon-sousuo1"></span>
-                    <!-- 搜索热词-关键词 -->
                     <div class="searchKeyword">
                         <van-swipe
                             vertical
@@ -98,7 +97,7 @@ export default {
 .homeTopBar {
     height: 60px;
     .topBar {
-        background-color: #E3E6EB;
+        background-color: #f0f0f0;
         transition: all 0.3s ease-out;
         &.scroll {
             background-color: #fff;

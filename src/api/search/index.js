@@ -37,3 +37,10 @@ export function searchByKeyword(type, keyword) {
         url: `/search?type=${type}&keywords=${keyword}`,
     });
 }
+
+// 说明 : 调用此接口 , 传入搜索关键词可获得搜索建议 , 搜索结果同时包含单曲 , 歌手 , 歌单 ,mv 信息
+export function getSearchSuggest(keyword, terminal = "mobile") {
+    return request({
+        url: `/search/suggest?keywords=${keyword}&type=${terminal}`,
+    });
+}

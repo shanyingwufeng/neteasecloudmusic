@@ -8,43 +8,51 @@
                 <span class="text refresh">换一批</span>
             </template>
         </TitleBar>
-        <div class="list home-card-swiper">
-            <div class="swiper-container boutique-music-video-swiper">
-                <div class="swiper-wrapper">
-                    <div
-                        class="swiper-slide"
-                        v-for="(item, id) in list"
-                        :key="id"
-                    >
-                        <lazy-component>
-                            <img
-                                v-lazy="item.resource.mlogExtVO.song.coverUrl"
-                                v-if="item.resource.mlogExtVO.song"
-                            />
-                            <span class="name">{{
-                                item.resource.mlogBaseData.text
-                            }}</span>
-                            <PlayCount
-                                :playCount="item.resource.mlogExtVO.playCount"
-                                :point="0"
-                            />
-                        </lazy-component>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <PlayListSwiper>
+            <swiper-slide v-for="(item, id) in list" :key="id">
+                <lazy-component>
+                    <img
+                        v-lazy="item.resource.mlogExtVO.song.coverUrl"
+                        v-if="item.resource.mlogExtVO.song"
+                    />
+                    <span class="name">{{
+                        item.resource.mlogBaseData.text
+                    }}</span>
+                    <PlayCount
+                        :playCount="item.resource.mlogExtVO.playCount"
+                        :point="0"
+                    />
+                </lazy-component>
+            </swiper-slide>
+            <!-- <div class="swiper-slide" v-for="(item, id) in list" :key="id">
+                <lazy-component>
+                    <img
+                        v-lazy="item.resource.mlogExtVO.song.coverUrl"
+                        v-if="item.resource.mlogExtVO.song"
+                    />
+                    <span class="name">{{
+                        item.resource.mlogBaseData.text
+                    }}</span>
+                    <PlayCount
+                        :playCount="item.resource.mlogExtVO.playCount"
+                        :point="0"
+                    />
+                </lazy-component>
+            </div> -->
+        </PlayListSwiper>
     </div>
 </template>
 
 <script>
-import { reactive, watch, toRefs, onUpdated } from "vue";
-import { Swiper } from "swiper";
+import { reactive, watch, toRefs } from "vue";
 import PlayCount from "@/components/PlayCount.vue";
 import TitleBar from "@/components/TitleBar.vue";
+import PlayListSwiper from "@/components/PlayListSwiper.vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
 
 export default {
     name: "HomeSelectedMusicVideo",
-    components: { PlayCount, TitleBar },
+    components: { PlayCount, TitleBar, PlayListSwiper, SwiperSlide },
     props: ["data"],
     setup(props) {
         const state = reactive({
@@ -60,13 +68,6 @@ export default {
             }
         );
 
-        onUpdated(() => {
-            new Swiper(".boutique-music-video-swiper", {
-                slidesPerView: 3,
-                spaceBetween: 14,
-            });
-        });
-
         return { ...toRefs(state) };
     },
 };
@@ -79,28 +80,6 @@ export default {
             .icon-shuaxin {
                 margin-right: 2px;
                 font-size: 10px;
-            }
-        }
-    }
-    .list {
-        .swiper-container {
-            padding-right: 24px;
-            .swiper-wrapper {
-                .swiper-slide {
-                    position: relative;
-                    display: flex;
-                    flex-direction: column;
-                    border-radius: 10px;
-                    img {
-                        width: 103px;
-                        height: 103px;
-                        margin-bottom: 4px;
-                        border-radius: 10px;
-                    }
-                    .name {
-                        @include ellipsis2();
-                    }
-                }
             }
         }
     }

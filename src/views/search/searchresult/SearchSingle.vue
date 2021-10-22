@@ -2,16 +2,10 @@
 <template>
     <div class="searchSingle">
         <TitleBar>
-            <template v-slot:left>
-                <div class="left">
-                    <span class="titleName">单曲</span>
-                </div>
-            </template>
+            <template v-slot:left>单曲</template>
             <template v-slot:right>
-                <div class="right">
-                    <span class="iconfont icon-bofangqi-bofang"></span>
-                    <span class="text">播放</span>
-                </div>
+                <span class="iconfont icon-bofangqi-bofang"></span>
+                <span class="text">播放</span>
             </template>
         </TitleBar>
         <div class="list">

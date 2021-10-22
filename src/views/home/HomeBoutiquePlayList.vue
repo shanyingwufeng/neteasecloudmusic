@@ -8,37 +8,33 @@
                 <van-icon name="arrow" />
             </template>
         </TitleBar>
-        <div class="list home-card-swiper">
-            <div class="swiper-container boutique-playList-swiper">
-                <div class="swiper-wrapper">
-                    <router-link
-                        class="swiper-slide"
-                        v-for="(item, id) in list"
-                        :key="id"
-                        :to="{ path: '/playlist', query: { id: item.id } }"
-                    >
-                        <lazy-component>
-                            <img v-lazy="item.coverImgUrl" />
-                            <span class="name">{{ item.name }}</span>
-                            <PlayCount :playCount="item.playCount" :point="1" />
-                        </lazy-component>
-                    </router-link>
-                </div>
-            </div>
-        </div>
+        <PlayListSwiper>
+            <swiper-slide
+                v-for="(item, id) in list"
+                :key="id"
+                :to="{ path: '/playlist', query: { id: item.id } }"
+            >
+                <lazy-component>
+                    <img v-lazy="item.coverImgUrl" />
+                    <span class="name">{{ item.name }}</span>
+                    <PlayCount :playCount="item.playCount" :point="1" />
+                </lazy-component>
+            </swiper-slide>
+        </PlayListSwiper>
     </div>
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, onUpdated } from "vue";
+import { reactive, toRefs, onMounted } from "vue";
 import { getHighQualityPlayList } from "@/api/playlist/index.js";
-import { Swiper } from "swiper";
 import PlayCount from "@/components/PlayCount.vue";
 import TitleBar from "@/components/TitleBar.vue";
+import PlayListSwiper from "@/components/PlayListSwiper.vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
 
 export default {
     name: "HomeBoutiquePlaylist",
-    components: { PlayCount, TitleBar },
+    components: { PlayCount, TitleBar, PlayListSwiper, SwiperSlide },
     setup() {
         const state = reactive({
             titleBarName: "",
@@ -51,41 +47,10 @@ export default {
             });
         });
 
-        onUpdated(() => {
-            new Swiper(".boutique-playList-swiper", {
-                slidesPerView: 3,
-                spaceBetween: 14,
-            });
-        });
-
         return { ...toRefs(state) };
     },
 };
 </script>
 
 <style scoped lang='scss'>
-.homeBoutiquePlaylist {
-    .list {
-        .swiper-container {
-            padding-right: 24px;
-            .swiper-wrapper {
-                .swiper-slide {
-                    position: relative;
-                    display: flex;
-                    flex-direction: column;
-                    border-radius: 10px;
-                    img {
-                        width: 103px;
-                        height: 103px;
-                        margin-bottom: 4px;
-                        border-radius: 10px;
-                    }
-                    .name {
-                        @include ellipsis2();
-                    }
-                }
-            }
-        }
-    }
-}
 </style>

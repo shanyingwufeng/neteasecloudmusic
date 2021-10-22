@@ -1,12 +1,16 @@
-<!-- 云村 -->
+<!--云村-->
 <template>
-    <div class>云村</div>
+    <div class="village">
+        <WaitingDevelopment data="云村页面" />
+    </div>
 </template>
 
 <script>
+import WaitingDevelopment from "@/components/WaitingDevelopment.vue";
+
 export default {
     name: "Village",
-    components: {},
+    components: { WaitingDevelopment },
 };
 </script>
 

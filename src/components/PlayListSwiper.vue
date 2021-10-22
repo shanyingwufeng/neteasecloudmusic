@@ -1,10 +1,14 @@
 <!-- 轮播内容 -->
 <template>
     <div class="playList-swiper home-card-swiper">
-        <div class="swiper-container swiper">
-            <div class="swiper-wrapper">
-                <router-link
-                    class="swiper-slide"
+        <swiper
+            :slidesPerView="slidesPerView"
+            :spaceBetween="spaceBetween"
+            :observeParents="true"
+            :observer="true"
+        >
+            <slot>
+                <swiper-slide
                     v-for="(item, id) in list"
                     :key="id"
                     :to="{
@@ -15,7 +19,7 @@
                     <lazy-component>
                         <img v-lazy="item.uiElement.image.imageUrl" />
                         <div
-                            class="img"
+                            class="videoCollectionImg"
                             v-if="titleBarName === '视频合辑'"
                         >
                             <span class="span1"></span>
@@ -33,24 +37,62 @@
                             :point="point"
                         />
                     </lazy-component>
-                </router-link>
+                </swiper-slide>
+            </slot>
+        </swiper>
+        <!-- <div class="swiper-container comm-swiper">
+            <div class="swiper-wrapper">
+                <slot>
+                    <router-link
+                        class="swiper-slide"
+                        v-for="(item, id) in list"
+                        :key="id"
+                        :to="{
+                            path: '/playlist',
+                            query: { id: item.creativeId },
+                        }"
+                    >
+                        <lazy-component>
+                            <img v-lazy="item.uiElement.image.imageUrl" />
+                            <div
+                                class="videoCollectionImg"
+                                v-if="titleBarName === '视频合辑'"
+                            >
+                                <span class="span1"></span>
+                                <span class="span2"></span>
+                                <span class="span3"></span>
+                                <span class="span4"></span>
+                            </div>
+                            <span class="name">{{
+                                item.uiElement.mainTitle.title
+                            }}</span>
+                            <PlayCount
+                                :playCount="
+                                    item.resources[0].resourceExtInfo.playCount
+                                "
+                                :point="point"
+                            />
+                        </lazy-component>
+                    </router-link>
+                </slot>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script>
 import { ref, onUpdated, watch } from "vue";
-import { Swiper } from "swiper";
+// import { Swiper } from "swiper";
 import PlayCount from "@/components/PlayCount.vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
 
 export default {
     name: "PlayListSwiper",
-    components: { PlayCount },
+    components: { PlayCount, Swiper, SwiperSlide },
     props: {
         list: {
             type: Array,
-            default: "",
+            default: [],
         },
         point: {
             type: Number,
@@ -78,21 +120,21 @@ export default {
             }
         );
 
-        onUpdated(() => {
-            new Swiper(".swiper", {
-                slidesPerView: props.slidesPerView,
-                spaceBetween: props.spaceBetween,
-                observeParents: true,
-                observer: true,
-            });
-        });
+        // onUpdated(() => {
+        //     new Swiper(".comm-swiper", {
+        //         slidesPerView: props.slidesPerView,
+        //         spaceBetween: props.spaceBetween,
+        //         observeParents: true,
+        //         observer: true,
+        //     });
+        // });
 
         return { list };
     },
 };
 </script>
 
-<style scoped lang='scss'>
+<style lang='scss'>
 .playList-swiper {
     .swiper-container {
         padding-right: 24px;
@@ -104,18 +146,19 @@ export default {
                 flex-direction: column;
                 border-radius: 10px;
                 img {
+                    display: block;
                     width: 103px;
                     height: 103px;
                     border-radius: 10px;
                 }
-                .img {
+                .videoCollectionImg {
                     position: absolute;
                     top: 0;
                     left: 0;
                     right: 0;
                     height: 103px;
                     border-style: solid;
-                    border-color: rgba(0, 0, 0, 0.3);
+                    border-color: rgba(41, 41, 41, 0.3);
                     border-width: 28px 6px;
                     border-radius: 10px;
                     .span1 {

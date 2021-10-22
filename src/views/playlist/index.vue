@@ -46,7 +46,7 @@ export default {
     width: 100%;
     min-height: 100vh;
     .loading {
-        margin-top: 40px;
+        margin-top: 50px;
     }
 }
 </style>

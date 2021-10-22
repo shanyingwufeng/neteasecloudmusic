@@ -65,9 +65,10 @@ export default {
         padding-top: 6px;
         padding-bottom: 0;
         .van-tab {
+            flex: 0.15;
             display: block;
-            flex: 0.14;
-            font-size: 20px;
+            color: #858585;
+            font-size: 18px;
             &::before {
                 content: "";
                 position: absolute;

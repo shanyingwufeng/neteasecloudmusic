@@ -8,6 +8,7 @@
             :placeholder="placeholder"
             v-model="searchKeyword"
             @keydown.enter="search(searchKeyword)"
+            @input="inputValue()"
         />
         <span
             class="iconfont icon-cha-copy fork"
@@ -21,50 +22,23 @@
 import { toRefs, reactive, watch, onActivated } from "vue";
 import { getSearchDefault } from "@/api/search/index.js";
 import { useRoute, useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
     name: "SearchInput",
     setup(props, { emit }) {
         const state = reactive({
-            searchInput: "", // 绑定搜索框实现聚焦功能
+            searchInput: null, // 绑定搜索框实现聚焦功能
             placeholder: "", // 搜索框默认内容
             searchKeyword: "", // 搜索关键词
-            detailSearchHot: [], // 热搜榜
-            detailSearchMvHot: [], // mv榜
-            enterSearchPageFromWhere: "",
             path: "",
         });
 
+        const store = useStore();
         const route = useRoute();
         const router = useRouter();
 
         state.searchKeyword = route.query.keyword;
-
-        // 返回操作
-        const back = () => {
-            if (state.searchKeyword) {
-                router.push("/searchpage");
-            } else if (state.path) {
-                router.push(state.path);
-            } else {
-                router.push("/");
-            }
-        };
-
-        // 点击输入框右边叉
-        const fork = () => {
-            state.searchKeyword = "";
-            router.push("/searchpage");
-        };
-
-        const search = (searchWord) => {
-            if (searchWord) {
-                emit("search", searchWord);
-            } else {
-                searchWord = state.placeholder;
-                emit("search", searchWord);
-            }
-        };
 
         // 当参数更改时获取信息
         watch(
@@ -88,7 +62,41 @@ export default {
             });
         });
 
-        return { ...toRefs(state), back, fork, search };
+        // input输入事件
+        const inputValue = () => {
+            emit("suggest", state.searchKeyword);
+        };
+
+        // 返回操作
+        const back = () => {
+            if (state.searchKeyword) {
+                state.searchKeyword = "";
+                store.commit("search/setSearchKeyword", "");
+                router.push("/searchpage");
+            } else if (state.path) {
+                router.push(state.path);
+            } else {
+                router.push("/");
+            }
+        };
+
+        // 点击输入框右边叉
+        const fork = () => {
+            state.searchKeyword = "";
+            store.commit("search/setSearchKeyword", "");
+            router.push("/searchpage");
+        };
+
+        const search = (searchWord) => {
+            if (searchWord) {
+                emit("search", searchWord);
+            } else {
+                searchWord = state.placeholder;
+                emit("search", searchWord);
+            }
+        };
+
+        return { ...toRefs(state), inputValue, back, fork, search };
     },
 };
 </script>

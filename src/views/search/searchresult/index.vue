@@ -78,13 +78,6 @@ export default {
 
         state.searchKeyword = route.query.keyword;
 
-        const search = (searchKeyword) => {
-            router.push({
-                path: "/search",
-                query: { keyword: searchKeyword },
-            });
-        };
-
         onMounted(() => {
             store.dispatch("search/getSearchResult", state.searchKeyword);
         });
@@ -102,6 +95,13 @@ export default {
             }
         );
 
+        const search = (searchKeyword) => {
+            router.push({
+                path: "/search",
+                query: { keyword: searchKeyword },
+            });
+        };
+        
         return {
             ...toRefs(state),
             search,

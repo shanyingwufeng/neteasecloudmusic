@@ -4,7 +4,7 @@
         <TitleBar>
             <template v-slot:left>音乐日历</template>
             <template v-slot:right>
-                <span class="text">更多</span>
+                <span class="text">今日2条</span>
                 <van-icon name="arrow" />
             </template>
         </TitleBar>
@@ -40,7 +40,7 @@
 <script>
 import { reactive, onUpdated, toRefs } from "vue";
 import TitleBar from "@/components/TitleBar.vue";
-import Ad from "@/components/Ad.vue";
+import Ad from "@/components/ad/Ad.vue";
 
 export default {
     name: "HomeMusicCalendar",

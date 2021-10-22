@@ -14,7 +14,6 @@
             <van-tabs
                 v-model:active="active"
                 animated
-                swipeable
                 @click-tab="setPlayLists"
             >
                 <van-tab

@@ -98,14 +98,13 @@ export default {
         .van-tab {
             display: block;
             flex: 0.26;
-            color: #9a9a9a;
-            font-size: 20px;
-            font-weight: 700;
+            color: #858585;
+            font-size: 18px;
             &::before {
                 content: "";
                 position: absolute;
                 top: 50%;
-                right: 4px;
+                right: 8px;
                 transform: translateY(-50%);
                 width: 1px;
                 height: 80%;
@@ -174,10 +173,7 @@ export default {
                             top: 52%;
                             left: 50%;
                             transform: translateX(-40%) translateY(-100%);
-                            color: rgba(
-                                $color: rgb(235, 235, 235),
-                                $alpha: 0.8
-                            );
+                            color: rgba($color: #fff, $alpha: 0.9);
                             font-size: 20px;
                         }
                         .name {

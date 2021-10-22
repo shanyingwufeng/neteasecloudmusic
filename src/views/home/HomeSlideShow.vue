@@ -2,9 +2,10 @@
 <template>
     <div class="homeSlideShow">
         <van-swipe
+            ref="swiper"
             class="homeSwipe"
             indicator-color="#fff"
-            :autoplay="6000"
+            :autoplay="7000"
             :touchable="true"
             :lazy-render="true"
         >
@@ -23,24 +24,29 @@
 </template>
 
 <script>
-import { ref, onActivated } from "vue";
-import { getHomePageBanner } from "@/api/home/index.js";
+import { onActivated, onDeactivated, onMounted, reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
+import { getHomePageBanner } from "@/api/home/index.js";
 
 export default {
     name: "HomeSlideShow",
     setup() {
-        const list = ref([
-            { pic: require("@/assets/slideshow/home-swiper.jpg") },
-        ]);
+        const state = reactive({
+            list: [{ pic: require("@/assets/slideshow/home-swiper.jpg") }],
+            swiper: null,
+        });
 
         const router = useRouter();
 
-        onActivated(() => {
+        onMounted(() => {
             getHomePageBanner().then((res) => {
-                list.value = res.data.banners;
+                state.list = res.data.banners;
             });
         });
+
+        onActivated(() => {});
+
+        onDeactivated(() => {});
 
         const onClick = (item) => {
             if (item.url) {
@@ -57,7 +63,7 @@ export default {
             }
         };
 
-        return { list, onClick };
+        return { ...toRefs(state), onClick };
     },
 };
 </script>
@@ -67,10 +73,10 @@ export default {
     padding: 0 $padding;
     background: linear-gradient(
         to bottom,
-        #e3e6eb,
-        #eaeded,
-        #eef0ef,
-        #f9fafb,
+        #f0f0f0,
+        #f3f3f3,
+        #f6f6f6,
+        #f9f9f9,
         #fff
     );
     .homeSwipe {

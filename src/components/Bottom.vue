@@ -124,30 +124,29 @@ export default {
     z-index: 99;
     .playControl {
         position: relative;
-        height: 44px;
-        line-height: 44px;
+        height: 40px;
+        line-height: 40px;
         padding: 0 $padding;
         background-color: #fff;
-        border-top: 1px solid rgba(210, 210, 210, 0.2);
-        border-bottom: 1px solid rgba(210, 210, 210, 0.2);
+        border-top: 1px solid #f8f8f8;
         .left {
             display: flex;
             align-items: center;
             width: 80%;
             .recode {
                 position: absolute;
-                top: -7px;
+                top: -5px;
                 left: 14px;
                 .cd {
-                    width: 48px;
-                    height: 48px;
+                    width: 42px;
+                    height: 42px;
                 }
                 .songImg {
                     position: absolute;
-                    top: 8px;
-                    left: 8px;
-                    width: 32px;
-                    height: 32px;
+                    top: 7px;
+                    left: 7px;
+                    width: 28px;
+                    height: 28px;
                     border-radius: 50%;
                 }
                 .songImgRoute {
@@ -158,7 +157,7 @@ export default {
                 }
             }
             .songAndAuthor {
-                margin-left: 58px;
+                margin-left: 50px;
                 @include ellipsis1();
                 .title {
                     font-size: 14px;

@@ -43,7 +43,6 @@
 
 <script>
 import TitleBar from "@/components/TitleBar.vue";
-import PlayListSwiper from "@/components/PlayListSwiper.vue";
 import { Swiper } from "swiper";
 import { onUpdated, onMounted, reactive, toRefs } from "vue";
 import { getTopListDetail } from "@/api/playlist/index.js";
@@ -54,7 +53,7 @@ import { useStore } from "vuex";
 
 export default {
     name: "homeLeaderboard",
-    components: { TitleBar, PlayListSwiper },
+    components: { TitleBar },
     setup() {
         const state = reactive({
             list: "",

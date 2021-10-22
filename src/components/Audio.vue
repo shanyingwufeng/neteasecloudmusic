@@ -16,19 +16,9 @@ export default {
     name: "Audio",
     setup() {
         const store = useStore();
-        const audio = ref();
+        const audio = ref(null);
         const intervalId = ref(0);
         const playState = computed(() => store.state.play.playState);
-
-        const updateTime = () => {
-            store.commit("play/setPlayCurrentTime", 0);
-            intervalId.value = setInterval(() => {
-                store.commit(
-                    "play/setPlayCurrentTime",
-                    audio._value.currentTime
-                );
-            }, 1000);
-        };
 
         watch(playState, () => {
             if (playState.value) {
@@ -40,9 +30,18 @@ export default {
             }
         });
 
+        const updateTime = () => {
+            store.commit("play/setPlayCurrentTime", 0);
+            intervalId.value = setInterval(() => {
+                store.commit(
+                    "play/setPlayCurrentTime",
+                    audio._value.currentTime
+                );
+            }, 1000);
+        };
+
         return {
             audio,
-            playState,
             id: computed(() => store.state.play.playSong.id),
         };
     },

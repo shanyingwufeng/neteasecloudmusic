@@ -4,7 +4,7 @@
         <router-link class="side-bar-top" to="/login">
             <div class="user">
                 <span class="iconfont icon-user" v-if="!user.picUrl"></span>
-                <img :src="user.picUrl" class="img" v-if="user.picUrl" />
+                <img :src="user.picUrl" class="img" v-else/>
                 <span class="username">{{
                     user.nickName ? user.nickName : "立即登录"
                 }}</span>
@@ -17,19 +17,20 @@
                 <div class="left">
                     <span class="title">开通黑胶VIP</span>
                     <div class="message">
-                        <swiper
-                            :autoplay="swiper_options.autoplay"
-                            :loop="swiper_options.loop"
-                            :speed="swiper_options.speed"
-                            direction="vertical"
+                        <van-swipe
+                            vertical
+                            :autoplay="4000"
+                            :duration="600"
+                            :show-indicators="false"
+                            :touchable="false"
                         >
-                            <swiper-slide
+                            <van-swipe-item
                                 v-for="(item, i) in messages"
                                 :key="i"
                             >
                                 <span class="text">{{ item.text }}</span>
-                            </swiper-slide>
-                        </swiper>
+                            </van-swipe-item>
+                        </van-swipe>
                     </div>
                 </div>
                 <span class="right">会员中心</span>
@@ -96,17 +97,12 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from "vue";
-import { Swiper, SwiperSlide } from "swiper/vue";
+import { ref, computed } from "vue";
 import { logout } from "@/api/login/index.js";
 import { useStore } from "vuex";
 
 export default {
     name: "SideBar",
-    components: {
-        Swiper,
-        SwiperSlide,
-    },
     setup() {
         const messages = ref([
             { text: "开团享6折，邀好友赠送天数" },
@@ -134,18 +130,7 @@ export default {
             show.value = true;
         };
 
-        // swiper相关配置属性放在swiper_options这个变量里
-        let swiper_options = reactive({
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-            },
-            loop: true,
-            speed: 400,
-        });
-
         return {
-            swiper_options,
             messages,
             show,
             logoutAccount,
@@ -212,10 +197,13 @@ export default {
                     overflow: hidden;
                     height: 20px;
                     margin: 6px 0 4px 0;
-                    .swiper-container {
-                        .swiper-slide {
-                            color: #ac8d6e;
-                            font-size: 12px;
+                    .van-swipe {
+                        height: 24px;
+                        .van-swipe-item {
+                            .text {
+                                color: #ac8d6e;
+                                font-size: 12px;
+                            }
                         }
                     }
                 }
@@ -223,7 +211,7 @@ export default {
             .right {
                 padding: 2px 4px;
                 border: 1px solid #797169;
-                border-radius: 10px;
+                border-radius: 4px;
                 color: #ddc9b5;
                 font-size: 12px;
             }

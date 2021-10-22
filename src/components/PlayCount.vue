@@ -26,14 +26,12 @@ export default {
     display: flex;
     align-items: center;
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 4px;
+    right: 2px;
     padding: 0 6px;
-    background-color: rgba(73, 73, 73, 0.5);
+    background-color: rgba(83, 83, 83, 0.5);
     border-radius: 8px;
     color: #fff;
-    .iconfont {
-        font-size: 10px;
-    }
+    transform: scale(0.9);
 }
 </style>
