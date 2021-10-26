@@ -46,6 +46,13 @@
                         <span
                             class="title"
                             :class="{ hasDescription: !playlist.description }"
+                            v-if="isMyLovePlaylist(playlist.name)"
+                            >我喜欢的音乐</span
+                        >
+                        <span
+                            class="title"
+                            :class="{ hasDescription: !playlist.description }"
+                            v-else
                             >{{ playlist.name }}</span
                         >
                         <div class="author" v-if="author">
@@ -68,10 +75,12 @@
             </div>
             <!-- 收藏数、评论数和分享数 -->
             <div class="playListInfo">
+                <!-- 歌单已经收藏 -->
                 <div
                     class="item"
-                    v-if="$store.state.user.nickName === author.nickname"
                     style="color: grey"
+                    v-if="collectionJudging()"
+                    @click="playlistSubscribe(2)"
                 >
                     <span class="iconfont icon-zhengque"></span>
                     <span>{{
@@ -80,7 +89,8 @@
                             : changeValue(playlist.subscribedCount, 1)
                     }}</span>
                 </div>
-                <div class="item" v-else>
+                <!-- 歌单未收藏 -->
+                <div class="item" v-else @click="playlistSubscribe(1)">
                     <span class="iconfont icon-shoucanggedan"></span>
                     <span>{{
                         playlist.subscribedCount === 0
@@ -88,6 +98,7 @@
                             : changeValue(playlist.subscribedCount, 1)
                     }}</span>
                 </div>
+                <!-- 歌单评论信息 -->
                 <div class="item">
                     <span class="iconfont icon-pinglun"></span>
                     <span>{{
@@ -96,6 +107,7 @@
                             : changeValue(playlist.commentCount, 1)
                     }}</span>
                 </div>
+                <!-- 歌单分享信息 -->
                 <div class="item">
                     <span class="iconfont icon-fenxiang"></span>
                     <span>{{
@@ -112,9 +124,11 @@
 <script>
 import PlayCount from "@/components/PlayCount.vue";
 import { changeValue } from "@/utils/index.js";
-import { onMounted, reactive, toRefs, watch } from "vue";
+import { computed, onMounted, reactive, toRefs, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { Dialog, Toast } from "vant";
+import { subscribePlaylist } from "@/api/playlist/index.js";
 
 export default {
     name: "PlayListTop",
@@ -124,10 +138,16 @@ export default {
         const state = reactive({
             author: "",
             scroll: false,
+            myPlaylistIds: [],
+            playlistId: 0,
         });
 
         const store = useStore();
         const router = useRouter();
+
+        state.myPlaylistIds = computed(
+            () => store.getters["user/getAllPlaylistIds"]
+        );
 
         const searchPage = () => {
             router.push({
@@ -168,14 +188,54 @@ export default {
             () => props.playlist,
             (newValue) => {
                 state.author = newValue.creator;
+                state.playlistId = newValue.id;
             }
         );
+
+        const nickName = store.state.user.user.nickName;
+
+        const isMyLovePlaylist = (name) => {
+            if (name != undefined) {
+                if (name.indexOf(nickName) != -1) {
+                    return true;
+                }
+            }
+        };
+
+        const collectionJudging = () => {
+            return state.myPlaylistIds.includes(state.playlistId);
+        };
+
+        // 收藏歌单和取消歌单
+        const playlistSubscribe = (id) => {
+            if (id === 1) {
+                subscribePlaylist(1, state.playlistId).then((res) => {
+                    console.log(res);
+                });
+            } else if (id === 2) {
+                Dialog.confirm({
+                    message: "确定要取消该歌单吗？",
+                })
+                    .then(() => {
+                        subscribePlaylist(2, state.playlistId).then((res) => {
+                            console.log(res);
+                        });
+                    })
+                    .catch(() => {
+                        return false;
+                    });
+            }
+        };
 
         return {
             ...toRefs(state),
             changeValue,
             searchPage,
             showPlayListCover,
+            isMyLovePlaylist,
+            collectionJudging,
+            playlistSubscribe,
+            user: computed(() => store.state.user.user),
         };
     },
 };
@@ -222,7 +282,7 @@ export default {
         width: 100%;
         height: 26px;
         color: #fff;
-        transition: height 0.3s ease-out;
+        // transition: height 0.3s ease-out;
         z-index: 999;
         &.scroll {
             overflow: hidden;

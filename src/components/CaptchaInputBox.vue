@@ -1,3 +1,4 @@
+<!-- 验证码输入框 -->
 <template>
     <div class="captchaInputBox">
         <div class="confirm-warpper">

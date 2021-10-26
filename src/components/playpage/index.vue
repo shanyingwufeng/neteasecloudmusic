@@ -63,7 +63,18 @@
         </div>
         <div class="bottom">
             <div class="btnList">
-                <span class="iconfont icon-shoucang"></span>
+                <!-- 空心-没有收藏 -->
+                <span
+                    class="iconfont icon-hear"
+                    @click="onLike(playSong.id, true)"
+                    v-if="!collectionStatus"
+                ></span>
+                <!-- 实心-收藏成功 -->
+                <span
+                    class="iconfont icon-hear-full"
+                    @click="onLike(playSong.id, false)"
+                    v-else
+                ></span>
                 <span class="iconfont icon-iconset0425"></span>
                 <span class="iconfont icon-changpian"></span>
                 <div>
@@ -151,6 +162,8 @@ import { computed, onMounted, reactive, watch, toRefs } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { getLyricList } from "@/utils/index.js";
+import { like, getLikeList } from "@/api/song/index.js";
+import { Toast } from "vant";
 
 export default {
     name: "PlayPage",
@@ -175,12 +188,22 @@ export default {
             time: 0,
             countDown: null,
             startTimer: null,
+            collectionStatus: false,
+            uid: 0, // 用户id
         });
 
         const store = useStore();
         const route = useRoute();
         const id = route.query.id;
         const from = route.query.from;
+
+        state.playCurrentTime = computed(() => {
+            return store.state.play.playCurrentTime;
+        });
+
+        state.uid = computed(() => {
+            return store.state.user.user.id;
+        });
 
         const addZero = (num) => {
             if (num < 10) {
@@ -289,7 +312,33 @@ export default {
             }
         };
 
+        // 喜欢音乐
+        const onLike = (id, status) => {
+            like(id, status).then((res) => {
+                if (status) {
+                    if (res.status === 200) {
+                        state.collectionStatus = true;
+                        Toast("收藏成功");
+                    }
+                } else {
+                    if (res.status === 200) {
+                        state.collectionStatus = false;
+                        Toast("取消收藏");
+                    }
+                }
+            });
+        };
+
         onMounted(async () => {
+            if (state.uid) {
+                await getLikeList(state.uid).then((res) => {
+                    if (res.data.ids.includes(Number(id))) {
+                        state.collectionStatus = true;
+                    } else {
+                        state.collectionStatus = false;
+                    }
+                });
+            }
             if (id) {
                 if (from === "bottom") {
                     await store.dispatch("play/setPlaySongInfo", id);
@@ -311,11 +360,7 @@ export default {
             state.startTimer = setInterval(timer, 1000);
         });
 
-        state.playCurrentTime = computed(() => {
-            return store.state.play.playCurrentTime;
-        });
-
-        watch(state, (newValue) => {
+        watch(state, () => {
             // console.log(newValue.playCurrentTime);
             // console.log([state.playLyric]);
             // let item = document.querySelector(".lyric");
@@ -342,6 +387,7 @@ export default {
             musicPlay,
             preSong,
             nextSong,
+            onLike,
             playSong: computed(() => store.state.play.playSong),
             playState: computed(() => store.state.play.playState),
         };
@@ -466,7 +512,7 @@ export default {
                 height: 100%;
                 transition: all 0.8s linear;
                 .item {
-                    color: rgb(189, 189, 189);
+                    color: rgb(204, 204, 204);
                     line-height: 2;
                     text-align: center;
                     &.active {
@@ -482,6 +528,23 @@ export default {
             }
         }
     }
+    // @keyframes hearFull {
+    //     0% {
+    //         transform: scale(1.4);
+    //     }
+    //     25% {
+    //         transform: scale(1.3);
+    //     }
+    //     50% {
+    //         transform: scale(1.2);
+    //     }
+    //     75% {
+    //         transform: scale(1.1);
+    //     }
+    //     100% {
+    //         transform: scale(1);
+    //     }
+    // }
     .bottom {
         padding: 14px 0;
         .btnList {
@@ -492,6 +555,10 @@ export default {
             .iconfont {
                 color: rgb(233, 233, 233);
                 font-size: 24px;
+            }
+            .icon-hear-full {
+                color: red;
+                // animation: hearFull 0.5s linear;
             }
             .comment {
                 position: relative;

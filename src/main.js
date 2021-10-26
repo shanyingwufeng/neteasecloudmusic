@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "@/assets/scss/index.scss";
+import "swiper/swiper.min.css";
 import "amfe-flexible";
 
 import {
@@ -34,7 +35,7 @@ import {
 
 // 使用swiper的compositon API
 // import SwiperCore, { Autoplay, Pagination } from "swiper";
-import "swiper/swiper.min.css";
+// import "swiper/swiper.min.css";
 // import "swiper/components/pagination/pagination.scss";
 // SwiperCore.use([Autoplay, Pagination]);
 

@@ -10,7 +10,9 @@ const cookie = localStorage.getItem("cookie");
 // 必选参数 : id (歌单 id)
 export function getPlayListDetail(id) {
     return request({
-        url: `/playlist/detail?id=${id}&cookie=${cookie ? cookie : ""}`,
+        url: `/playlist/detail?id=${id}&cookie=${
+            cookie ? cookie : ""
+        }&timestamp=${Date.parse(new Date())}`,
     }).catch(() => {
         Toast("歌单加载失败");
     });
@@ -55,5 +57,12 @@ export function getTopList() {
 export function getTopListDetail() {
     return request({
         url: `/toplist/detail`,
+    });
+}
+
+// 说明 : 调用此接口 , 传入类型和歌单 id 可收藏歌单或者取消收藏歌单
+export function subscribePlaylist(t, id) {
+    return request({
+        url: `/playlist/subscribe?t=${t}&id=${id}&cookie=${cookie}`,
     });
 }

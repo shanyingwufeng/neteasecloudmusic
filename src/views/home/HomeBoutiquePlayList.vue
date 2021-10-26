@@ -9,16 +9,16 @@
             </template>
         </TitleBar>
         <PlayListSwiper>
-            <swiper-slide
-                v-for="(item, id) in list"
-                :key="id"
-                :to="{ path: '/playlist', query: { id: item.id } }"
-            >
-                <lazy-component>
-                    <img v-lazy="item.coverImgUrl" />
-                    <span class="name">{{ item.name }}</span>
-                    <PlayCount :playCount="item.playCount" :point="1" />
-                </lazy-component>
+            <swiper-slide v-for="(item, id) in list" :key="id">
+                <router-link
+                    :to="{ path: '/playlist', query: { id: item.id } }"
+                >
+                    <lazy-component>
+                        <img v-lazy="item.coverImgUrl" />
+                        <span class="name">{{ item.name }}</span>
+                        <PlayCount :playCount="item.playCount" :point="1" />
+                    </lazy-component>
+                </router-link>
             </swiper-slide>
         </PlayListSwiper>
     </div>
@@ -30,14 +30,13 @@ import { getHighQualityPlayList } from "@/api/playlist/index.js";
 import PlayCount from "@/components/PlayCount.vue";
 import TitleBar from "@/components/TitleBar.vue";
 import PlayListSwiper from "@/components/PlayListSwiper.vue";
-import { Swiper, SwiperSlide } from "swiper/vue";
+import { SwiperSlide } from "swiper/vue";
 
 export default {
     name: "HomeBoutiquePlaylist",
     components: { PlayCount, TitleBar, PlayListSwiper, SwiperSlide },
     setup() {
         const state = reactive({
-            titleBarName: "",
             list: [],
         });
 

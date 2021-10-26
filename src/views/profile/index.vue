@@ -1,13 +1,12 @@
 <!-- 个人中心 -->
 <template>
-    <div class="me" :style="{ paddingBottom: playSong.id ? '130px' : '80px' }">
+    <div
+        class="me scoll_container"
+        ref="scoll_container"
+        :style="{ paddingBottom: playSong.id ? '130px' : '80px' }"
+    >
         <!-- 顶部 -->
         <TopBar>
-            <template v-slot:left>
-                <div class="left">
-                    <LeftMenuBtn />
-                </div>
-            </template>
             <template v-slot:right>
                 <router-link
                     class="right"
@@ -21,17 +20,17 @@
         <div class="logo">
             <router-link class="user" to="/login">
                 <span class="iconfont icon-user" v-if="!user.picUrl"></span>
-                <img :src="user.picUrl" class="img" v-if="user.picUrl" />
+                <img :src="user.picUrl" class="img" v-else />
                 <span class="username">{{
                     user.nickName ? user.nickName : "立即登录"
                 }}</span>
-                <span class="iconfont icon-youjiantou"></span>
+                <span class="iconfont icon-youjiantou2"></span>
             </router-link>
         </div>
         <!-- 中间导航 -->
         <CenterNav />
         <!-- 我喜欢的音乐 -->
-        <MyLoveMusic :data="playlist[0]" />
+        <MyLoveMusic :data="createPlaylist[0]" />
         <!-- 创建和收藏歌单 -->
         <div class="createAndCollectPlayList">
             <div class="title">
@@ -50,23 +49,23 @@
             </div>
         </div>
         <!-- 创建歌单 -->
-        <CreatePlayList :list="playlist" />
-        <!-- 收藏 -->
-        <CollectPlayList />
+        <CreatePlayList :list="createPlaylist" />
+        <!-- 收藏歌单 -->
+        <CollectPlayList :list="collectPlaylist" />
         <!-- 为你推荐 -->
         <RecommendForYou />
     </div>
 </template>
 
 <script>
-import TopBar from "@/components/TopBar.vue";
-import LeftMenuBtn from "@/components/LeftMenuBtn.vue";
+import TopBar from "@/components/topbar/index.vue";
+import TopBarLeftMenuBtn from "@/components/topbar/TopBarLeftMenuBtn.vue";
 import CenterNav from "@/views/profile/CenterNav.vue";
 import MyLoveMusic from "@/views/profile/MyLoveMusic.vue";
 import CreatePlayList from "@/views/profile/CreatePlayList.vue";
 import CollectPlayList from "@/views/profile/CollectPlayList.vue";
 import RecommendForYou from "@/views/profile/RecommendForYou.vue";
-import { computed, onMounted, reactive, toRefs } from "vue";
+import { computed, onMounted, reactive, toRefs, watch } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { getUserPlayList } from "@/api/user/index.js";
@@ -75,7 +74,7 @@ export default {
     name: "Me",
     components: {
         TopBar,
-        LeftMenuBtn,
+        TopBarLeftMenuBtn,
         CenterNav,
         MyLoveMusic,
         CreatePlayList,
@@ -86,7 +85,8 @@ export default {
         const state = reactive({
             create: true,
             collect: false,
-            playlist: [],
+            createPlaylist: [], // 创建的歌单
+            collectPlaylist: [], // 收藏的歌单
             urlPath: "",
         });
 
@@ -106,15 +106,27 @@ export default {
 
         onMounted(() => {
             store.commit("bottom/setVisible", true);
-            if (localStorage.getItem("cookie")) {
+            if (
+                !store.state.user.user.isLogin &&
+                localStorage.getItem("userLoginInfo")
+            ) {
                 store.commit(
                     "user/setUser",
                     JSON.parse(localStorage.getItem("userLoginInfo"))
                 );
-                getUserPlayList(store.state.user.user.id).then((res) => {
-                    state.playlist = res.data.playlist;
-                });
             }
+            getUserPlayList(store.state.user.user.id).then((res) => {
+                // console.log(res.data.playlist);
+                res.data.playlist.map((item) => {
+                    if (
+                        item.creator.nickname === store.state.user.user.nickName
+                    ) {
+                        state.createPlaylist.push(item);
+                    } else if (item.subscribed === true) {
+                        state.collectPlaylist.push(item);
+                    }
+                });
+            });
         });
 
         return {
@@ -130,12 +142,14 @@ export default {
 
 <style lang='scss'>
 .me {
+    overflow: auto;
+    height: 100vh;
     padding: $padding;
     background-color: #f5f5f5;
     .topBar {
         background: $color-background;
         .left {
-            .leftMenuBtn {
+            .topBarLeftMenuBtn {
                 .menuIcon {
                     font-size: $font-size-medium;
                 }
@@ -167,11 +181,12 @@ export default {
                 border-radius: 50%;
             }
             .username {
-                margin-right: 2px;
                 font-size: 16px;
             }
-            .icon-youjiantou {
-                font-size: 12px;
+            .icon-youjiantou2 {
+                display: flex;
+                align-items: center;
+                font-size: 16px;
             }
         }
     }

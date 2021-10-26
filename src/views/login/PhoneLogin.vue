@@ -27,15 +27,12 @@
                 <span class="name">登录体验更多精彩</span>
                 <span class="desc">未注册手机号登录后将自动创建账号</span>
             </div>
-            <div class="title" v-if="hasVerificationCode">
+            <div class="title" v-else>
                 <span class="name">请输入验证码</span>
                 <div class="countDown">
                     <span class="desc">已发送至 {{ phoneNumber }}</span>
                     <span class="count" v-if="!sendCode">{{ count }}s</span>
-                    <span
-                        class="sendCodeAgain"
-                        v-if="sendCode"
-                        @click="submitAgain()"
+                    <span class="sendCodeAgain" v-else @click="submitAgain()"
                         >重新获取</span
                     >
                 </div>
@@ -47,8 +44,15 @@
                     placeholder="请输入手机号"
                     v-model="phoneNumber"
                     pattern="[0-9]*"
+                    @input="inputPhoneNumber()"
                 />
-                <van-button round block type="primary" @click="submit()">
+                <van-button
+                    round
+                    block
+                    type="primary"
+                    @click="submit()"
+                    :disabled="nextBtnDisabled"
+                >
                     下一步
                 </van-button>
             </div>
@@ -102,18 +106,73 @@ export default {
     setup() {
         const state = reactive({
             phoneNumber: "",
-            phoneInput: "",
+            password: "",
+            phoneInput: null,
             hasVerificationCode: false,
             count: 60,
             sendCode: false,
             verificationCode: 0,
             isShowPhonePasswordInput: false,
-            passwordInput: "",
-            password: "",
+            passwordInput: null,
             disabled: true,
+            nextBtnDisabled: true,
         });
         const store = useStore();
         const router = useRouter();
+
+        // 手机号码正则表达式
+        const phoneNumberReg = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/;
+
+        watch(
+            () => state.password,
+            (newValue) => {
+                if (newValue === "") {
+                    state.disabled = true;
+                } else {
+                    state.disabled = false;
+                }
+            }
+        );
+
+        onMounted(() => {
+            state.phoneInput.focus();
+        });
+
+        const inputPhoneNumber = () => {
+            if (state.phoneNumber.length === 11) {
+                if (phoneNumberReg.test(state.phoneNumber)) {
+                    state.nextBtnDisabled = false;
+                } else {
+                    Toast("请输入正确的手机号码哦");
+                }
+            } else if (state.phoneNumber.length >= 11) {
+                state.nextBtnDisabled = true;
+                Toast("请输入11位手机号哦");
+            } else {
+                state.nextBtnDisabled = true;
+            }
+        };
+
+        const submit = () => {
+            // state.hasVerificationCode = true; // 测试
+            // startTimer(); // 测试
+            console.log("获取手机验证码...");
+            getPhoneCaptcha(state.phoneNumber)
+                .then((res) => {
+                    if (res.data.data) {
+                        state.hasVerificationCode = true;
+                        startTimer();
+                    } else {
+                        Toast("一个手机号一天只能获取5次验证码哦");
+                        setTimeout(() => {
+                            location.reload();
+                        }, 3000);
+                    }
+                })
+                .catch((res) => {
+                    console.log(res);
+                });
+        };
 
         const input = (code) => {
             if (code.length >= 4) {
@@ -127,13 +186,13 @@ export default {
                                 password: code,
                                 loginWay: "phoneCaptcha",
                             });
-                            if (result.data.code == 200) {
+                            if (result.data.code === 200) {
                                 router.push("/me");
                             }
                         }
                     })
                     .catch(() => {
-                        // Toast("登录失败");
+                        Toast("登录失败");
                     });
             }
         };
@@ -147,37 +206,6 @@ export default {
                     clearInterval(timer);
                 }
             }, 1000);
-        };
-
-        const submit = () => {
-            state.hasVerificationCode = true; // 测试
-            startTimer(); // 测试
-            if (state.phoneNumber == "") {
-                Toast("请输入手机号");
-                state.phoneInput.focus();
-                return false;
-            } else if (state.phoneNumber.length !== 11) {
-                Toast("请输入11位手机号");
-                state.phoneInput.focus();
-                return false;
-            } else {
-                // console.log("获取手机验证码-----");
-                // getPhoneCaptcha(state.phoneNumber);
-                // .then((res) => {
-                //     if (res.data.data) {
-                //         state.hasVerificationCode = true;
-                //         startTimer();
-                //     } else {
-                //         Toast("每个手机号码一天只能获取5次验证码！");
-                //         setTimeout(() => {
-                //             location.reload();
-                //         }, 3000);
-                //     }
-                // })
-                // .catch((res) => {
-                //     console.log(res);
-                // });
-            }
         };
 
         const submitAgain = () => {
@@ -219,23 +247,9 @@ export default {
             state.hasVerificationCode = true;
         };
 
-        watch(
-            () => state.password,
-            (newValue) => {
-                if (newValue == "") {
-                    state.disabled = true;
-                } else {
-                    state.disabled = false;
-                }
-            }
-        );
-
-        onMounted(() => {
-            state.phoneInput.focus();
-        });
-
         return {
             ...toRefs(state),
+            inputPhoneNumber,
             submit,
             submitAgain,
             input,

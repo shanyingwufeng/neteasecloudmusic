@@ -119,12 +119,11 @@ export default {
                     position: relative;
                     display: flex;
                     flex-direction: column;
-                    border-radius: 12px;
                     img {
                         display: block;
                         width: 103px;
                         height: 103px;
-                        margin-bottom: 4px;
+                        margin-bottom: 2px;
                         border-radius: 10px;
                     }
                     .name {

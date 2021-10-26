@@ -4,11 +4,11 @@
         <!-- <van-loading type="spinner" color="red" text-color="#999" size="20px"
             >正在加载...</van-loading
         > -->
-        <!-- <div></div>
         <div></div>
-        <div></div> -->
-        <img src="@/assets/loading.gif" />
-        <span>正在加载...</span>
+        <div></div>
+        <div></div>
+        <!-- <img src="@/assets/loading.gif" />
+        <span>正在加载...</span> -->
     </div>
 </template>
 
@@ -44,23 +44,23 @@ export default {
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    img {
-        width: 20px;
-        margin-right: 4px;
+    // img {
+    //     width: 20px;
+    //     margin-right: 4px;
+    // }
+    div {
+        width: 8px;
+        height: 8px;
+        margin: 10px 4px;
+        background: red;
+        border-radius: 50%;
+        animation: loading 0.6s infinite alternate;
     }
-    // div {
-    //     width: 8px;
-    //     height: 8px;
-    //     margin: 10px 4px;
-    //     background: red;
-    //     border-radius: 50%;
-    //     animation: loading 0.6s infinite alternate;
-    // }
-    // div:nth-child(2) {
-    //     animation-delay: 0.2s;
-    // }
-    // div:nth-child(3) {
-    //     animation-delay: 0.4s;
-    // }
+    div:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    div:nth-child(3) {
+        animation-delay: 0.4s;
+    }
 }
 </style>

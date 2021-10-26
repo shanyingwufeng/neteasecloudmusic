@@ -86,6 +86,7 @@ export default {
         state.searchKeyword = computed(() => store.state.search.searchKeyword);
 
         onMounted(async () => {
+            store.commit("search/setSearchKeyword", "");
             store.commit("setLoading", true);
             await getDetailSearchHot().then((res) => {
                 state.detailSearchHot = res.data.data;
@@ -97,6 +98,7 @@ export default {
         });
 
         onActivated(async () => {
+            store.commit("search/setSearchKeyword", "");
             if (route.meta.isBack === false) {
                 store.commit("setLoading", true);
                 await getDetailSearchHot().then((res) => {

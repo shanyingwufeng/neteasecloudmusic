@@ -6,7 +6,7 @@
                 <div class="list">
                     <div
                         class="item"
-                        v-for="(item, id) in data"
+                        v-for="(item, id) in list"
                         :key="id"
                         @click="search(item.searchWord)"
                     >
@@ -38,7 +38,7 @@
             </van-tab>
             <van-tab title="视频榜">
                 <div class="list">
-                    <div class="item" v-for="(item, id) in mvData" :key="id">
+                    <div class="item" v-for="(item, id) in mvList" :key="id">
                         <div v-if="id < showId" class="content">
                             <span class="id" :class="{ hot: id < 3 }">{{
                                 id + 1
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, watch } from "vue";
 
 export default {
     name: "SearchHotList",
@@ -89,14 +89,24 @@ export default {
             showId: 10,
             moreShow: true,
             active: 0,
+            list: [], // 热搜榜
+            mvList: [], // 视频榜
         });
+
+        watch(
+            () => [props.data, props.mvData],
+            (newValue) => {
+                state.list = newValue[0];
+                state.mvList = newValue[1];
+            }
+        );
 
         const search = (searchWord) => {
             emit("search", searchWord);
         };
 
         const action = () => {
-            if (state.moreShow == true) {
+            if (state.moreShow === true) {
                 state.showId = props.data.length;
             } else {
                 state.showId = 10;

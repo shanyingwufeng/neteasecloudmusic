@@ -24,11 +24,11 @@
             >
             <div class="more-login">
                 <div class="item" v-for="(item, id) in moreLogin" :key="id">
-                    <span
+                    <div
                         class="iconfont"
                         :class="item.className"
                         @click="$router.push(`/${item.loginPath}`)"
-                    ></span>
+                    ></div>
                 </div>
             </div>
             <div class="info">
@@ -42,8 +42,7 @@
 </template>
 
 <script>
-import { onMounted } from "vue";
-import { useStore } from 'vuex';
+import { useStore } from "vuex";
 
 export default {
     name: "Login",
@@ -57,9 +56,8 @@ export default {
 
         const store = useStore();
 
-        onMounted(() => {
-            store.commit("bottom/setVisible", false);
-        });
+        store.commit("bottom/setVisible", false);
+
         return { moreLogin };
     },
 };

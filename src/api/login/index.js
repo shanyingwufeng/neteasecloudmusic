@@ -45,7 +45,7 @@ export function login({ account, password, loginWay }) {
 export function getPhoneCaptcha(phoneNumber) {
     return request({
         url: "/captcha/sent?phone=" + phoneNumber,
-        timeout: 1000,
+        timeout: 4000,
     });
 }
 

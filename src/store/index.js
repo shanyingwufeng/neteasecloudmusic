@@ -4,6 +4,7 @@ import play from "./modules/play.js";
 import bottom from "./modules/bottom.js";
 import user from "./modules/user.js";
 import search from "./modules/search.js";
+import position from "./modules/position.js";
 
 export default createStore({
     modules: {
@@ -12,6 +13,7 @@ export default createStore({
         bottom,
         user,
         search,
+        position,
     },
 
     state: {

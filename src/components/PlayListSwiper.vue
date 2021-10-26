@@ -7,36 +7,38 @@
             :observeParents="true"
             :observer="true"
         >
+            <!-- 默认插槽（如果调用的组件没有向该组件传传入内容，则默认
+            显示默认插槽内部内容，如果插入内容则会替代默认插槽内部内容） -->
             <slot>
-                <swiper-slide
-                    v-for="(item, id) in list"
-                    :key="id"
-                    :to="{
-                        path: '/playlist',
-                        query: { id: item.creativeId },
-                    }"
-                >
-                    <lazy-component>
-                        <img v-lazy="item.uiElement.image.imageUrl" />
-                        <div
-                            class="videoCollectionImg"
-                            v-if="titleBarName === '视频合辑'"
-                        >
-                            <span class="span1"></span>
-                            <span class="span2"></span>
-                            <span class="span3"></span>
-                            <span class="span4"></span>
-                        </div>
-                        <span class="name">{{
-                            item.uiElement.mainTitle.title
-                        }}</span>
-                        <PlayCount
-                            :playCount="
-                                item.resources[0].resourceExtInfo.playCount
-                            "
-                            :point="point"
-                        />
-                    </lazy-component>
+                <swiper-slide v-for="(item, id) in list" :key="id">
+                    <router-link
+                        :to="{
+                            path: '/playlist',
+                            query: { id: item.creativeId },
+                        }"
+                    >
+                        <lazy-component>
+                            <img v-lazy="item.uiElement.image.imageUrl" />
+                            <div
+                                class="videoCollectionImg"
+                                v-if="titleBarName === '视频合辑'"
+                            >
+                                <span class="span1"></span>
+                                <span class="span2"></span>
+                                <span class="span3"></span>
+                                <span class="span4"></span>
+                            </div>
+                            <span class="name">{{
+                                item.uiElement.mainTitle.title
+                            }}</span>
+                            <PlayCount
+                                :playCount="
+                                    item.resources[0].resourceExtInfo.playCount
+                                "
+                                :point="point"
+                            />
+                        </lazy-component>
+                    </router-link>
                 </swiper-slide>
             </slot>
         </swiper>

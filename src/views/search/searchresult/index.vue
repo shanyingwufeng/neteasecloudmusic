@@ -43,13 +43,13 @@
 
 <script>
 import SearchInput from "../SearchInput.vue";
-import Loading from "@/components/Loading.vue";
 import SearchSingle from "./SearchSingle.vue";
 import SearchPlayList from "./SearchPlayList.vue";
 import SearchArtist from "./SearchArtist.vue";
 import SearchAlbum from "./SearchAlbum.vue";
 import SearchSimQuery from "./SearchSimQuery.vue";
 import SearchUser from "./SearchUser.vue";
+import Loading from "@/components/Loading.vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { toRefs, reactive, onMounted, computed, watch } from "vue";
@@ -80,6 +80,18 @@ export default {
 
         onMounted(() => {
             store.dispatch("search/getSearchResult", state.searchKeyword);
+            document.addEventListener("plusready", function () {
+                var webview = plus.webview.currentWebview();
+                plus.key.addEventListener("backbutton", function () {
+                    webview.canBack(function (e) {
+                        if (e.canBack) {
+                            webview.back();
+                        } else {
+                            store.commit("search/setSearchKeyword", "");
+                        }
+                    });
+                });
+            });
         });
 
         // 当参数更改时获取信息
@@ -101,7 +113,7 @@ export default {
                 query: { keyword: searchKeyword },
             });
         };
-        
+
         return {
             ...toRefs(state),
             search,

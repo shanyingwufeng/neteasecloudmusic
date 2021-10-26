@@ -10,19 +10,19 @@
         </TitleBar>
         <PlayListSwiper>
             <swiper-slide v-for="(item, id) in list" :key="id">
-                <lazy-component>
-                    <img
-                        v-lazy="item.resource.mlogExtVO.song.coverUrl"
-                        v-if="item.resource.mlogExtVO.song"
-                    />
-                    <span class="name">{{
-                        item.resource.mlogBaseData.text
-                    }}</span>
-                    <PlayCount
-                        :playCount="item.resource.mlogExtVO.playCount"
-                        :point="0"
-                    />
-                </lazy-component>
+                    <lazy-component>
+                        <img
+                            v-lazy="item.resource.mlogExtVO.song.coverUrl"
+                            v-if="item.resource.mlogExtVO.song"
+                        />
+                        <span class="name">{{
+                            item.resource.mlogBaseData.text
+                        }}</span>
+                        <PlayCount
+                            :playCount="item.resource.mlogExtVO.playCount"
+                            :point="0"
+                        />
+                    </lazy-component>
             </swiper-slide>
             <!-- <div class="swiper-slide" v-for="(item, id) in list" :key="id">
                 <lazy-component>
@@ -48,7 +48,7 @@ import { reactive, watch, toRefs } from "vue";
 import PlayCount from "@/components/PlayCount.vue";
 import TitleBar from "@/components/TitleBar.vue";
 import PlayListSwiper from "@/components/PlayListSwiper.vue";
-import { Swiper, SwiperSlide } from "swiper/vue";
+import { SwiperSlide } from "swiper/vue";
 
 export default {
     name: "HomeSelectedMusicVideo",
@@ -56,14 +56,12 @@ export default {
     props: ["data"],
     setup(props) {
         const state = reactive({
-            titleBarName: "",
             list: [],
         });
 
         watch(
             () => props.data,
             (newValue) => {
-                state.titleBarName = newValue.uiElement.subTitle.title;
                 state.list = newValue.extInfo;
             }
         );

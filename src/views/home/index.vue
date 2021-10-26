@@ -36,20 +36,20 @@
 </template>
 
 <script>
-import HomeTopBar from "@/views/home/HomeTopBar.vue";
-import HomeSlideShow from "@/views/home/HomeSlideShow.vue";
-import HomeCenterNav from "@/views/home/centernav/HomeCenterNav.vue";
-import HomeRecommendPlaylist from "@/views/home/HomeRecommendPlaylist.vue";
-import HomeNewResource from "@/views/home/newresource/HomeNewResource.vue";
-import HomeLeaderboard from "@/views/home/HomeLeaderboard.vue";
-import HomeMusicCalendar from "@/views/home/HomeMusicCalendar.vue";
-import HomeSelectedMusicVideo from "@/views/home/HomeSelectedMusicVideo.vue";
-import HomeRadarPlaylist from "@/views/home/HomeRadarPlaylist.vue";
-import HomeOffcialPlaylist from "@/views/home/HomeOffcialPlaylist.vue";
-import HomeHotPodcasts from "@/views/home/HomeHotPodcasts.vue";
-import HomeBroadCastPodCast24 from "@/views/home/HomeBroadCastPodCast24.vue";
-import HomeVideoCollection from "@/views/home/HomeVideoCollection.vue";
-import HomeBoutiquePlaylist from "@/views/home/HomeBoutiquePlaylist.vue";
+import HomeTopBar from "./HomeTopBar.vue";
+import HomeSlideShow from "./HomeSlideShow.vue";
+import HomeCenterNav from "./centernav/index.vue";
+import HomeRecommendPlaylist from "./HomeRecommendPlaylist.vue";
+import HomeNewResource from "./newresource/index.vue";
+import HomeLeaderboard from "./HomeLeaderboard.vue";
+import HomeMusicCalendar from "./HomeMusicCalendar.vue";
+import HomeSelectedMusicVideo from "./HomeSelectedMusicVideo.vue";
+import HomeRadarPlaylist from "./HomeRadarPlaylist.vue";
+import HomeOffcialPlaylist from "./HomeOffcialPlaylist.vue";
+import HomeHotPodcasts from "./HomeHotPodcasts.vue";
+import HomeBroadCastPodCast24 from "./HomeBroadCastPodCast24.vue";
+import HomeVideoCollection from "./HomeVideoCollection.vue";
+import HomeBoutiquePlaylist from "./HomeBoutiquePlaylist.vue";
 import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
 
@@ -76,6 +76,12 @@ export default {
         const store = useStore();
 
         onMounted(() => {
+            if (localStorage.getItem("userLoginInfo")) {
+                store.commit(
+                    "user/setUser",
+                    JSON.parse(localStorage.getItem("userLoginInfo"))
+                );
+            }
             store.commit("bottom/setVisible", true);
             store.dispatch("home/getHomeData");
         });

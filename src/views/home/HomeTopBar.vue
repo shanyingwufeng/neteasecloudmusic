@@ -2,11 +2,6 @@
 <template>
     <div class="homeTopBar">
         <TopBar :class="{ scroll: scroll }">
-            <template v-slot:left>
-                <div class="left">
-                    <LeftMenuBtn />
-                </div>
-            </template>
             <template v-slot:center>
                 <router-link
                     class="center"
@@ -41,15 +36,15 @@
 </template>
 
 <script>
-import TopBar from "@/components/TopBar.vue";
-import LeftMenuBtn from "@/components/LeftMenuBtn.vue";
+import TopBar from "@/components/topbar/index.vue";
+import TopBarLeftMenuBtn from "@/components/topbar/TopBarLeftMenuBtn.vue";
 import { reactive, onActivated, toRefs, onDeactivated } from "vue";
 import { useRoute } from "vue-router";
 import { getSearchHot } from "@/api/search/index";
 
 export default {
     name: "HomeTopBar",
-    components: { TopBar, LeftMenuBtn },
+    components: { TopBar, TopBarLeftMenuBtn },
     setup() {
         const state = reactive({
             scroll: false,
@@ -103,7 +98,7 @@ export default {
             background-color: #fff;
         }
         .left {
-            .leftMenuBtn {
+            .topBarLeftMenuBtn {
                 .menuIcon {
                     font-size: $font-size-medium;
                 }

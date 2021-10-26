@@ -1,7 +1,7 @@
 <!-- 我喜欢的音乐 -->
 <template>
     <div class="myLoveMusic">
-        <div class="left" v-if="!playlist">
+        <div class="left" v-if="!data">
             <img src="@/assets/default.jpg" />
             <div class="content">
                 <span class="title">我喜欢的音乐</span>
@@ -10,16 +10,16 @@
         </div>
         <router-link
             class="left"
-            v-if="playlist"
+            v-if="data"
             :to="{
                 path: '/playlist',
-                query: { id: playlist.id },
+                query: { id: data.id },
             }"
         >
-            <img v-lazy="playlist.coverImgUrl" />
+            <img :src="data.coverImgUrl" />
             <div class="content">
                 <span class="title">我喜欢的音乐</span>
-                <span class="count">{{ playlist.trackCount }}首</span>
+                <span class="count">{{ data.trackCount }}首</span>
             </div>
         </router-link>
         <div class="right">
@@ -30,24 +30,10 @@
 </template>
 
 <script>
-import { onUpdated, reactive, toRefs } from "vue";
 
 export default {
     name: "MyLoveMusic",
-    components: {},
     props: ["data"],
-    setup(props) {
-        const state = reactive({
-            playlist: "",
-        });
-
-        onUpdated(() => {
-            // console.log(props.data);
-            state.playlist = props.data;
-        });
-
-        return { ...toRefs(state) };
-    },
 };
 </script>
 
@@ -86,7 +72,7 @@ export default {
         display: flex;
         align-items: center;
         padding: 4px 6px;
-        border: 1px solid rgb(236, 236, 236);
+        border: 1px solid rgb(223, 223, 223);
         border-radius: 14px;
         .iconfont {
             margin-right: 4px;

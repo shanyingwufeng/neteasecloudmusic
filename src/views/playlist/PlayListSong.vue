@@ -156,7 +156,7 @@ export default {
             }
         };
 
-        // 加载更多更趋信息
+        // 加载更多歌单信息
         const refresh = async () => {
             if (state.idArry.length > 1) {
                 store.commit("setPlayListLoading", true);
@@ -234,8 +234,8 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        height: 44px;
-        line-height: 44px;
+        height: 46px;
+        line-height: 46px;
         padding: 0 $padding;
         background-color: #fff;
         .top-left {
@@ -243,19 +243,18 @@ export default {
             align-items: center;
             .iconfont {
                 display: block;
-                margin-top: 2px;
                 margin-right: 14px;
                 color: red;
                 font-size: 22px;
             }
             .playAll {
                 margin-right: 6px;
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 700;
             }
             .playListCount {
                 color: grey;
-                font-size: 14px;
+                font-size: 12px;
             }
         }
         .top-right {

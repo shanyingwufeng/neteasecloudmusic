@@ -1,7 +1,7 @@
 <!-- 个人中心-创建歌单 -->
 <template>
     <div class="createPlayList">
-        <div class="topBar">
+        <div class="createPlayListTopBar">
             <div class="left">
                 <span>创建歌单</span>
                 <span v-if="list.length">({{ list.length - 1 }}个)</span>
@@ -12,60 +12,60 @@
             </div>
         </div>
         <div class="content">
-            <router-link
-                class="list"
-                v-for="(item, id) in list"
-                :key="id"
-                :to="{
-                    path: '/playlist',
-                    query: { id: item.id },
-                }"
-            >
+            <div class="list" v-for="(item, id) in list" :key="id">
                 <div class="item" v-if="!(id === 0)">
-                    <div class="left">
-                        <img v-lazy="item.coverImgUrl" />
+                    <router-link
+                        class="left"
+                        :to="{
+                            path: '/playlist',
+                            query: { id: item.id },
+                        }"
+                    >
+                        <img :src="item.coverImgUrl" />
                         <div class="title">
                             <span class="name">{{ item.name }}</span>
                             <span class="trackCount"
                                 >{{ item.trackCount }}首</span
                             >
                         </div>
+                    </router-link>
+                    <div class="right">
+                        <span
+                            class="iconfont icon-more"
+                            @click.stop="showPopup"
+                        >
+                        </span>
+                        <van-popup
+                            v-model:show="show"
+                            round
+                            position="bottom"
+                            :style="{ height: '30%' }"
+                        >
+                            <div class="top">
+                                <span>歌单：{{ item.name }}</span>
+                            </div>
+                            <div class="options">
+                                <div class="options-item">
+                                    <span class="iconfont icon-xiazai2"></span>
+                                    <span class="name">下载</span>
+                                </div>
+                                <div class="options-item">
+                                    <span class="iconfont icon-fenxiang"></span>
+                                    <span class="name">分享</span>
+                                </div>
+                                <div class="options-item">
+                                    <span class="iconfont icon-bianji"></span>
+                                    <span class="name">编辑歌单信息</span>
+                                </div>
+                                <div class="options-item">
+                                    <span class="iconfont icon-shanchu"></span>
+                                    <span class="name">删除</span>
+                                </div>
+                            </div>
+                        </van-popup>
                     </div>
-                    <span
-                        class="iconfont icon-more right"
-                        @click.stop="showPopup"
-                    >
-                    </span>
-                    <van-popup
-                        v-model:show="show"
-                        round
-                        position="bottom"
-                        :style="{ height: '30%' }"
-                    >
-                        <div class="top">
-                            <span>歌单：{{ item.name }}</span>
-                        </div>
-                        <div class="options">
-                            <div class="options-item">
-                                <span class="iconfont icon-xiazai2"></span>
-                                <span class="name">下载</span>
-                            </div>
-                            <div class="options-item">
-                                <span class="iconfont icon-fenxiang"></span>
-                                <span class="name">分享</span>
-                            </div>
-                            <div class="options-item">
-                                <span class="iconfont icon-bianji"></span>
-                                <span class="name">编辑歌单信息</span>
-                            </div>
-                            <div class="options-item">
-                                <span class="iconfont icon-shanchu"></span>
-                                <span class="name">删除</span>
-                            </div>
-                        </div>
-                    </van-popup>
                 </div>
-            </router-link>
+            </div>
             <div class="import">
                 <div class="left">
                     <span class="iconfont icon-daoru"></span>
@@ -85,7 +85,6 @@ export default {
     props: ["list"],
     setup() {
         const state = reactive({
-            list: "",
             show: false,
         });
 
@@ -104,7 +103,7 @@ export default {
     padding: $padding;
     background-color: $color-white-background;
     border-radius: 10px;
-    .topBar {
+    .createPlayListTopBar {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -133,6 +132,7 @@ export default {
                 .left {
                     display: flex;
                     align-items: center;
+                    padding-right: 30px;
                     img {
                         display: block;
                         width: 50px;
@@ -144,6 +144,8 @@ export default {
                         display: flex;
                         flex-direction: column;
                         .name {
+                            @include ellipsis1();
+                            margin-bottom: 4px;
                             font-size: 14px;
                         }
                         .trackCount {
@@ -152,8 +154,10 @@ export default {
                     }
                 }
                 .right {
-                    color: grey;
-                    font-size: 18px;
+                    .iconfont {
+                        color: grey;
+                        font-size: 18px;
+                    }
                 }
                 .van-overlay {
                     background-color: rgba(46, 46, 46, 0.3);

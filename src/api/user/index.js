@@ -26,6 +26,8 @@ export function getUserLevel() {
 // 说明 : 登录后调用此接口 , 传入用户 id, 可以获取用户歌单
 export function getUserPlayList(id) {
     return request({
-        url: `/user/playlist?uid=${id}&cookie=${cookie}`,
+        url: `/user/playlist?uid=${id}&cookie=${cookie}&timestamp=${Date.parse(
+            new Date()
+        )}`,
     });
 }
